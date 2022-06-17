@@ -1,6 +1,6 @@
-# Generic Interface
+# Generic Websocket Interface
 
-This is a generic interface that provides a starting point for a webapp that uses typescript, react, and less.
+This is a generic interface that provides a starting point for a webapp that uses websockets, typescript, react, and less.
 
 To start the webpack dev server, run `yarn dev`
 

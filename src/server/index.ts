@@ -1,40 +1,41 @@
-const express = require("express");
-import { WebSocket } from "ws";
-import * as path from "path";
-import { Application } from "express-ws";
-import * as https from "https";
-import * as http from "http";
-import * as fs from "fs";
-import { ServerClass } from "./ServerClass";
+import { ServerApp } from "./Network1/App";
 
-const app: Application = express();
+/*const app: Application = 
 app.use(express.static(path.join(__dirname, "../../public")));
 app.get("/bundle.js", (request, response) => {
-    response.sendFile(path.join(__dirname, "../../dist/client/bundle.js"));
+  response.sendFile(path.join(__dirname, "../../dist/client/bundle.js"));
 });
 
 var server: http.Server | https.Server;
 var url: string;
 if (process.argv.length >= 2 && process.argv[2] == "dev") {
-    server = getLocalServer();
-    url = "localhost:3000";
+  server = getLocalServer();
+  url = "localhost:3000";
 } else {
-    server = getRemoteServer();
-    url = "server.natehroylance.com:3000";
+  server = getRemoteServer();
+  url = "server.natehroylance.com:3000";
 }
 
 var serverClass: ServerClass = new ServerClass(server);
 serverClass.start(3000, url);
 
 function getLocalServer(): http.Server {
-    return http.createServer(app);
+  return http.createServer(app);
 }
 function getRemoteServer(): https.Server {
-    return https.createServer(
-        {
-            cert: fs.readFileSync("/etc/letsencrypt/live/server.natehroylance.com/cert.pem"),
-            key: fs.readFileSync("/etc/letsencrypt/live/server.natehroylance.com/privkey.pem"),
-        },
-        app,
-    );
+  return https.createServer(
+    {
+      cert: fs.readFileSync("/etc/letsencrypt/live/server.natehroylance.com/cert.pem"),
+      key: fs.readFileSync("/etc/letsencrypt/live/server.natehroylance.com/privkey.pem"),
+    },
+    app
+  );
+}*/
+
+let is_development: boolean = false;
+if (process.argv.length >= 2 && process.argv[2] == "dev") {
+  is_development = true;
 }
+
+let app: ServerApp = new ServerApp(is_development);
+app.init();
