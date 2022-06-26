@@ -1,12 +1,10 @@
 import { ClientMessage } from "../../../model/api/Api";
-import { WebsocketClientHandler } from "../WebsocketClient";
+import { WebsocketClientObserver } from "../WebsocketClient";
 
-export abstract class WebsocketHandler implements WebsocketClientHandler {
-  public abstract receive_message: (msg: ClientMessage) => void;
+export abstract class WebsocketHandler implements WebsocketClientObserver {
+  constructor(public readonly id: number) {}
+  public abstract receive_message: (msg: ClientMessage, client_id: number) => void;
   public abstract on_client_close: (id: number) => void;
 }
 
-export abstract class AuthenticatedWebsocketHandler extends WebsocketHandler {
-  public abstract receive_message: (msg: ClientMessage) => void;
-  public abstract on_client_close: (id: number) => void;
-}
+export abstract class AuthenticatedWebsocketHandler extends WebsocketHandler {}

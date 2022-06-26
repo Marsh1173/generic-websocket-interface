@@ -12,12 +12,29 @@ export interface LobbyInformation {
 export interface LobbyPlayerInformation {
   id: number;
   name: string;
-  is_host: boolean;
+}
+
+export interface ClientLeaveLobby {
+  type: "ClientLeaveLobby";
+}
+export interface ClientStartGame {
+  type: "ClientStartGame";
+}
+
+export interface ServerUpdateClientLobbyInformation {
+  type: "ServerUpdateClientLobbyInformation";
+  lobby: LobbyInformation;
+}
+
+export interface ServerMoveClientToBrowser {
+  type: "ServerMoveClientToBrowser";
 }
 
 export interface ServerLobbyMessage {
   type: "ServerLobbyMessage";
+  msg: ServerUpdateClientLobbyInformation | ServerMoveClientToBrowser;
 }
 export interface ClientLobbyMessage {
   type: "ClientLobbyMessage";
+  msg: ClientLeaveLobby | ClientStartGame;
 }

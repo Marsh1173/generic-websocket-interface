@@ -16,7 +16,7 @@ export class WebsocketServer {
   private url: string;
   private socket: Server;
 
-  public readonly clientMap: Map<number, WebsocketClient>;
+  public readonly client_map: Map<number, WebsocketClient> = new Map<number, WebsocketClient>();
 
   constructor(
     private readonly server_app: ServerApp,
@@ -32,20 +32,21 @@ export class WebsocketServer {
   }
 
   public start_websocket_listener() {
-    this.server.listen(this.port, function () {
+    this.server.listen(this.port, () => {
       console.log("Listening on " + this.url);
     });
   }
 
   private on_connect(ws: WebSocket) {
     let id: number = get_next_id();
-    let new_websocket_client = new WebsocketClient(ws, this.server_app.get_auth_websocket_handler(), this, id);
-    this.clientMap.set(id, new_websocket_client);
+    let new_websocket_client = new WebsocketClient(ws, this, id);
+    this.client_map.set(id, new_websocket_client);
+    new_websocket_client.add_websocket_observer(this.server_app.auth_handler);
     console.log("Connected to " + id);
   }
 
   public on_client_close(id: number) {
-    this.clientMap.delete(id);
+    this.client_map.delete(id);
     console.log("Disconnected from " + id);
   }
 

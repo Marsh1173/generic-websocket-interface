@@ -1,0 +1,25 @@
+/* IMPORTS */
+@import "./Mixins.less";
+@import "./TitledTextInputStyles.less";
+@import "./LoginStyles.less";
+
+/* VARIABLES */
+
+@black: #050505;
+@white: #ddd;
+@info-box-background: rgba(@black, 1);
+
+/* STANDARDIZING */
+
+body,
+html,
+#reactDom,
+.MainView {
+  .center-content;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(#08000d, #3f091d);
+}

@@ -2,18 +2,15 @@ import WebSocket from "ws";
 import { ClientMessage, ServerMessage } from "../../model/api/Api";
 import { WebsocketServer } from "./WebsocketServer";
 
-export interface WebsocketClientHandler {
-  receive_message: (msg: ClientMessage) => void;
+export interface WebsocketClientObserver {
+  id: number;
+  receive_message: (msg: ClientMessage, client_id: number) => void;
   on_client_close: (id: number) => void;
 }
 
 export class WebsocketClient {
-  constructor(
-    private readonly ws: WebSocket,
-    private websocket_handler: WebsocketClientHandler,
-    private websocket_server: WebsocketServer,
-    private readonly id: number
-  ) {
+  private observers: WebsocketClientObserver[] = [];
+  constructor(private readonly ws: WebSocket, private websocket_server: WebsocketServer, private readonly id: number) {
     ws.on("message", (msg: string) => {
       this.reset_timeout_timer();
       this.on_receive_message(JSON.parse(msg));
@@ -28,12 +25,16 @@ export class WebsocketClient {
   }
 
   private on_receive_message(msg: ClientMessage) {
-    this.websocket_handler.receive_message(msg);
+    this.observers.forEach((observer) => {
+      observer.receive_message(msg, this.id);
+    });
   }
 
   private on_close() {
     if (this.timeout_handle) clearTimeout(this.timeout_handle);
-    this.websocket_handler.on_client_close(this.id);
+    this.observers.forEach((observer) => {
+      observer.on_client_close(this.id);
+    });
     this.websocket_server.on_client_close(this.id);
   }
 
@@ -52,7 +53,12 @@ export class WebsocketClient {
     return this.id;
   }
 
-  public set_websocket_handler(new_handler: WebsocketClientHandler) {
-    this.websocket_handler = new_handler;
+  public add_websocket_observer(new_observer: WebsocketClientObserver) {
+    this.observers.push(new_observer);
+  }
+  public remove_websocket_observer(id: number) {
+    this.observers = this.observers.filter((observer) => {
+      return observer.id !== id;
+    });
   }
 }

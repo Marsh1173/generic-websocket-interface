@@ -1,4 +1,4 @@
-import { ServerApp } from "./Network1/App";
+import { ServerApp } from "./Network/App";
 
 /*const app: Application = 
 app.use(express.static(path.join(__dirname, "../../public")));

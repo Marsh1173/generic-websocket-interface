@@ -1,5 +1,5 @@
-import { ClientAuthMessage, ServerAuthMessage } from "./AuthApi";
+import { ClientAuthMessage, ClientBrowserMessage, ServerAuthMessage, ServerBrowserMessage } from "./AuthApi";
 import { ClientLobbyMessage, ServerLobbyMessage } from "./LobbyApi";
 
-export type ServerMessage = ServerLobbyMessage | ServerAuthMessage;
-export type ClientMessage = ClientLobbyMessage | ClientAuthMessage;
+export type ServerMessage = ServerLobbyMessage | ServerAuthMessage | ServerBrowserMessage;
+export type ClientMessage = ClientLobbyMessage | ClientAuthMessage | ClientBrowserMessage;

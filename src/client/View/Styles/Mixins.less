@@ -1,0 +1,73 @@
+.bevelled-corners (@height, @size: 15px, @color: @info-box-background, @open: false, @outline: true, @interact: true) {
+  background: linear-gradient(135deg, transparent @size, @color 0) top left,
+    linear-gradient(225deg, transparent 0px, @color 0) top right,
+    linear-gradient(315deg, transparent @size, @color 0) bottom right,
+    linear-gradient(45deg, transparent 0px, @color 0) bottom left;
+  background-size: 51% 51%;
+  background-repeat: no-repeat;
+
+  @outline-filter: drop-shadow(0px 0px 1px @white);
+
+  -webkit-filter: if((@outline) @outline-filter);
+  filter: if((@outline) @outline-filter);
+
+  @animation-curve: cubic-bezier(0.86, 0.01, 0.57, 0.71);
+  @animation-time: 0.15s;
+
+  -webkit-animation: if((@open) open @animation-time @animation-curve forwards);
+  -moz-animation: if((@open) open @animation-time @animation-curve forwards);
+  animation: if((@open) open @animation-time @animation-curve forwards);
+  height: if((@open) calc(@size * 3), @height);
+
+  will-change: height, transform;
+  overflow: clip;
+
+  @-moz-keyframes open {
+    100% {
+      height: @height;
+    }
+  }
+  @-webkit-keyframes open {
+    100% {
+      height: @height;
+    }
+  }
+  @keyframes open {
+    100% {
+      height: @height;
+    }
+  }
+
+  &:hover {
+    background: if(
+      (@interact) linear-gradient(135deg, transparent @size, lighten(@color, 1%) 0) top left,
+      linear-gradient(225deg, transparent 0px, lighten(@color, 1%) 0) top right,
+      linear-gradient(315deg, transparent @size, lighten(@color, 1%) 0) bottom right,
+      linear-gradient(45deg, transparent 0px, lighten(@color, 1%) 0) bottom left
+    );
+    transform: if((@interact) scale(1.01));
+  }
+
+  &:active {
+    transform: if((@interact) scale(1));
+  }
+}
+
+.center-content () {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.label-text {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+.input-text {
+  font-weight: 400;
+  font-size: 24px;
+}
