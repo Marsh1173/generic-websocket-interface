@@ -7,8 +7,7 @@ import { AuthenticatedWebsocketHandler } from "./WebsocketHandler";
 
 export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
   private host_id: number = -1;
-  private players: Map<number, LobbyPlayerInformation> = new Map<number, LobbyPlayerInformation>();
-  private websocket_clients: Map<number, WebsocketClient> = new Map<number, WebsocketClient>();
+  private players: Map<number, {player_info: LobbyPlayerInformation, ws: WebsocketClient}> = new Map<number, {player_info: LobbyPlayerInformation, ws: WebsocketClient}>();
 
   constructor(
     public readonly id: number,
@@ -24,11 +23,10 @@ export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
 
     if (msg.type === "ClientLobbyMessage") {
       if (msg.msg.type === "ClientLeaveLobby") {
-        let ws: WebsocketClient | undefined = this.websocket_clients.get(client_id);
-        let player_info: LobbyPlayerInformation | undefined = this.players.get(client_id);
+        let player: {player_info: LobbyPlayerInformation, ws: WebsocketClient} | undefined = this.players.get(client_id);
 
-        if (ws && player_info) {
-          this.server_app.auth_handler.add_authenticated_client(ws, player_info.name);
+        if (player) {
+          this.server_app.auth_handler.add_authenticated_client(player.ws, player.player_info.name);
           this.remove_player(client_id);
         }
       } else if (msg.msg.type === "ClientStartGame") {
@@ -46,7 +44,7 @@ export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
   };
 
   public add_player(client: WebsocketClient, name: string) {
-    this.players.set(client.get_id(), { id: client.get_id(), name });
+    this.players.set(client.get_id(), { ws: client, player_info: {id: client.get_id(), name} });
     if (this.players.size === 1) {
       this.host_id = client.get_id();
     }
@@ -55,10 +53,9 @@ export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
 
   public remove_player(id: number) {
     this.players.delete(id);
-    this.websocket_clients.delete(id);
 
-    if (this.players.size === 0 || this.websocket_clients.size === 0) {
-      this.delete_lobby();
+    if (this.players.size === 0) {
+      this.lobby_handler.remove_lobby(this.id)
       return;
     } else if (id === this.host_id) {
       for (let [id, player] of this.players.entries()) {
@@ -70,25 +67,19 @@ export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
     this.update_players_lobby_information();
   }
 
-  private delete_lobby(put_clients_in_auth_handler: boolean = false) {
-    this.websocket_clients.forEach((ws, id) => {
-      ws.remove_websocket_observer(this.id);
+  public clear_lobby(put_clients_in_auth_handler: boolean = false) {
+    this.players.forEach((player, id) => {
+      player.ws.remove_websocket_observer(this.id);
       if (put_clients_in_auth_handler) {
-        let player_info: LobbyPlayerInformation | undefined = this.players.get(id);
-        if (player_info) {
-          this.server_app.auth_handler.add_authenticated_client(ws, player_info.name);
-        }
+        this.server_app.auth_handler.add_authenticated_client(player.ws, player.player_info.name);
       }
     });
-    this.websocket_clients.clear();
-    this.lobby_handler.remove_lobby(this.id);
   }
 
-  private update_players_lobby_information(exclude_player: number = -1) {
+  private update_players_lobby_information(exclude_player?: number) {
     this.players.forEach((player) => {
-      let ws: WebsocketClient | undefined = this.websocket_clients.get(player.id);
-      if (player.id !== exclude_player && ws) {
-        ws.send({
+      if (!exclude_player || player.player_info.id !== exclude_player) {
+        player.ws.send({
           type: "ServerLobbyMessage",
           msg: {
             type: "ServerUpdateClientLobbyInformation",
@@ -102,7 +93,7 @@ export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
   public get_lobby_information(): LobbyInformation {
     let players: LobbyPlayerInformation[] = [];
     this.players.forEach((player) => {
-      players.push(player);
+      players.push(player.player_info);
     });
     return {
       id: this.id,
@@ -127,10 +118,23 @@ export class LobbyWebsocketHandler {
   }
 
   public remove_lobby(lobby_id: number) {
-    this.lobby_websocket_map.delete(lobby_id);
+    let lobby: LobbyWebsocket | undefined = this.lobby_websocket_map.get(lobby_id);
+    if(lobby) {
+      this.lobby_websocket_map.delete(lobby_id);
+      lobby.clear_lobby(true);
+    }
+      
   }
 
   public get_lobby_websocket(lobby_id: number): LobbyWebsocket | undefined {
     return this.lobby_websocket_map.get(lobby_id);
+  }
+
+  public get_lobbies_json(): string {
+    let lobby_array: LobbyInformation[] = [];
+    this.lobby_websocket_map.forEach((lobby) => {
+      lobby_array.push(lobby.get_lobby_information())
+    });
+    return JSON.stringify(lobby_array);
   }
 }

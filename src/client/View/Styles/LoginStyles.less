@@ -1,11 +1,20 @@
 .LoginView {
-  width: 400px;
-  .bevelled-corners (@height: 200px);
+  @width: 270px;
+  .bevelled-corners;
   .center-content;
+  .flex-gap;
+  .spacing-padding; 
+
+  width: @width;
 
   .TitledTextInput {
     .text-input-field {
       width: 230px;
     }
+  }
+
+  .login-button {
+    .button (@width);
+
   }
 }
