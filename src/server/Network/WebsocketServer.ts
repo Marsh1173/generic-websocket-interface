@@ -1,11 +1,9 @@
 import { PORT, ServerApp } from "./App";
 const express = require("express");
-import * as path from "path";
 import { Application } from "express-ws";
 import * as https from "https";
 import * as http from "http";
 import * as fs from "fs";
-import { AuthenticatorWebsocketHandler } from "./WebsocketHandlers/AuthenticatorWebsocketHandler";
 import { WebSocket, Server } from "ws";
 import { WebsocketClient } from "./WebsocketClient";
 import { get_next_id } from "../../model/misc/GetNextId";
