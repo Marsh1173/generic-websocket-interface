@@ -10,10 +10,7 @@ export class LoginView extends ViewComponent {
   render() {
     return (
       <div className="LoginView">
-        <TitledTextInput name="Username" max_length={13}></TitledTextInput>
-        <button className="login-button">
-          <span>Enter</span>
-        </button>
+        <TitledTextInput name="Username" place_holder="Enter your name" max_length={13}></TitledTextInput>
       </div>
     );
   }
