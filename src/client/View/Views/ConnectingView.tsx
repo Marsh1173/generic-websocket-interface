@@ -1,16 +1,17 @@
-import React, { Component, createElement } from "react";
+import React from "react";
 import { TitledTextInput } from "../Partials/TitledTextInput";
-import { ViewComponent } from "../ViewComponent";
+import { ViewComponent, ViewComponentProp } from "./ViewComponent";
 
-export class LoginView extends ViewComponent {
-  constructor(props: any) {
+export interface ConnectingViewViewProp extends ViewComponentProp {}
+
+export class ConnectingView extends ViewComponent<ConnectingViewViewProp, {}> {
+  constructor(props: ConnectingViewViewProp) {
     super(props);
-    this.state = { view: "login" };
   }
   render() {
     return (
-      <div className="LoginView">
-        <TitledTextInput name="Username" place_holder="Enter your name" max_length={13}></TitledTextInput>
+      <div className="ConnectingView">
+        <span>Connecting to server...</span>
       </div>
     );
   }

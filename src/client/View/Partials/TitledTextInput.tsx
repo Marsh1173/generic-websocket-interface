@@ -6,6 +6,7 @@ export interface TitledTextInputProps {
   default_value?: string;
   place_holder?: string;
   max_length?: number;
+  type?: string;
 }
 
 export class TitledTextInput extends Component<TitledTextInputProps, { value?: string }> {
@@ -23,7 +24,7 @@ export class TitledTextInput extends Component<TitledTextInputProps, { value?: s
         <legend className="text-input-title">{this.props.name}</legend>
         <input
           className="text-input-field"
-          type={"text"}
+          type={this.props.type ? this.props.type : "text"}
           value={this.state.value}
           onChange={(e) => this.update_input_value(e.target.value)}
           placeholder={this.props.place_holder ? this.props.place_holder : ""}
