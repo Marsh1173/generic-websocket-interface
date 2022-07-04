@@ -35,6 +35,7 @@
         "watch": "yarn && npx webpack --watch --config webpack.config.js",
         "build": "npx webpack --config prod.config.js",
         "prod-server": "ts-node-dev ./src/server/index.ts",
-        "dev-server": "ts-node-dev ./src/server/index.ts dev"
+        "dev-server": "ts-node-dev ./src/server/index.ts dev",
+        "test": "ts-node-dev ./src/test/init.ts"
     }
 }
