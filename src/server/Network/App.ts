@@ -10,6 +10,7 @@ import { WebsocketServer } from "./WebsocketServer";
 import { get_next_id } from "../../model/misc/GetNextId";
 import { LobbyWebsocketHandler } from "./WebsocketHandlers/LobbyWebsocketHandler";
 import { GameWebsocketHandler } from "./WebsocketHandlers/GameWebsocketHandler";
+import { SERVER_CONFIG } from "../Config";
 
 export const PORT: number = 3000;
 export const GAME_LOBBY_LIMIT: number = 10;
@@ -23,9 +24,12 @@ export class ServerApp {
   public readonly lobby_handler: LobbyWebsocketHandler;
   private readonly game_handler: GameWebsocketHandler;
 
-  constructor(private readonly is_development: boolean = false) {
-    this.app = express();
+  private readonly is_development: boolean;
 
+  constructor() {
+    this.app = express();
+  
+    this.is_development = SERVER_CONFIG.is_development;
     
     this.websocket_server = new WebsocketServer(this, this.app, this.is_development);
     this.auth_handler = new AuthenticatorWebsocketHandler(get_next_id(), this);

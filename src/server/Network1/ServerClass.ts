@@ -1,8 +1,8 @@
 import * as https from "https";
 import * as http from "http";
 import { WebSocket, Server } from "ws";
-import { WebSocketClient } from "./WebSocketClient";
-import { get_next_id } from "../model/misc/GetNextId";
+import { WebSocketClient } from "../WebSocketClient";
+import { get_next_id } from "../../model/misc/GetNextId";
 
 export class ServerClass {
   private readonly socket: Server;
