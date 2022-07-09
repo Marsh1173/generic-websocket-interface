@@ -1,20 +1,18 @@
-import { PORT, ServerApp } from "./App";
+import { PORT, ServerApp } from "../App";
 const express = require("express");
 import { Application } from "express-ws";
 import * as https from "https";
 import * as http from "http";
 import * as fs from "fs";
 import { WebSocket, Server } from "ws";
-import { WebsocketClient } from "./WebsocketClient";
-import { get_next_id } from "../../model/misc/GetNextId";
+import { get_next_id } from "../../../model/Misc/GetNextId";
+import { UnauthenticatedWebsocketClient } from "../WebsocketClients/UnauthenticatedWebsocketClient";
 
 export class WebsocketServer {
   private server: http.Server | https.Server;
   private port: number = PORT;
   private url: string;
   private socket: Server;
-
-  public readonly client_map: Map<number, WebsocketClient> = new Map<number, WebsocketClient>();
 
   constructor(
     private readonly server_app: ServerApp,
@@ -37,15 +35,13 @@ export class WebsocketServer {
 
   private on_connect(ws: WebSocket) {
     let id: number = get_next_id();
-    let new_websocket_client = new WebsocketClient(ws, this, id);
-    this.client_map.set(id, new_websocket_client);
+    let new_websocket_client = new UnauthenticatedWebsocketClient(ws, this, id);
     new_websocket_client.add_websocket_observer(this.server_app.auth_handler);
     console.log("Connected to " + id);
   }
 
-  public on_client_close(id: number) {
-    this.client_map.delete(id);
-    console.log("Disconnected from " + id);
+  public log_client_close(msg: string) {
+    console.log("Disconnected from " + msg);
   }
 
   public create_server(): [http.Server | https.Server, number, string] {

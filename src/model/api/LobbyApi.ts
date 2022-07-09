@@ -1,3 +1,5 @@
+import { UserModel } from "../../server/Database/UserModel";
+
 export interface LobbyListInformation {
   lobbies: { name: string; player_count: number; id: number }[];
 }
@@ -10,8 +12,8 @@ export interface LobbyInformation {
 }
 
 export interface LobbyPlayerInformation {
-  id: number;
-  name: string;
+  name: string,
+  id: number,
 }
 
 export interface ClientLeaveLobby {
@@ -30,9 +32,14 @@ export interface ServerMoveClientToBrowser {
   type: "ServerMoveClientToBrowser";
 }
 
+export interface ServerLobbyError {
+  type: "ServerLobbyError";
+  msg: string;
+}
+
 export interface ServerLobbyMessage {
   type: "ServerLobbyMessage";
-  msg: ServerUpdateClientLobbyInformation | ServerMoveClientToBrowser;
+  msg: ServerUpdateClientLobbyInformation | ServerMoveClientToBrowser | ServerLobbyError;
 }
 export interface ClientLobbyMessage {
   type: "ClientLobbyMessage";

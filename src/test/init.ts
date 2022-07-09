@@ -47,6 +47,9 @@ try {
     assert(login_results.success === true, "login user success");
     login_results = db_accessor.validate_user("Nate", "abcde");
     assert(login_results.success === false, "login user failure");
+    db_accessor.clear_users();
+    login_results = db_accessor.validate_user("Nate", "abcd");
+    assert(login_results.success === false, "login non-existent user failure");
     console.groupEnd();
 
     log_test_output("All tests have been run.", "normal");

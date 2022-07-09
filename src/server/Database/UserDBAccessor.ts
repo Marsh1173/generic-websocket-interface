@@ -22,7 +22,7 @@ export class UserDBAccessor extends DBAccessor<UserModel> {
             return {success: false, msg: "Username already taken"};
         } else {
             this.write_table_file([new_user]);
-            return {success: true, msg: "Registered successfully", user: new_user};
+            return {success: true, msg: "Registered successfully! Welcome, " + new_user.name + ".", user: new_user};
         }
     }
 

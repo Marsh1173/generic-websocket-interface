@@ -1,74 +1,96 @@
-import { ClientMessage } from "../../../model/api/Api";
-import { ClientAuthMessage, ClientCreateLobby, ClientJoinLobby } from "../../../model/api/AuthApi";
-import { ServerApp } from "../App";
-import { WebsocketClient } from "../WebsocketClient";
-import { LobbyWebsocket } from "./LobbyWebsocketHandler";
+import { ClientMessage } from "../../../model/Api/Api";
+import { AuthFailure, AuthSuccess, UserDBAccessor } from "../../Database/UserDBAccessor";
+import { UserModel } from "../../Database/UserModel";
+import { ServerAppInterface } from "../App";
+import { AuthWebsocketClient, AuthWebsocketClientInterface } from "../WebsocketClients/AuthWebsocketClient";
+import { UnauthenticatedWebsocketClientInterface } from "../WebsocketClients/UnauthenticatedWebsocketClient";
 import { WebsocketHandler } from "./WebsocketHandler";
 
 export class AuthenticatorWebsocketHandler extends WebsocketHandler {
-  private readonly pending_clients: Set<number> = new Set<number>();
-  private readonly authenticated_clients: Map<number, string> = new Map<number, string>();
+  private readonly pending_clients: Map<number, UnauthenticatedWebsocketClientInterface> = new Map<number, UnauthenticatedWebsocketClientInterface>();
 
-  constructor(public readonly id: number, private readonly server_app: ServerApp) {
+  constructor(public readonly id: number, private readonly server_app: ServerAppInterface) {
     super(id);
   }
 
   public receive_message = (msg: ClientMessage, client_id: number) => {
-    console.log(msg);
 
-    if (msg.type === "ClientAuthMessage") {
-      if (this.pending_clients.has(client_id)) {
-        this.pending_clients.delete(client_id);
-        this.authenticated_clients.set(client_id, msg.msg.name);
+    let websocket_client: UnauthenticatedWebsocketClientInterface | undefined = this.pending_clients.get(client_id);
+    if (msg.type && msg.msg.type && msg.type === "ClientAuthMessage" && websocket_client) {
+        
+      if(msg.msg.type === "ClientLoginMessage") {
+        let authenticate_results: AuthSuccess | AuthFailure = this.on_client_attempt_authenticate(msg.msg.name, msg.msg.password);
+        if(authenticate_results.success) {
+          this.client_authenticate(client_id, authenticate_results, websocket_client);
+          websocket_client.send({
+            type: "ServerAuthMessage",
+            msg: {
+              type: "ServerSuccessfulLogin",
+              user_data: authenticate_results.user,
+              msg: authenticate_results.msg
+            }
+          });
+        } else {
+          websocket_client.send({
+            type: "ServerAuthMessage",
+            msg: {
+              type: "ServerBadLogin",
+              msg: authenticate_results.msg
+            }
+          })
+        }
+
+      } else if (msg.msg.type === "ClientRegisterMessage") {
+        let register_results : AuthSuccess | AuthFailure = this.on_client_attempt_register(msg.msg.name, msg.msg.password);
+        if(register_results.success) {
+          this.client_authenticate(client_id, register_results, websocket_client);
+          websocket_client.send({
+            type: "ServerAuthMessage",
+            msg: {
+              type: "ServerSuccessfulLogin",
+              user_data: register_results.user,
+              msg: register_results.msg
+            }
+          });
+        } else {
+          websocket_client.send({
+            type: "ServerAuthMessage",
+            msg: {
+              type: "ServerBadLogin",
+              msg: register_results.msg
+            }
+          })
+        }
       }
-    } else if (msg.type === "ClientBrowserMessage") {
-      if (msg.msg.type === "ClientCreateLobby") {
-        this.client_create_lobby(msg.msg, client_id);
-      } else if (msg.msg.type === "ClientJoinLobby") {
-        this.client_attempt_join_lobby(msg.msg, client_id);
-      }
-    } else {
+
+    } else if (msg.type && msg.type !== "ClientAuthMessage") {
       console.error("AuthWebsocketHandler received a message of type " + msg.type);
     }
   };
 
   public on_client_close = (id: number) => {
     this.pending_clients.delete(id);
-    this.authenticated_clients.delete(id);
   };
 
-  public add_authenticated_client(client: WebsocketClient, name: string) {
-    this.authenticated_clients.set(client.get_id(), name);
-    client.add_websocket_observer(this);
+  private on_client_attempt_authenticate(name: string, password: string): AuthSuccess | AuthFailure {
+    let db_accessor: UserDBAccessor = new UserDBAccessor();
+    return db_accessor.validate_user(name, password)
   }
 
-  private client_create_lobby(msg: ClientCreateLobby, client_id: number) {
-    let client_name: string | undefined = this.authenticated_clients.get(client_id);
-    if (client_name) {
-      let lobby: LobbyWebsocket = this.server_app.lobby_handler.add_new_lobby(client_name + "'s Game");
-      this.client_attempt_join_lobby({ type: "ClientJoinLobby", lobby_id: lobby.id }, client_id);
+  private on_client_attempt_register(name: string, password: string): AuthSuccess | AuthFailure {
+    let db_accessor: UserDBAccessor = new UserDBAccessor();
+    let id: number = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
+    let user_data: UserModel = {
+      name, encoded_password: password, user_id: id
     }
+    return db_accessor.register_user(user_data)
   }
 
-  private client_attempt_join_lobby(msg: ClientJoinLobby, client_id: number) {
-    let lobby_websocket: LobbyWebsocket | undefined = this.server_app.lobby_handler.get_lobby_websocket(msg.lobby_id);
-    let client: WebsocketClient | undefined = this.server_app.websocket_server.client_map.get(client_id);
-    let client_name: string | undefined = this.authenticated_clients.get(client_id);
-
-    if (lobby_websocket && client && client_name) {
-      client.remove_websocket_observer(this.id);
-      this.authenticated_clients.delete(client_id);
-
-      client.add_websocket_observer(lobby_websocket);
-      lobby_websocket.add_player(client, client_name);
-
-      client.send({
-        type: "ServerBrowserMessage",
-        msg: {
-          type: "ServerAddClientToLobby",
-          lobby: lobby_websocket.get_lobby_information(),
-        },
-      });
-    }
+  private client_authenticate(pending_id: number, authenticate_results: AuthSuccess, websocket_client: UnauthenticatedWebsocketClientInterface) {
+    let authenticated_client: AuthWebsocketClientInterface = new AuthWebsocketClient(authenticate_results.user, websocket_client.get_websocket(), this.server_app.websocket_server);
+    this.server_app.browser_handler.add_authenticated_client(authenticated_client);
+    
+    websocket_client.remove_websocket_observer(this.id);
+    this.pending_clients.delete(pending_id);
   }
 }

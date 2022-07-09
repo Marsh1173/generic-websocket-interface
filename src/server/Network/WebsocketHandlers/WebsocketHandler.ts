@@ -1,5 +1,5 @@
-import { ClientMessage } from "../../../model/api/Api";
-import { WebsocketClientObserver } from "../WebsocketClient";
+import { ClientMessage } from "../../../model/Api/Api";
+import { WebsocketClientObserver } from "../WebsocketClients/WebsocketClient";
 
 export abstract class WebsocketHandler implements WebsocketClientObserver {
   constructor(public readonly id: number) {}
