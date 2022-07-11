@@ -1,41 +1,36 @@
-import { LobbyInformation } from "./LobbyApi";
+import { UserModel } from "../../server/Database/UserModel";
 
-export interface ClientAuthHandshakeInformation {
-  type: "ClientAuthHandshakeInformation";
+export interface ClientLoginMessage {
+  type: "ClientLoginMessage";
   name: string;
+  password: string;
 }
-export interface ServerAuthHandshakeInformation {
-  type: "ServerAuthHandshakeInformation";
-  id: number;
+
+export interface ClientRegisterMessage {
+  type: "ClientRegisterMessage";
+  name: string;
+  password: string;
+}
+
+export interface ServerSuccessfulLogin {
+  type: "ServerSuccessfulLogin";
+  user_data: UserModel;
+  msg: string;
+}
+export interface ServerBadLogin {
+  type: "ServerBadLogin";
+  msg: string;
+}
+export interface ServerBadRegister {
+  type: "ServerBadRegister";
+  msg: string;
 }
 
 export interface ServerAuthMessage {
   type: "ServerAuthMessage";
-  msg: ServerAuthHandshakeInformation;
+  msg: ServerSuccessfulLogin | ServerBadLogin | ServerBadRegister;
 }
 export interface ClientAuthMessage {
   type: "ClientAuthMessage";
-  msg: ClientAuthHandshakeInformation;
-}
-
-export interface ClientJoinLobby {
-  type: "ClientJoinLobby";
-  lobby_id: number;
-}
-export interface ClientCreateLobby {
-  type: "ClientCreateLobby";
-}
-
-export interface ServerAddClientToLobby {
-  type: "ServerAddClientToLobby";
-  lobby: LobbyInformation;
-}
-
-export interface ServerBrowserMessage {
-  type: "ServerBrowserMessage";
-  msg: ServerAddClientToLobby;
-}
-export interface ClientBrowserMessage {
-  type: "ClientBrowserMessage";
-  msg: ClientJoinLobby | ClientCreateLobby;
+  msg: ClientLoginMessage | ClientRegisterMessage;
 }
