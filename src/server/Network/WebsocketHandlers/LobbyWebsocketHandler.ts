@@ -42,13 +42,20 @@ export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
         }
       }
     } else if (msg.type) {
-      console.error("LobbyWebsocketHandler received a message of type " + msg.type);
+      console.error("LobbyWebsocket received a message of type " + msg.type);
     }
   };
 
   public on_client_close = (id: number) => {
     this.remove_player(id);
   };
+
+  public if_can_add_player(client: AuthWebsocketClientInterface): string | undefined {
+    
+    // if too many players in lobby, etc.
+
+    return undefined;
+  }
 
   public add_player(client: AuthWebsocketClientInterface) {
 
@@ -141,6 +148,7 @@ export class LobbyWebsocket extends AuthenticatedWebsocketHandler {
   }
 
   private start_game() {
+    //remove this from the clients' observers
     console.log("Starting game " + this.id + "!");
   }
 }

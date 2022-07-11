@@ -14,6 +14,8 @@ export class WebsocketServer {
   private url: string;
   private socket: Server;
 
+  private authenticated_clients: Set<number> = new Set<number>();
+
   constructor(
     private readonly server_app: ServerApp,
     private readonly app: Application,
@@ -44,6 +46,21 @@ export class WebsocketServer {
     console.log("Disconnected from " + msg);
   }
 
+  /* AUTHENTICATED CLIENT TRACKING */
+  public if_client_already_authenticated(id: number): boolean {
+    return this.authenticated_clients.has(id);
+  }
+
+  public on_client_authenticate(id: number) {
+    this.authenticated_clients.add(id);
+    console.log("Successfully authenticated client " + id);
+  }
+
+  public on_auth_client_close(id: number) {
+    this.authenticated_clients.delete(id);
+  }
+
+  /* SERVER CREATION */
   public create_server(): [http.Server | https.Server, number, string] {
     let server: http.Server | https.Server;
     let url: string;

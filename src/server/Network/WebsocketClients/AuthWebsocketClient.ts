@@ -17,4 +17,10 @@ export class AuthWebsocketClient extends WebsocketClient implements AuthWebsocke
     public get_name(): string {
         return this.user_data.name;
     }
+
+    protected on_close() {
+        super.on_close();
+
+        this.websocket_server.on_auth_client_close(this.get_id())
+    }
 }

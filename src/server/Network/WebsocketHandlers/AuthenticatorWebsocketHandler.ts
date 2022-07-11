@@ -5,11 +5,12 @@ import { ServerAppInterface } from "../App";
 import { AuthWebsocketClient, AuthWebsocketClientInterface } from "../WebsocketClients/AuthWebsocketClient";
 import { UnauthenticatedWebsocketClientInterface } from "../WebsocketClients/UnauthenticatedWebsocketClient";
 import { WebsocketHandler } from "./WebsocketHandler";
+import { WebsocketServer } from "./WebsocketServer";
 
 export class AuthenticatorWebsocketHandler extends WebsocketHandler {
   private readonly pending_clients: Map<number, UnauthenticatedWebsocketClientInterface> = new Map<number, UnauthenticatedWebsocketClientInterface>();
 
-  constructor(public readonly id: number, private readonly server_app: ServerAppInterface) {
+  constructor(public readonly id: number, private readonly server_app: ServerAppInterface, private readonly websocket_server: WebsocketServer) {
     super(id);
   }
 
@@ -21,15 +22,27 @@ export class AuthenticatorWebsocketHandler extends WebsocketHandler {
       if(msg.msg.type === "ClientLoginMessage") {
         let authenticate_results: AuthSuccess | AuthFailure = this.on_client_attempt_authenticate(msg.msg.name, msg.msg.password);
         if(authenticate_results.success) {
-          this.client_authenticate(client_id, authenticate_results, websocket_client);
-          websocket_client.send({
-            type: "ServerAuthMessage",
-            msg: {
-              type: "ServerSuccessfulLogin",
-              user_data: authenticate_results.user,
-              msg: authenticate_results.msg
-            }
-          });
+
+          if(this.websocket_server.if_client_already_authenticated(authenticate_results.user.user_id)) {
+            websocket_client.send({
+              type: "ServerAuthMessage",
+              msg: {
+                type: "ServerBadLogin",
+                msg: "Error: User already logged in."
+              }
+            });
+          } else {
+            this.client_authenticate(client_id, authenticate_results, websocket_client);
+            websocket_client.send({
+              type: "ServerAuthMessage",
+              msg: {
+                type: "ServerSuccessfulLogin",
+                user_data: authenticate_results.user,
+                msg: authenticate_results.msg
+              }
+            });
+          }
+
         } else {
           websocket_client.send({
             type: "ServerAuthMessage",
@@ -89,6 +102,7 @@ export class AuthenticatorWebsocketHandler extends WebsocketHandler {
   private client_authenticate(pending_id: number, authenticate_results: AuthSuccess, websocket_client: UnauthenticatedWebsocketClientInterface) {
     let authenticated_client: AuthWebsocketClientInterface = new AuthWebsocketClient(authenticate_results.user, websocket_client.get_websocket(), this.server_app.websocket_server);
     this.server_app.browser_handler.add_authenticated_client(authenticated_client);
+    this.websocket_server.on_client_authenticate(authenticated_client.get_id())
     
     websocket_client.remove_websocket_observer(this.id);
     this.pending_clients.delete(pending_id);

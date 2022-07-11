@@ -48,15 +48,27 @@ export class BrowserWebsocketHandler extends WebsocketHandler {
       client.remove_websocket_observer(this.id);
       this.clients.delete(client.get_id());
 
-      lobby_websocket.add_player(client);
-
-      client.send({
-        type: "ServerBrowserMessage",
-        msg: {
-          type: "ServerAddClientToLobby",
-          lobby: lobby_websocket.get_lobby_information(),
-        },
-      });
+      let if_can_add_player_results: string | undefined = lobby_websocket.if_can_add_player(client);
+      if(if_can_add_player_results) {
+        client.send({
+          type: "ServerBrowserMessage",
+          msg: {
+            type: "ServerErrorAddClientToLobby",
+            msg: if_can_add_player_results,
+          },
+        });
+      } else {
+        
+        lobby_websocket.add_player(client);
+  
+        client.send({
+          type: "ServerBrowserMessage",
+          msg: {
+            type: "ServerAddClientToLobby",
+            lobby: lobby_websocket.get_lobby_information(),
+          },
+        });
+      }
     } else {
         client.send({
           type: "ServerBrowserMessage",

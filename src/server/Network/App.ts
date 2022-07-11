@@ -30,7 +30,7 @@ export class ServerApp implements ServerAppInterface {
   public readonly lobby_handler: LobbyWebsocketHandler;
   public readonly game_handler: GameWebsocketHandler;
 
-  private readonly is_development: boolean;
+  public readonly is_development: boolean;
 
   constructor() {
     this.app = express();
@@ -38,7 +38,7 @@ export class ServerApp implements ServerAppInterface {
     this.is_development = SERVER_CONFIG.is_development;
     
     this.websocket_server = new WebsocketServer(this, this.app, this.is_development);
-    this.auth_handler = new AuthenticatorWebsocketHandler(get_next_id(), this);
+    this.auth_handler = new AuthenticatorWebsocketHandler(get_next_id(), this, this.websocket_server);
     this.browser_handler = new BrowserWebsocketHandler(get_next_id(), this);
     this.lobby_handler = new LobbyWebsocketHandler(this);
     this.game_handler = new GameWebsocketHandler(this);
