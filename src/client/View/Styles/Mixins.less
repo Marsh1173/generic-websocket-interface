@@ -1,4 +1,4 @@
-.bevelled-corners (@size: 15px, @color: @black, @outline: true) {
+.bevelled-corners (@size: 15px, @color: rgba(0, 0, 0, 0.233), @outline: false) {
   background: linear-gradient(135deg, transparent @size, @color 0) top left,
     linear-gradient(225deg, transparent 0px, @color 0) top right,
     linear-gradient(315deg, transparent @size, @color 0) bottom right,
@@ -12,17 +12,17 @@
   filter: if((@outline) @outline-filter);
 }
 
-.button (@width: 250px) {
+.important-button (@width: 250px) {
   .center-content;
   .input-text;
-  
+
   overflow: hidden;
   position: relative;
   height: 70px;
   width: @width;
-  
+
   text-transform: uppercase;
-  background-color: @theme-color;
+  background-color: @yellow;
   color: @black;
   border: 1px solid @white;
 
@@ -32,8 +32,8 @@
     height: 150%;
     transform: translateX(calc(@width * -1.1)) rotate(-5deg);
     z-index: 1;
-    content: '';
-    background-color: rgba(@black, 0.9);
+    content: "";
+    background-color: rgba(@black, 0.7);
 
     will-change: transform;
     transition: all 0.2s;
@@ -51,6 +51,10 @@
   p,
   span {
     z-index: 2;
+  }
+
+  &:active > * {
+    transform: scale(0.97);
   }
 }
 

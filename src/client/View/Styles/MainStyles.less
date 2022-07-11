@@ -3,15 +3,28 @@
 @import "./TitledTextInputStyles.less";
 @import "./LoginStyles.less";
 
-/* VARIABLES */
+/* ABSTRACTED CONSTANTS */
 
-@theme-color: #eb193c;
+@blue: #1694d2;
+@red: #d20000;
+@yellow: #e39500;
+@purple: #af0cc3;
+@metal: #1d4347;
+@green: #2c5133;
+
+// @theme-color: #eb193c;
+@theme-color: @blue;
 @black: #050505;
 @white: #ddd;
 
 @spacing: 40px;
 
 /* STANDARDIZING */
+
+body {
+  // background: linear-gradient(#08000d, #3f091d);
+  background: linear-gradient(0deg, darken(@blue, 30%), @blue);
+}
 
 body,
 html,
@@ -20,8 +33,4 @@ html,
   .center-content;
   width: 100%;
   height: 100%;
-}
-
-body {
-  background: linear-gradient(#08000d, #3f091d);
 }
