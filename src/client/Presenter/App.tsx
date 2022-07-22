@@ -1,81 +1,47 @@
-import { GLOBAL_INFO } from "../Model/Caches/GlobalInfo";
-import { MainView } from "../View/Views/MainView";
-import { createRoot } from "react-dom/client";
-import React, { ReactElement } from "react";
 import { AppState } from "./AppState";
 import { InitializingAppState } from "./InitializingAppState";
+import { ViewHandler, ViewHandlerInterface } from "../View/Views/ViewHandler";
+import { ConnectingAppState } from "./ConnectingAppState";
+import { LoggingInAppState } from "./LoggingInAppState";
+import { ServerTalkerInterface } from "../Model/Network/ServerTalker";
+import { ChatPresenter, ChatPresenterInterface } from "./ChatPresenter";
 
 export type AppStateType =
   | "initializing"
   | "connecting"
   | "logging-in"
   | "main-menu"
-  | "browser"
   | "lobby"
-  | "game"
-  | "end-game";
+  | "loading-game"
+  | "game";
 
 export class ClientApp {
-  private static instance: ClientApp | undefined = undefined;
-  public static get_instance(): ClientApp {
-    if (!ClientApp.instance) {
-      ClientApp.instance = new ClientApp();
-      return ClientApp.instance;
-    }
-    return ClientApp.instance;
-  }
 
   public app_state: AppState;
-  private main_view_ref: React.RefObject<MainView> = React.createRef();
+  private readonly view_handler: ViewHandlerInterface;
+  public readonly chat_presenter: ChatPresenterInterface;
 
   constructor() {
-    if (ClientApp.instance) {
-      throw new Error("App has already been constructed.");
-    }
+    this.view_handler = new ViewHandler();
+    this.chat_presenter = new ChatPresenter();
+    
+    /* change state to initializing */
+    this.view_handler.show_initializing_view();
     this.app_state = new InitializingAppState(this);
-
-    let main_view: ReactElement = (
-      <MainView
-        ref={this.main_view_ref}
-        on_render_callback={() => {
-          console.log("main view has rendered");
-          if (this.app_state.state_type === "initializing") {
-            (this.app_state as InitializingAppState).finish_main_rendering();
-          }
-        }}
-        on_render_connecting_callback={() => {
-          console.log("connecting view has rendered");
-          this.change_state_to_logging_in();
-        }}
-        on_render_initializing_callback={() => {
-          console.log("initializing view has rendered");
-        }}
-      />
-    );
-
-    const domContainer = document.querySelector("#reactDom");
-    const root = createRoot(domContainer!);
-    root.render(main_view);
   }
 
   public change_state_to_connecting() {
-    let ws: WebSocket = new WebSocket(GLOBAL_INFO.url);
-    ws.onmessage = (msg: MessageEvent) => {
-      console.log(msg.data);
-    };
-    console.log(this.main_view_ref.current);
-    if (this.main_view_ref.current) {
-      this.main_view_ref.current.show_connecting_view();
-    }
+    this.view_handler.show_connecting_view();
+    this.app_state = new ConnectingAppState(this);
   }
-  public change_state_to_logging_in() {
-    if (this.main_view_ref.current) {
-      this.main_view_ref.current.show_logging_in_view();
-    }
+
+  public change_state_to_logging_in(server_talker: ServerTalkerInterface) {
+    let app_state: LoggingInAppState = new LoggingInAppState(this, server_talker);
+    this.view_handler.show_login_view(app_state);
   }
+
   public change_state_to_main_menu() {}
-  public change_state_to_browser() {}
   public change_state_to_lobby() {}
+  public change_state_to_loading_game() {}
   public change_state_to_game() {}
-  public change_state_to_end_game() {}
 }

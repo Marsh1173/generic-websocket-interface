@@ -1,15 +1,20 @@
-.bevelled-corners (@size: 15px, @color: rgba(0, 0, 0, 0.233), @outline: false) {
-  background: linear-gradient(135deg, transparent @size, @color 0) top left,
-    linear-gradient(225deg, transparent 0px, @color 0) top right,
-    linear-gradient(315deg, transparent @size, @color 0) bottom right,
-    linear-gradient(45deg, transparent 0px, @color 0) bottom left;
-  background-size: 50% 50%;
-  background-repeat: no-repeat;
+.window (@color: rgba(0, 0, 0, 0.233)) {
+  background-color: @color;
+}
 
-  @outline-filter: drop-shadow(0px 0px 1px @white);
+.disabled-important-button (@width: 250px) {
+  .center-content;
+  .input-text;
 
-  -webkit-filter: if((@outline) @outline-filter);
-  filter: if((@outline) @outline-filter);
+  overflow: hidden;
+  position: relative;
+  height: 70px;
+  width: @width;
+
+  text-transform: uppercase;
+  background-color: @gray;
+  color: @white;
+  border: 1px solid @white;
 }
 
 .important-button (@width: 250px) {
@@ -55,6 +60,24 @@
 
   &:active > * {
     transform: scale(0.97);
+  }
+}
+
+.text-button {
+  background: none;
+  outline: none;
+  border: none;
+
+  span {
+    .label-text;
+  }
+
+  &:hover,
+  &:focus {
+    span {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
 }
 

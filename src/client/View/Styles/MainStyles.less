@@ -2,6 +2,7 @@
 @import "./Mixins.less";
 @import "./TitledTextInputStyles.less";
 @import "./LoginStyles.less";
+@import "./ChatStyles.less";
 
 /* ABSTRACTED CONSTANTS */
 
@@ -15,6 +16,7 @@
 // @theme-color: #eb193c;
 @theme-color: @blue;
 @black: #050505;
+@gray: #888;
 @white: #ddd;
 
 @spacing: 40px;
@@ -28,8 +30,7 @@ body {
 
 body,
 html,
-#reactDom,
-.MainView {
+#reactDom {
   .center-content;
   width: 100%;
   height: 100%;

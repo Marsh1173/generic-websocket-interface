@@ -5,8 +5,12 @@ import { AuthWebsocketClientInterface } from "../WebsocketClients/AuthWebsocketC
 import { AuthenticatedWebsocketHandler } from "./WebsocketHandler";
 
 export class GameWebsocket extends AuthenticatedWebsocketHandler {
-    public receive_message: (msg: ClientMessage, client_id: number) => void;
-    public on_client_close: (id: number) => void;
+    public receive_message = (msg: ClientMessage, client_id: number) => {
+
+    }
+    public on_client_close = (id: number) => {
+        
+    }
 
 }
 
@@ -20,7 +24,7 @@ export class LoadingGameWebsocket extends AuthenticatedWebsocketHandler {
 
         clients.forEach((client) => {
             this.add_client(client)
-        })
+        });
     }
 
     public receive_message = (msg: ClientMessage, client_id: number) => {

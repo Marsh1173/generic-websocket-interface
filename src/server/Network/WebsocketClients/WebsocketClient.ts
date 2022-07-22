@@ -3,7 +3,7 @@ import { ClientMessage, ServerMessage } from "../../../model/Api/Api";
 import { WebsocketServer } from "../WebsocketHandlers/WebsocketServer";
 
 export interface WebsocketClientObserver {
-  id: number;
+  readonly id: number;
   receive_message: (msg: ClientMessage, client_id: number) => void;
   on_client_close: (id: number) => void;
 }
@@ -28,7 +28,12 @@ export abstract class WebsocketClient implements WebsocketClientInterface {
   }
 
   public send(data: ServerMessage) {
-    this.ws.send(JSON.stringify(data));
+    
+    if(this.ws.readyState === this.ws.OPEN) {
+      this.ws.send(JSON.stringify(data));
+  } else {
+      console.error("ERROR: TRIED TO SEND TO A CLOSED WEBSOCKET");
+  }
   }
 
   protected on_receive_message(msg: ClientMessage) {
@@ -44,7 +49,7 @@ export abstract class WebsocketClient implements WebsocketClientInterface {
     });
 
     // Sends a message to the server to log the closure
-    this.websocket_server.log_client_close("Disconnected from " + this.server_name);
+    this.websocket_server.log_client_close(this.server_name);
   }
 
   private readonly TIMEOUT_SECONDS: number = 120;

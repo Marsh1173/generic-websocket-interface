@@ -1,17 +1,14 @@
-import React from "react";
-import { ViewComponent, ViewComponentProp } from "./ViewComponent";
+import React, { Component } from "react";
 
-export interface InitializingViewProp extends ViewComponentProp {}
-
-export class InitializingView extends ViewComponent<InitializingViewProp, {}> {
-  constructor(props: InitializingViewProp) {
+export class InitializingView extends Component<{}, {}> {
+  constructor(props: any) {
     super(props);
   }
 
   render() {
     return (
       <div className="InitializingView">
-        <span>Loading...</span>
+        <span>Initializing...</span>
       </div>
     );
   }

@@ -1,17 +1,13 @@
-import React from "react";
-import { TitledTextInput } from "../Partials/TitledTextInput";
-import { ViewComponent, ViewComponentProp } from "./ViewComponent";
+import React, { Component } from "react";
 
-export interface ConnectingViewViewProp extends ViewComponentProp {}
-
-export class ConnectingView extends ViewComponent<ConnectingViewViewProp, {}> {
-  constructor(props: ConnectingViewViewProp) {
+export class ConnectingView extends Component<{}, {}> {
+  constructor(props: any) {
     super(props);
   }
   render() {
     return (
       <div className="ConnectingView">
-        <span>Connecting to server...</span>
+        <span>Connecting...</span>
       </div>
     );
   }

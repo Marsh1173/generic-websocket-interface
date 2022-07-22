@@ -1,6 +1,8 @@
-.LoginView {
+.LoggingInView,
+.RegisterView {
+
   @width: 270px;
-  .bevelled-corners;
+  .window;
   .center-content;
   .flex-gap;
   .spacing-padding;
@@ -13,7 +15,12 @@
     }
   }
 
-  .login-button {
+  .login-button ,
+  .register-button {
     .important-button (@width);
+  }
+
+  .disabled-button {
+    .disabled-important-button (@width);
   }
 }
