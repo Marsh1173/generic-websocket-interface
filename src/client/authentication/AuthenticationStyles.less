@@ -1,0 +1,32 @@
+@import "../main/styles/Variables.less";
+@import "../main/styles/Mixins.less";
+
+.AuthenticationView {
+  .flex;
+  padding-top: 20vh;
+
+  .AuthenticationForm {
+    .form;
+
+    text-align: center;
+
+    width: 400px;
+    max-width: 100vw;
+
+    & > * {
+      width: 100%;
+    }
+
+    input[type="submit"] {
+      &:not(:disabled) {
+        .shadowed-button (@color: @green);
+      }
+      &:disabled {
+        .shadowed-button (@color: @gray);
+      }
+      .rounded;
+      .padding-smaller;
+      .big-text;
+    }
+  }
+}

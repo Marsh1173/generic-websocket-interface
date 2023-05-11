@@ -1,0 +1,19 @@
+@import "../Variables.less";
+
+.main-content-container {
+  .bordered;
+
+  height: 100%;
+  overflow-y: auto;
+  margin-top: 10px;
+
+  * {
+    width: 100%;
+  }
+
+  height: max-content;
+  max-height: 60vh;
+  @media screen and (max-width: calc(@small-screen-bp)) {
+    max-height: 40vh;
+  }
+}

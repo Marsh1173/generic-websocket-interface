@@ -1,0 +1,43 @@
+.smaller-text () {
+  font-size: 16px;
+  @media screen and (max-width: calc(@small-screen-bp)) {
+    font-size: 14px;
+  }
+}
+.small-text () {
+  font-size: 16px;
+  @media screen and (max-width: calc(@small-screen-bp)) {
+    font-size: 15px;
+  }
+}
+.mid-text () {
+  font-size: 20px;
+  @media screen and (max-width: calc(@small-screen-bp)) {
+    font-size: 18px;
+  }
+}
+.big-text () {
+  font-size: 26px;
+  @media screen and (max-width: calc(@small-screen-bp)) {
+    font-size: 20px;
+  }
+}
+.bigger-text () {
+  font-size: 38px;
+  @media screen and (max-width: calc(@small-screen-bp)) {
+    font-size: 28px;
+  }
+}
+
+.subtitle-text {
+  font-weight: 300;
+  font-style: italic;
+}
+.regular-text () {
+  font-weight: 300;
+}
+.title-text () {
+  text-transform: uppercase;
+  color: @dark-gray;
+  font-weight: 700;
+}
