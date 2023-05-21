@@ -9,7 +9,7 @@ export class GrowlService {
 
   private readonly config = {
     GROWL_FADE_DURATION: 4,
-    GROWL_COUNT_LIMIT: 3,
+    GROWL_COUNT_LIMIT: 5,
   };
 
   constructor() {
@@ -21,8 +21,7 @@ export class GrowlService {
     growl_component.classList.add("growl");
     growl_component.classList.add(type);
 
-    growl_component.style.animationDuration =
-      this.config.GROWL_FADE_DURATION.toString() + "s";
+    growl_component.style.animationDuration = this.config.GROWL_FADE_DURATION.toString() + "s";
 
     let growl_text_component = document.createElement("span");
     growl_text_component.innerText = msg;
@@ -30,10 +29,7 @@ export class GrowlService {
     growl_component.appendChild(growl_text_component);
     this.growl_container.prepend(growl_component);
 
-    while (
-      this.growl_container.children.length > this.config.GROWL_COUNT_LIMIT &&
-      this.growl_container.lastChild
-    ) {
+    while (this.growl_container.children.length > this.config.GROWL_COUNT_LIMIT && this.growl_container.lastChild) {
       this.growl_container.removeChild(this.growl_container.lastChild);
     }
 

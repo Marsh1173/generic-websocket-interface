@@ -1,17 +1,11 @@
 import React from "react";
 import { Component } from "react";
-import {
-  ConnectingView,
-  ConnectingViewProps,
-} from "../connecting/ConnectingView";
+import { ConnectingView, ConnectingViewProps } from "../connecting/ConnectingView";
 import { DisconnectionView } from "../disconnection/DisconnectionView";
-import {
-  AuthenticationView,
-  AuthenticationViewProps,
-} from "../authentication/AuthenticationView";
+import { AuthenticationView, AuthenticationViewProps } from "../authentication/AuthenticationView";
 
-import "./styles/Standards.less";
-import "./styles/Variables.less";
+import "./Standards.less";
+import "./MainStyles.less";
 
 type MainViewState =
   | { type: "connecting"; props: ConnectingViewProps }
@@ -29,6 +23,15 @@ export class MainView extends Component<{}, MainViewState> {
   }
 
   public render() {
+    return (
+      <div className="main">
+        <div className="background-image"></div>
+        {this.get_view()}
+      </div>
+    );
+  }
+
+  private get_view(): JSX.Element {
     switch (this.state.type) {
       case "authenticating":
         return <AuthenticationView props={this.state.props} />;

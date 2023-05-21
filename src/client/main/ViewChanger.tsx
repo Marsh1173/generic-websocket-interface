@@ -3,7 +3,7 @@ import { createRoot, Root } from "react-dom/client";
 import { AuthenticationViewProps } from "../authentication/AuthenticationView";
 import { ConnectingViewProps } from "../connecting/ConnectingView";
 import { safe_get_element_by_selector } from "../utils/SafeGetElementBySelector";
-import { SafeUserData } from "../../model/user/UserData";
+import { UserData } from "../../model/user/UserData";
 import { IServerTalker } from "../network/ServerTalker";
 import { Singleton } from "../../model/utils/Singleton";
 import { MainView } from "./MainView";
@@ -33,10 +33,7 @@ export class ViewChanger {
     this.main_view.current?.setState({ type: "disconnected", msg });
   }
 
-  public change_state_to_user(props: {
-    user_data: SafeUserData;
-    server_talker: IServerTalker;
-  }) {
+  public change_state_to_authmenu(props: { user_data: UserData; server_talker: IServerTalker }) {
     throw new Error("Method not implemented");
   }
 }

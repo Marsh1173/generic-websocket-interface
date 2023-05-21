@@ -1,4 +1,4 @@
-import { SafeUserData } from "../../../model/user/UserData";
+import { UserData } from "../../../model/user/UserData";
 import { ServerMessageNotImplemented } from "../../network/api/ClientApi";
 import { IServerTalker } from "../../network/ServerTalker";
 import { Client } from "../../network/Client";
@@ -10,14 +10,8 @@ import { FailureMsg } from "../../network/api/Failure";
 import { GrowlService } from "../../growl/GrowlService";
 import { UserAttemptRegisterMsg } from "../../../server/authentication/api/AttemptRegister";
 
-export class AuthenticatorClient extends Client<
-  UserAuthenticationMsg,
-  ServerAuthenticationMsg
-> {
-  constructor(
-    server_talker: IServerTalker,
-    private readonly view: AuthenticationView
-  ) {
+export class AuthenticatorClient extends Client<UserAuthenticationMsg, ServerAuthenticationMsg> {
+  constructor(server_talker: IServerTalker, private readonly view: AuthenticationView) {
     super(server_talker);
   }
 
@@ -35,7 +29,7 @@ export class AuthenticatorClient extends Client<
     }
   }
 
-  private on_successful_authentication(user_data: SafeUserData) {
+  private on_successful_authentication(user_data: UserData) {
     this.view.on_successful_authentication(user_data);
   }
 

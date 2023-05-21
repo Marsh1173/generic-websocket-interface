@@ -1,0 +1,30 @@
+@import "../Variables.less";
+@import "../Mixins.less";
+
+.shadowed-button (@color, @text-color: @white, @contrast: 10%) {
+  .title-text;
+
+  color: @text-color;
+  text-align: center;
+
+  background-color: @color;
+
+  .rounded;
+  border: none;
+
+  &:hover {
+    background-color: lighten(@color, 3%);
+  }
+
+  transition: all @fastest-transition linear;
+  &:active:not(:disabled) {
+    background-color: lighten(@color, 1%);
+  }
+}
+
+.minor-button (@color: @white, @text-color: @dark-gray, @contrast: 20%) {
+  .shadowed-button(@color, @text-color, @contrast);
+  .rounded-less;
+  border-width: 2px;
+  padding: 13px 23px;
+}

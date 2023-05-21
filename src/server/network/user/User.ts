@@ -3,17 +3,12 @@ import { IClientTalker } from "./ClientTalker";
 import { UserMap } from "./UserMap";
 import { UserId } from "../../../model/user/UserData";
 import { JsonParser } from "../jsonvalidation/JsonParser";
-import { FailureMsg } from "../../../client/network/api/Failure";
-import { SuccessMsg } from "../../../client/network/api/Success";
 
 export abstract class User<UserMsg, ServerMsg> extends HasId {
   protected is_deconstructed: boolean = false;
   protected abstract json_parser: JsonParser<UserMsg>;
 
-  constructor(
-    private readonly client_talker: IClientTalker,
-    private readonly user_map: UserMap<any>
-  ) {
+  constructor(private readonly client_talker: IClientTalker, private readonly user_map: UserMap<any>) {
     super();
     this.client_talker.attach_observer(this);
   }

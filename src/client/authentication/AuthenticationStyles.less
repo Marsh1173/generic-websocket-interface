@@ -1,32 +1,20 @@
-@import "../main/styles/Variables.less";
-@import "../main/styles/Mixins.less";
+@import "../commonview/styles/Variables.less";
+@import "../commonview/styles/Mixins.less";
 
 .AuthenticationView {
   .flex;
-  padding-top: 20vh;
+  height: 100%;
+  justify-content: center;
 
-  .AuthenticationForm {
-    .form;
+  .AuthenticationContent {
+    background-color: @black;
 
-    text-align: center;
+    .rounded;
 
     width: 400px;
     max-width: 100vw;
 
-    & > * {
-      width: 100%;
-    }
-
-    input[type="submit"] {
-      &:not(:disabled) {
-        .shadowed-button (@color: @green);
-      }
-      &:disabled {
-        .shadowed-button (@color: @gray);
-      }
-      .rounded;
-      .padding-smaller;
-      .big-text;
-    }
+    .padding;
+    .gap;
   }
 }

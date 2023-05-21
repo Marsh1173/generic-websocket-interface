@@ -1,10 +1,7 @@
-import { UserData } from "../../../model/user/UserData";
+import { UserRecord } from "../../../model/user/UserData";
 
 export class FrontEndAuthenticationValidator {
-  public static front_end_validate_username_and_password(
-    username: string,
-    password: string
-  ): string[] {
+  public static front_end_validate_username_and_password(username: string, password: string): string[] {
     let errs: string[] = [];
     if (username === "" && password === "") {
       errs.push("Please enter your username and password.");
@@ -17,7 +14,7 @@ export class FrontEndAuthenticationValidator {
   }
 
   public static validate_email(email: string): string | undefined {
-    if (!UserData.is_valid_email(email)) {
+    if (!UserRecord.is_valid_email(email)) {
       return "Please enter a valid email.";
     }
     return undefined;

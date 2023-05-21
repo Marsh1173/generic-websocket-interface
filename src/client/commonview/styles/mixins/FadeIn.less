@@ -1,0 +1,43 @@
+@import "../Variables.less";
+
+.fade-in (@time: @fast-transition, @start-opacity: 0, @end-opacity: 1) {
+  @-moz-keyframes appear {
+    0% {
+      opacity: @start-opacity;
+    }
+    100% {
+      opacity: @end-opacity;
+    }
+  }
+  @-webkit-keyframes appear {
+    0% {
+      opacity: @start-opacity;
+    }
+    100% {
+      opacity: @end-opacity;
+    }
+  }
+  @keyframes appear {
+    0% {
+      opacity: @start-opacity;
+    }
+    100% {
+      opacity: @end-opacity;
+    }
+  }
+
+  -moz-animation-name: appear;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-duration: @time;
+
+  -webkit-animation-name: appear;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-duration: @time;
+
+  animation-name: appear;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-duration: @time;
+}

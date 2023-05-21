@@ -1,0 +1,30 @@
+@import "../commonview/styles/Mixins.less";
+
+.main {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: black;
+}
+
+.background-image {
+  .fade-in (@time: 1s, @start-opacity: 0.2);
+
+  position: absolute;
+  z-index: -1;
+
+  /* Add background img */
+  background-image: url("../images/menu_background.png");
+
+  /* Use filter to add blur effect */
+  .blur;
+
+  height: 100%;
+
+  /* Center the image */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

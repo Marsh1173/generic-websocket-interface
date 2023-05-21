@@ -1,0 +1,15 @@
+.rounded () {
+  border-radius: 16px;
+}
+.rounded-less () {
+  border-radius: 8px;
+}
+
+.bordered (@color: @gray) {
+  border: 2px solid @color;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}

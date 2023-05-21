@@ -1,54 +1,51 @@
-@import "../main/styles/Variables.less";
-@import "../main/styles/Mixins.less";
+@import "../commonview/styles/Variables.less";
+@import "../commonview/styles/Mixins.less";
 
 #growl-dom {
   &,
   * {
+    pointer-events: none;
     .no-select;
   }
 
-  @opacity: 0.8;
-  @width: 350px;
-
   z-index: @growl-z-index;
 
-  width: 100vw;
-  height: 100vh;
-
   position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0%;
+  right: 0%;
+
+  width: max-content;
+  .padding-small;
 
   flex-direction: column-reverse;
+  align-items: end;
   .gap;
 
-  pointer-events: none;
-  user-select: none;
-
   .growl {
-    min-width: @width;
-    max-width: @width;
+    width: max-content;
+    max-width: 350px;
 
     justify-content: center;
-    .rounded-half;
-    .padding-small;
+    .rounded-less;
+    .padding-smaller;
+
+    border: 1px solid;
+    background-color: @black;
 
     &.bad {
-      background-color: rgba(@red, @opacity);
+      border-color: @red;
+      color: @red;
     }
     &.neutral {
-      background-color: rgba(@dark-gray, @opacity);
+      border-color: @gray;
+      color: @gray;
     }
     &.good {
-      background-color: rgba(@green, @opacity);
+      border-color: @green;
+      color: @green;
     }
     span {
-      opacity: 0.7;
-      color: @white;
-
-      .mid-text;
-      text-align: center;
+      .small-text;
     }
 
     animation-name: fadeout;
@@ -62,18 +59,20 @@
 @keyframes fadeout {
   0% {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateX(10%);
   }
-  4% {
+  5% {
     opacity: 1;
-    transform: scale(1);
+    transform: translateX(0);
   }
-  60% {
+  90% {
     opacity: 1;
+    transform: translateX(0);
   }
   99% {
     opacity: 0;
     height: min-content;
+    transform: translateX(10%);
   }
   100% {
     height: 0px;
