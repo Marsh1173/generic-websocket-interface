@@ -1,12 +1,11 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { Component } from "react";
 
 import "./ModalStyles.less";
 
-export interface ModalProps {
+export interface ModalProps extends PropsWithChildren {
   visible: boolean;
   on_close: () => void;
-  children: JSX.Element[] | JSX.Element;
 }
 
 export class Modal extends Component<ModalProps, {}> {
