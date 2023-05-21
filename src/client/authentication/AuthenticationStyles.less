@@ -9,12 +9,29 @@
   .AuthenticationContent {
     background-color: @black;
 
-    .rounded;
-
     width: 400px;
     max-width: 100vw;
 
+    .rounded;
     .padding;
     .gap;
+
+    .title {
+      .title-text;
+      .big-text;
+      text-align: center;
+      color: @lightest-gray;
+    }
+
+    input[type="submit"] {
+      &:not(:disabled) {
+        .shadowed-button (@color: @green);
+      }
+      &:disabled {
+        .shadowed-button (@color: @gray);
+      }
+      .padding-smaller;
+      .big-text;
+    }
   }
 }

@@ -4,7 +4,10 @@ import { UserAttemptRegisterMsg } from "../api/AttemptRegister";
 import { IClientTalker } from "../../network/user/ClientTalker";
 import { User } from "../../network/user/User";
 import { IAuthenticationService } from "../AuthenticationService";
-import { AuthenticationReturnMsg, AuthenticationSuccess } from "../UserValidator";
+import {
+  AuthenticationReturnMsg,
+  AuthenticationSuccess,
+} from "../UserValidator";
 import { UnauthenticatedUserMap } from "./UnauthenticatedUserMap";
 import {
   UserAuthenticationMsg,
@@ -15,8 +18,12 @@ import { JsonParser } from "../../network/jsonvalidation/JsonParser";
 import { UserMessageNotImplemented } from "../../network/utils/errors";
 import { ServerAuthenticationMsg } from "../../../client/authentication/network/api/AuthenticationApi";
 
-export class UnauthenticatedUser extends User<UserAuthenticationMsg, ServerAuthenticationMsg> {
-  public json_parser: JsonParser<UserAuthenticationMsg> = UserAuthenticationMsgParser;
+export class UnauthenticatedUser extends User<
+  UserAuthenticationMsg,
+  ServerAuthenticationMsg
+> {
+  public json_parser: JsonParser<UserAuthenticationMsg> =
+    UserAuthenticationMsgParser;
 
   constructor(
     private readonly auth_service: IAuthenticationService,
@@ -40,36 +47,51 @@ export class UnauthenticatedUser extends User<UserAuthenticationMsg, ServerAuthe
   }
 
   private attempt_login(msg: UserAttemptLoginMsg) {
-    let validation_results: AuthenticationReturnMsg = this.auth_service.user_validator.attempt_validate_user_login(
-      msg.user_id,
-      msg.password
-    );
+    let validation_results: AuthenticationReturnMsg =
+      this.auth_service.user_validator.attempt_validate_user_login(
+        msg.user_id,
+        msg.password
+      );
     if (this.handle_authentication(validation_results)) {
-      console.log("Successfully authenticated user " + validation_results.user_data.user_id);
+      console.log(
+        "Successfully authenticated user " +
+          validation_results.user_data.user_id
+      );
     }
   }
 
   private attempt_register(msg: UserAttemptRegisterMsg) {
-    let register_results: AuthenticationReturnMsg = this.auth_service.user_validator.attempt_validate_user_register(
-      msg.user_id,
-      msg.password,
-      msg.email
-    );
+    let register_results: AuthenticationReturnMsg =
+      this.auth_service.user_validator.attempt_validate_user_register(
+        msg.user_id,
+        msg.password,
+        msg.email
+      );
 
     if (this.handle_authentication(register_results)) {
-      console.log("Successfully registered and authenticated user " + register_results.user_data.user_id);
+      console.log(
+        "Successfully registered and authenticated user " +
+          register_results.user_data.user_id
+      );
     }
   }
 
-  private handle_authentication(results: AuthenticationReturnMsg): results is AuthenticationSuccess {
+  private handle_authentication(
+    results: AuthenticationReturnMsg
+  ): results is AuthenticationSuccess {
     if (!results.success) {
       this.send_unsuccessful_authentication(results.msg);
       return false;
     }
 
-    this.send_successful_authentication(results.user_data);
-    let user: IClientTalker = this.deconstruct();
-    this.auth_service.server_app.auth_menu_service.auth_menu_user_map.attach_user(user, results.user_data);
+    setTimeout(() => {
+      this.send_successful_authentication(results.user_data);
+      let user: IClientTalker = this.deconstruct();
+      this.auth_service.server_app.auth_menu_service.auth_menu_user_map.attach_user(
+        user,
+        results.user_data
+      );
+    }, 400); // small satisfaction delay on authentication
     return true;
   }
 

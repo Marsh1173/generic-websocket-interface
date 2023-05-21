@@ -1,24 +1,39 @@
 import React, { ChangeEvent, FormEvent } from "react";
 import { Component } from "react";
-import { FetchStoredLogin } from "../../utils/FetchStoredLogin";
 
-import "./AuthenticationFormStyles.less";
+import "./RegisterFormStyles.less";
 
-export interface AuthenticationFormProps {
-  on_submit: (username: string, password: string) => void;
+export interface RegisterFormProps {
+  on_register: (
+    username: string,
+    email: string,
+    password: string,
+    confirm_password: string
+  ) => void;
   submitted: boolean;
 }
 
-export interface AuthenticationFormState {
+export interface RegisterFormState {
   user_id: string;
+  email: string;
   password: string;
+  confirm_password: string;
   has_necessary_info: boolean;
 }
 
-export class AuthenticationForm extends Component<AuthenticationFormProps, AuthenticationFormState> {
-  constructor(props: AuthenticationFormProps) {
+export class RegisterForm extends Component<
+  RegisterFormProps,
+  RegisterFormState
+> {
+  constructor(props: RegisterFormProps) {
     super(props);
-    this.state = { user_id: "", password: "", has_necessary_info: false };
+    this.state = {
+      user_id: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+      has_necessary_info: false,
+    };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.on_submit = this.on_submit.bind(this);
@@ -32,15 +47,22 @@ export class AuthenticationForm extends Component<AuthenticationFormProps, Authe
 
     if (name === "username") {
       this.setState({ user_id: value }, this.update_has_necessary_info);
+    } else if (name === "email") {
+      this.setState({ email: value }, this.update_has_necessary_info);
     } else if (name === "password") {
       this.setState({ password: value }, this.update_has_necessary_info);
+    } else if (name === "confirm_password") {
+      this.setState(
+        { confirm_password: value },
+        this.update_has_necessary_info
+      );
     }
   }
 
   public render() {
     return (
       <form
-        className="AuthenticationForm"
+        className="RegisterForm"
         onSubmit={(ev) => {
           this.on_submit(ev);
         }}
@@ -54,6 +76,14 @@ export class AuthenticationForm extends Component<AuthenticationFormProps, Authe
           autoComplete="off"
         />
         <input
+          name="email"
+          type={"text"}
+          value={this.state.email}
+          onChange={this.handleInputChange}
+          placeholder={"Email"}
+          autoComplete="off"
+        />
+        <input
           name="password"
           type="password"
           value={this.state.password}
@@ -61,33 +91,38 @@ export class AuthenticationForm extends Component<AuthenticationFormProps, Authe
           placeholder={"Password"}
         />
         <input
+          name="confirm_password"
+          type="password"
+          value={this.state.confirm_password}
+          onChange={this.handleInputChange}
+          placeholder={"Confirm Password"}
+        />
+        <input
           type={"submit"}
-          value={this.props.submitted ? "Logging in..." : "Login"}
+          value={this.props.submitted ? "Registering..." : "Register"}
           disabled={this.props.submitted || !this.state.has_necessary_info}
         />
       </form>
     );
   }
 
-  public componentDidMount(): void {
-    FetchStoredLogin.fetch((last_used_username, last_used_password) => {
-      this.setState(
-        {
-          user_id: last_used_username,
-          password: last_used_password,
-        },
-        this.update_has_necessary_info
-      );
-    });
-  }
-
   private on_submit(ev: FormEvent) {
     ev.preventDefault();
-    this.props.on_submit(this.state.user_id, this.state.password);
+    this.props.on_register(
+      this.state.user_id,
+      this.state.email,
+      this.state.password,
+      this.state.confirm_password
+    );
   }
 
   private update_has_necessary_info() {
-    if (this.state.user_id !== "" && this.state.password !== "") {
+    if (
+      this.state.user_id !== "" &&
+      this.state.email !== "" &&
+      this.state.password !== "" &&
+      this.state.confirm_password !== ""
+    ) {
       this.setState({ has_necessary_info: true });
     } else {
       this.setState({ has_necessary_info: false });

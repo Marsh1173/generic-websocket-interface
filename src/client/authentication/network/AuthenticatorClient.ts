@@ -10,8 +10,14 @@ import { FailureMsg } from "../../network/api/Failure";
 import { GrowlService } from "../../growl/GrowlService";
 import { UserAttemptRegisterMsg } from "../../../server/authentication/api/AttemptRegister";
 
-export class AuthenticatorClient extends Client<UserAuthenticationMsg, ServerAuthenticationMsg> {
-  constructor(server_talker: IServerTalker, private readonly view: AuthenticationView) {
+export class AuthenticatorClient extends Client<
+  UserAuthenticationMsg,
+  ServerAuthenticationMsg
+> {
+  constructor(
+    server_talker: IServerTalker,
+    private readonly view: AuthenticationView
+  ) {
     super(server_talker);
   }
 
@@ -37,7 +43,7 @@ export class AuthenticatorClient extends Client<UserAuthenticationMsg, ServerAut
     this.send(new UserAttemptLoginMsg(user_id, password));
   }
 
-  public send_register(user_id: string, password: string, email: string) {
+  public send_registration(user_id: string, email: string, password: string) {
     this.send(new UserAttemptRegisterMsg(user_id, password, email));
   }
 

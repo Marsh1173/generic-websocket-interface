@@ -1,4 +1,4 @@
-type LocalStorageKey = "login-username" | "login-password";
+type LocalStorageKey = "login-username";
 
 export class LocalStorage {
   public static get_local_storage_item<IData>(

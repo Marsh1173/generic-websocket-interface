@@ -2,7 +2,7 @@ import React from "react";
 import { Component } from "react";
 import { AuthenticatorClient } from "./network/AuthenticatorClient";
 import { FrontEndAuthenticationValidator } from "./utils/FrontEndAuthenticationValidator";
-import { AuthenticationForm } from "./components/authenticationform/AuthenticationForm";
+import { LoginForm } from "./components/loginform/LoginForm";
 import { SaveSuccessfulLogin } from "./utils/SaveSuccessfulLogin";
 import { UserData } from "../../model/user/UserData";
 import { IServerTalker } from "../network/ServerTalker";
@@ -11,6 +11,7 @@ import { ViewChanger } from "../main/ViewChanger";
 
 import "./AuthenticationStyles.less";
 import { TextButton } from "../commonview/components/textbutton/TextButton";
+import { RegisterForm } from "./components/registerform/RegisterForm";
 
 export interface AuthenticationViewProps {
   server_talker: IServerTalker;
@@ -21,7 +22,10 @@ export interface AuthenticationViewState {
   submitted: boolean;
 }
 
-export class AuthenticationView extends Component<{ props: AuthenticationViewProps }, AuthenticationViewState> {
+export class AuthenticationView extends Component<
+  { props: AuthenticationViewProps },
+  AuthenticationViewState
+> {
   private readonly auth_client: AuthenticatorClient;
   private readonly growler: GrowlService = new GrowlService();
 
@@ -33,12 +37,18 @@ export class AuthenticationView extends Component<{ props: AuthenticationViewPro
       submitted: false,
     };
 
-    this.auth_client = new AuthenticatorClient(this.props.props.server_talker, this);
+    this.auth_client = new AuthenticatorClient(
+      this.props.props.server_talker,
+      this
+    );
 
-    this.get_switch_auth_type_button = this.get_switch_auth_type_button.bind(this);
+    this.get_switch_auth_type_button =
+      this.get_switch_auth_type_button.bind(this);
     this.set_submitted = this.set_submitted.bind(this);
     this.on_attempt_login = this.on_attempt_login.bind(this);
-    this.on_successful_authentication = this.on_successful_authentication.bind(this);
+    this.on_attempt_register = this.on_attempt_register.bind(this);
+    this.on_successful_authentication =
+      this.on_successful_authentication.bind(this);
   }
 
   public render() {
@@ -46,7 +56,18 @@ export class AuthenticationView extends Component<{ props: AuthenticationViewPro
       <div className="AuthenticationView">
         <div className="AuthenticationContent">
           <h1 className="title">Generic Websocket Interface</h1>
-          <AuthenticationForm on_submit={this.on_attempt_login} submitted={this.state.submitted}></AuthenticationForm>
+          {this.state.auth_type === "login" && (
+            <LoginForm
+              on_login={this.on_attempt_login}
+              submitted={this.state.submitted}
+            ></LoginForm>
+          )}
+          {this.state.auth_type === "register" && (
+            <RegisterForm
+              on_register={this.on_attempt_register}
+              submitted={this.state.submitted}
+            ></RegisterForm>
+          )}
           {this.get_switch_auth_type_button()}
         </div>
       </div>
@@ -59,7 +80,10 @@ export class AuthenticationView extends Component<{ props: AuthenticationViewPro
       <TextButton
         text={text}
         on_click={() => {
-          new GrowlService().put_growl("Markaronin has come online.", "good");
+          if (this.state.submitted) return;
+          const new_auth_type =
+            this.state.auth_type === "login" ? "register" : "login";
+          this.setState({ auth_type: new_auth_type });
         }}
         color="light"
       ></TextButton>
@@ -71,18 +95,30 @@ export class AuthenticationView extends Component<{ props: AuthenticationViewPro
   }
 
   private last_attempted_username: string = "";
-  private last_attempted_password: string = "";
   private on_attempt_login(user_id: string, password: string) {
-    let frontend_errs: string[] = FrontEndAuthenticationValidator.front_end_validate_username_and_password(
-      user_id,
-      password
-    );
+    this.set_submitted(true);
+    this.last_attempted_username = user_id;
+    this.auth_client.send_login(user_id, password);
+  }
+
+  private on_attempt_register(
+    user_id: string,
+    email: string,
+    password: string,
+    confirm_password: string
+  ) {
+    let frontend_errs: string[] =
+      FrontEndAuthenticationValidator.validate_registration(
+        user_id,
+        email,
+        password,
+        confirm_password
+      );
 
     if (frontend_errs.length === 0) {
       this.set_submitted(true);
       this.last_attempted_username = user_id;
-      this.last_attempted_password = password;
-      this.auth_client.send_login(user_id, password);
+      this.auth_client.send_registration(user_id, email, password);
     } else {
       for (const err of frontend_errs) {
         this.growler.put_growl(err, "bad");
@@ -92,7 +128,7 @@ export class AuthenticationView extends Component<{ props: AuthenticationViewPro
 
   public on_successful_authentication(user_data: UserData) {
     let server_talker: IServerTalker = this.auth_client.deconstruct();
-    SaveSuccessfulLogin.save_successful_login(this.last_attempted_username, this.last_attempted_password);
+    SaveSuccessfulLogin.save_successful_login(this.last_attempted_username);
     this.growler.put_growl("Welcome, " + user_data.user_id + "!", "good");
 
     new ViewChanger().change_state_to_authmenu({

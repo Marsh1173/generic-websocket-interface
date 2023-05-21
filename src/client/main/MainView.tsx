@@ -1,16 +1,24 @@
 import React from "react";
 import { Component } from "react";
-import { ConnectingView, ConnectingViewProps } from "../connecting/ConnectingView";
+import {
+  ConnectingView,
+  ConnectingViewProps,
+} from "../connecting/ConnectingView";
 import { DisconnectionView } from "../disconnection/DisconnectionView";
-import { AuthenticationView, AuthenticationViewProps } from "../authentication/AuthenticationView";
+import {
+  AuthenticationView,
+  AuthenticationViewProps,
+} from "../authentication/AuthenticationView";
 
 import "./Standards.less";
 import "./MainStyles.less";
+import { AuthMenuProps, AuthMenuView } from "../authmenu/AuthMenuView";
 
 type MainViewState =
   | { type: "connecting"; props: ConnectingViewProps }
   | { type: "disconnected"; msg: string }
-  | { type: "authenticating"; props: AuthenticationViewProps };
+  | { type: "authenticating"; props: AuthenticationViewProps }
+  | { type: "authmenu"; props: AuthMenuProps };
 
 export class MainView extends Component<{}, MainViewState> {
   constructor(props: any) {
@@ -39,6 +47,8 @@ export class MainView extends Component<{}, MainViewState> {
         return <ConnectingView props={this.state.props} />;
       case "disconnected":
         return <DisconnectionView msg={this.state.msg} />;
+      case "authmenu":
+        return <AuthMenuView props={this.state.props} />;
     }
   }
 }
