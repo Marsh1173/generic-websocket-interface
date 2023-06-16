@@ -3,8 +3,6 @@ import { createRoot, Root } from "react-dom/client";
 import { AuthenticationViewProps } from "../authentication/AuthenticationView";
 import { ConnectingViewProps } from "../connecting/ConnectingView";
 import { safe_get_element_by_selector } from "../utils/SafeGetElementBySelector";
-import { UserData } from "../../model/user/UserData";
-import { IServerTalker } from "../network/ServerTalker";
 import { Singleton } from "../../model/utils/Singleton";
 import { MainView } from "./MainView";
 import { AuthMenuProps } from "../authmenu/AuthMenuView";

@@ -1,20 +1,24 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const get_module_export = (
-  entry = "./src/client/prod_index.ts",
-  mode = "production"
-) => {
+const get_module_export = (entry = "./src/client/prod_index.ts", mode = "production", server = true) => {
   const contentBase = path.join(__dirname, "../../../public");
 
   return {
     entry,
     mode,
-    devServer: {
-      watchContentBase: true,
-      port: 3000, //localhost:3000
-      contentBase,
-    },
+    devServer: server
+      ? {
+          watchContentBase: true,
+          port: 3000, //localhost:3000
+          contentBase,
+        }
+      : {
+          port: 3000,
+          static: {
+            directory: contentBase,
+          },
+        },
     module: {
       rules: [
         {
