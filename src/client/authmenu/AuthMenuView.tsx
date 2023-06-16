@@ -4,6 +4,8 @@ import React from "react";
 import { UserData } from "../../model/user/UserData";
 import { IServerTalker } from "../network/ServerTalker";
 
+export type AuthMenuViewState = "main";
+
 export interface AuthMenuProps {
   user_data: UserData;
   server_talker: IServerTalker;
