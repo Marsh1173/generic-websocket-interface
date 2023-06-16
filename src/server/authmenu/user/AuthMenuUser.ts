@@ -1,4 +1,4 @@
-import { SafeUserData, UserId } from "../../../model/user/UserData";
+import { UserData, UserId } from "../../../model/user/UserData";
 import { JsonParser } from "../../network/jsonvalidation/JsonParser";
 import { IClientTalker } from "../../network/user/ClientTalker";
 import { User } from "../../network/user/User";
@@ -15,7 +15,7 @@ export class AuthMenuUser extends User<UserAuthMenuMsg, ServerAuthMenuMsg> {
     private readonly auth_user_service: IAuthMenuService,
     client_talker: IClientTalker,
     auth_menu_user_map: AuthMenuUserMap,
-    public readonly user_data: SafeUserData
+    public readonly user_data: UserData
   ) {
     super(client_talker, auth_menu_user_map);
   }
@@ -27,7 +27,7 @@ export class AuthMenuUser extends User<UserAuthMenuMsg, ServerAuthMenuMsg> {
     // }
   }
 
-  public on_user_close(id: UserId): void {
+  public on_client_talker_close(id: UserId): void {
     super.on_client_talker_close(id);
     this.auth_user_service.server_app.authentication_service.authenticated_user_tracker.disconnect_authenticated_user(
       this.user_data.user_id
@@ -35,8 +35,6 @@ export class AuthMenuUser extends User<UserAuthMenuMsg, ServerAuthMenuMsg> {
   }
 
   protected log_disconnection(): void {
-    console.log(
-      "Disconnected from authenticated user " + this.user_data.user_id
-    );
+    console.log("Disconnected from authmenu user " + this.user_data.user_id);
   }
 }

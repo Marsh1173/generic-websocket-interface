@@ -6,7 +6,7 @@ import { ReturnMsg } from "../../utils/ReturnMsg";
 import {
   LoginUserData,
   RegisterUserData,
-  SafeUserData,
+  UserRecord,
   UserData,
   UserId,
 } from "../../../model/user/UserData";
@@ -21,22 +21,21 @@ export const email_or_userid_taken_string: string =
 
 export const create_user_table_string = (table_name: string) => {
   return `CREATE TABLE '${table_name}' (\
-    'user_id' VARCHAR(${UserData.UserIdMaxLength}) PRIMARY KEY NOT NULL,\
-    'email_address' VARCHAR(${UserData.EmailMaxLength}) NOT NULL,\
-    'password' VARCHAR(${UserData.PasswordMaxLength}) NOT NULL,\
+    'user_id' VARCHAR(${UserRecord.UserIdMaxLength}) PRIMARY KEY NOT NULL,\
+    'email_address' VARCHAR(${UserRecord.EmailMaxLength}) NOT NULL,\
+    'password' VARCHAR(${UserRecord.PasswordMaxLength}) NOT NULL,\
     'salt' VARCHAR(32) NOT NULL,\
     UNIQUE (email_address)\
     );`;
 };
 
 export interface FetchUsersSuccess extends Success {
-  users: SafeUserData[];
+  users: UserData[];
 }
 
 export interface IUserDao {
   register_user(data: RegisterUserData): AuthenticationReturnMsg;
   validate_login(data: LoginUserData): AuthenticationReturnMsg;
-  fetch_users_list(): FetchUsersSuccess | FailureMsg;
   change_user_password(new_password: string, user_id: UserId): ReturnMsg;
   delete_user(user_id: UserId): ReturnMsg;
 }
@@ -62,7 +61,7 @@ export class UserDao extends DAO implements IUserDao {
     );
 
     this.insert_user = this.db.prepare(
-      `INSERT INTO ${this.table_name} (user_id, password, salt) VALUES (?, ?, ?);`
+      `INSERT INTO ${this.table_name} (user_id, email_address, password, salt) VALUES (?, ?, ?, ?);`
     );
 
     this.get_user = this.db.prepare(
@@ -92,6 +91,7 @@ export class UserDao extends DAO implements IUserDao {
       () => {
         this.insert_user.run(
           data.user_id,
+          data.email_address,
           hash_and_salt.hash,
           hash_and_salt.salt
         );
@@ -117,7 +117,7 @@ export class UserDao extends DAO implements IUserDao {
         msg: "Incorrect username or password",
       };
 
-      let user_data: UserData | undefined = this.get_user.get(data.user_id);
+      let user_data: UserRecord | undefined = this.get_user.get(data.user_id);
       if (user_data === undefined) {
         return failed_attempt;
       }
@@ -140,15 +140,6 @@ export class UserDao extends DAO implements IUserDao {
       } else {
         return failed_attempt;
       }
-    });
-  }
-
-  public fetch_users_list(): FetchUsersSuccess | FailureMsg {
-    return this.catch_database_errors_get<FetchUsersSuccess>(() => {
-      return {
-        success: true,
-        users: this.get_all_users_statement.all(),
-      };
     });
   }
 

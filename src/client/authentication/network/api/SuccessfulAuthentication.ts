@@ -1,6 +1,6 @@
-import { SafeUserData } from "../../../../model/user/UserData";
+import { UserData } from "../../../../model/user/UserData";
 
 export interface SuccessfulAuthenticationMsg {
   type: "SuccessfulAuthenticationMsg";
-  user_data: SafeUserData;
+  user_data: UserData;
 }

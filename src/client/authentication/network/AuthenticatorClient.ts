@@ -1,4 +1,4 @@
-import { SafeUserData } from "../../../model/user/UserData";
+import { UserData } from "../../../model/user/UserData";
 import { ServerMessageNotImplemented } from "../../network/api/ClientApi";
 import { IServerTalker } from "../../network/ServerTalker";
 import { Client } from "../../network/Client";
@@ -35,7 +35,7 @@ export class AuthenticatorClient extends Client<
     }
   }
 
-  private on_successful_authentication(user_data: SafeUserData) {
+  private on_successful_authentication(user_data: UserData) {
     this.view.on_successful_authentication(user_data);
   }
 
@@ -43,7 +43,7 @@ export class AuthenticatorClient extends Client<
     this.send(new UserAttemptLoginMsg(user_id, password));
   }
 
-  public send_register(user_id: string, password: string, email: string) {
+  public send_registration(user_id: string, email: string, password: string) {
     this.send(new UserAttemptRegisterMsg(user_id, password, email));
   }
 

@@ -1,17 +1,13 @@
-Executive Events
-Ambassador Hour Log
-
-#### View .db file online
-
-- https://inloop.github.io/sqlite-viewer/
-
 ## TODOS
 
-- LogDao specs
+- Abstract styling in client
+  - growls
+  - buttons
+  - forms
+- Abstract login / register form and landing page
 
-## FINISHING TOUCHES
+## GT
 
-- Run everything by Alyssa
-- back up database every month with cron?
-
-## PUSH TO PRODUCTION
+- Settle on menu theme (what game?)
+  - valorant
+  - overwatch

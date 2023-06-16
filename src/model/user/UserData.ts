@@ -1,25 +1,23 @@
 export type UserId = string;
-export interface UserData {
+export interface UserRecord {
   readonly user_id: UserId;
   readonly email_address: string;
   readonly password: string;
   readonly salt: string;
 }
 
-export type SafeUserData = Omit<
-  UserData,
-  "password" | "salt" | "email_address"
->;
+export type UserData = Omit<UserRecord, "password" | "salt" | "email_address">;
 
-export type RegisterUserData = Omit<UserData, "salt">;
-export type LoginUserData = Pick<UserData, "password" | "user_id">;
+export type RegisterUserData = Omit<UserRecord, "salt">;
+export type LoginUserData = Pick<UserRecord, "password" | "user_id">;
 
-export abstract class UserData {
+export abstract class UserRecord {
   public static readonly UserIdMaxLength: number = 20;
+  public static readonly UserIdMinLength: number = 3;
   public static readonly PasswordMaxLength: number = 20;
   public static readonly EmailMaxLength: number = 50;
 
-  private static UserIdRegex: RegExp = /^[A-Za-z0-9]$/;
+  private static UserIdRegex: RegExp = /^[A-Za-z0-9]+$/;
   public static is_valid_user_id(user_id: string): boolean {
     return this.UserIdRegex.test(user_id);
   }

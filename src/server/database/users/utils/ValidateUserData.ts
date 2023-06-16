@@ -1,5 +1,5 @@
 import { ReturnMsg } from "../../../utils/ReturnMsg";
-import { RegisterUserData, UserData } from "../../../../model/user/UserData";
+import { RegisterUserData, UserRecord } from "../../../../model/user/UserData";
 
 export class ValidateUserData {
   public static validate(data: RegisterUserData): ReturnMsg {
@@ -24,12 +24,12 @@ export class ValidateUserData {
   private static validate_user_id(user_id: string): ReturnMsg {
     if (user_id === "") {
       return { success: false, msg: this.errs.user_id.not_empty };
-    } else if (!UserData.is_valid_user_id(user_id)) {
+    } else if (!UserRecord.is_valid_user_id(user_id)) {
       return {
         success: false,
         msg: this.errs.user_id.only_letters_and_numbers,
       };
-    } else if (user_id.length > UserData.UserIdMaxLength) {
+    } else if (user_id.length > UserRecord.UserIdMaxLength) {
       return {
         success: false,
         msg: this.errs.user_id.max_length,
@@ -42,12 +42,12 @@ export class ValidateUserData {
   private static validate_email(email: string): ReturnMsg {
     if (email === "") {
       return { success: false, msg: this.errs.email.not_empty };
-    } else if (email.length > UserData.EmailMaxLength) {
+    } else if (email.length > UserRecord.EmailMaxLength) {
       return {
         success: false,
         msg: this.errs.email.max_length,
       };
-    } else if (!UserData.is_valid_email(email)) {
+    } else if (!UserRecord.is_valid_email(email)) {
       return {
         success: false,
         msg: this.errs.email.valid,
@@ -60,7 +60,7 @@ export class ValidateUserData {
   public static validate_password(password: string): ReturnMsg {
     if (password === "") {
       return { success: false, msg: this.errs.password.not_empty };
-    } else if (password.length > UserData.PasswordMaxLength) {
+    } else if (password.length > UserRecord.PasswordMaxLength) {
       return {
         success: false,
         msg: this.errs.password.max_length,
@@ -76,16 +76,16 @@ export class ValidateUserData {
     email: {
       not_empty: "Please provide an email.",
       valid: `Please provide a valid email address.`,
-      max_length: `Email can only contain up to ${UserData.EmailMaxLength} characters.`,
+      max_length: `Email can only contain up to ${UserRecord.EmailMaxLength} characters.`,
     },
     password: {
       not_empty: "Please provide a password.",
-      max_length: `Password can only contain up to ${UserData.PasswordMaxLength} characters.`,
+      max_length: `Password can only contain up to ${UserRecord.PasswordMaxLength} characters.`,
     },
     user_id: {
       not_empty: "Please provide a user id.",
       only_letters_and_numbers: "User id can only contain letters and numbers.",
-      max_length: `User id can only contain up to ${UserData.UserIdMaxLength} characters.`,
+      max_length: `User id can only contain up to ${UserRecord.UserIdMaxLength} characters.`,
     },
   };
 }

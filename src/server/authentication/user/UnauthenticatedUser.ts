@@ -1,4 +1,4 @@
-import { SafeUserData } from "../../../model/user/UserData";
+import { UserData } from "../../../model/user/UserData";
 import { UserAttemptLoginMsg } from "../api/AttemptLogin";
 import { UserAttemptRegisterMsg } from "../api/AttemptRegister";
 import { IClientTalker } from "../../network/user/ClientTalker";
@@ -84,12 +84,14 @@ export class UnauthenticatedUser extends User<
       return false;
     }
 
-    this.send_successful_authentication(results.user_data);
-    let user: IClientTalker = this.deconstruct();
-    this.auth_service.server_app.auth_menu_service.auth_menu_user_map.attach_user(
-      user,
-      results.user_data
-    );
+    setTimeout(() => {
+      this.send_successful_authentication(results.user_data);
+      let user: IClientTalker = this.deconstruct();
+      this.auth_service.server_app.auth_menu_service.auth_menu_user_map.attach_user(
+        user,
+        results.user_data
+      );
+    }, 400); // small satisfaction delay on authentication
     return true;
   }
 
@@ -100,7 +102,7 @@ export class UnauthenticatedUser extends User<
     });
   }
 
-  private send_successful_authentication(user_data: SafeUserData) {
+  private send_successful_authentication(user_data: UserData) {
     this.send({
       type: "SuccessfulAuthenticationMsg",
       user_data,

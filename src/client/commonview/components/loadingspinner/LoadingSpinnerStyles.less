@@ -1,0 +1,59 @@
+@import "../../styles/Variables.less";
+
+.loading-spinner.small {
+  .spinner-circle {
+    animation-duration: 0.8s;
+  }
+  width: 30px;
+  height: 30px;
+}
+.loading-spinner.medium {
+  .spinner-circle {
+    animation-duration: 1s;
+  }
+  width: 60px;
+  height: 60px;
+}
+.loading-spinner.large {
+  .spinner-circle {
+    animation-duration: 1.2s;
+  }
+  width: 100px;
+  height: 100px;
+}
+
+.spinner-circle {
+  transform-origin: center;
+  animation-name: loading-spinner-spin;
+  animation-timing-function: cubic-bezier;
+  animation-iteration-count: infinite;
+
+  stroke-linecap: round;
+  stroke: @white;
+}
+
+.spinner-circle,
+.circle-track {
+  stroke-width: 10px;
+  fill: transparent;
+}
+
+.circle-track {
+  stroke: fade(@black, 15);
+}
+
+@keyframes loading-spinner-spin {
+  // math, baybee
+  0% {
+    stroke-dasharray: 10 84.25;
+    stroke-dashoffset: -65.69;
+  }
+  50% {
+    stroke-dasharray: 74.25 20;
+    stroke-dashoffset: -127.81;
+  }
+  100% {
+    stroke-dasharray: 10 84.25;
+    stroke-dashoffset: -254.17;
+  }
+}

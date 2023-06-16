@@ -10,13 +10,15 @@ import {
   AuthenticationViewProps,
 } from "../authentication/AuthenticationView";
 
-import "./styles/Standards.less";
-import "./styles/Variables.less";
+import "./Standards.less";
+import "./MainStyles.less";
+import { AuthMenuProps, AuthMenuView } from "../authmenu/AuthMenuView";
 
 type MainViewState =
   | { type: "connecting"; props: ConnectingViewProps }
   | { type: "disconnected"; msg: string }
-  | { type: "authenticating"; props: AuthenticationViewProps };
+  | { type: "authenticating"; props: AuthenticationViewProps }
+  | { type: "authmenu"; props: AuthMenuProps };
 
 export class MainView extends Component<{}, MainViewState> {
   constructor(props: any) {
@@ -29,6 +31,15 @@ export class MainView extends Component<{}, MainViewState> {
   }
 
   public render() {
+    return (
+      <div className="main">
+        <div className="background-image"></div>
+        {this.get_view()}
+      </div>
+    );
+  }
+
+  private get_view(): JSX.Element {
     switch (this.state.type) {
       case "authenticating":
         return <AuthenticationView props={this.state.props} />;
@@ -36,6 +47,8 @@ export class MainView extends Component<{}, MainViewState> {
         return <ConnectingView props={this.state.props} />;
       case "disconnected":
         return <DisconnectionView msg={this.state.msg} />;
+      case "authmenu":
+        return <AuthMenuView props={this.state.props} />;
     }
   }
 }

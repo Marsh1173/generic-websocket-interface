@@ -1,0 +1,18 @@
+@import "../../styles/Variables.less";
+@import "../../styles/Mixins.less";
+
+.centered-window {
+  .flex;
+  height: 100%;
+  justify-content: center;
+
+  .centered-window-content {
+    background-color: @black;
+
+    width: max-content;
+    max-width: 100vw;
+
+    .rounded;
+    .padding;
+  }
+}
