@@ -1,4 +1,4 @@
-import { Id, uuid } from "../../../../utils/Id";
+import { HasId, Id, uuid } from "../../../../utils/Id";
 import { HasHealthModule, IHealthModule } from "../modules/health/HealthModule";
 import {
   HasMovableModule,
@@ -19,7 +19,8 @@ export abstract class Entity
     Partial<HasHealthModule>,
     Partial<HasStationaryModule>,
     Partial<HasMovableModule>,
-    Partial<HasTeamModule>
+    Partial<HasTeamModule>,
+    HasId
 {
   public readonly id: Id;
   constructor(data: EntityData) {

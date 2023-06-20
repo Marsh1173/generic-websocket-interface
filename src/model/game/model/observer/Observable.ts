@@ -1,4 +1,4 @@
-import { Id } from "../../../../utils/Id";
+import { Id } from "../../../utils/Id";
 import { Observer } from "./Observer";
 
 export abstract class Observable<ObserverType extends Observer> {

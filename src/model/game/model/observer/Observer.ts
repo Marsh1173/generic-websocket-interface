@@ -1,4 +1,4 @@
-import { Id } from "../../../../utils/Id";
+import { Id } from "../../../utils/Id";
 
 export interface Observer {
   id: Id;
