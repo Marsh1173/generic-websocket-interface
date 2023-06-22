@@ -32,7 +32,7 @@ export class MovableModule implements IMovableModule {
 
   constructor(
     public readonly observable: MovableObservable,
-    protected readonly entity: Entity & HasMovableModule,
+    public readonly entity: Entity & HasMovableModule,
     data: MovableModuleData
   ) {
     this.pos = data.pos;

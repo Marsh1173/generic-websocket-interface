@@ -2,12 +2,15 @@ import { HasId, Id } from "../../../utils/Id";
 import { Rect } from "../../physics/geometry/Rect";
 import { QuadTreeNode } from "./QuadTreeNode";
 
-export abstract class QuadTree<ItemType extends HasId> {
+export abstract class QuadTree<
+  ItemType extends HasId,
+  NodeType extends QuadTreeNode<ItemType, NodeType>
+> {
   protected readonly items: Map<Id, ItemType> = new Map();
-  protected readonly root: QuadTreeNode<ItemType>;
+  protected readonly root: NodeType;
 
   public constructor(dimensions: Rect) {
-    this.root = new QuadTreeNode(dimensions.h, 0, 0, dimensions.w);
+    this.root = this.get_root_node(dimensions);
   }
 
   public insert(item: ItemType) {
@@ -21,12 +24,14 @@ export abstract class QuadTree<ItemType extends HasId> {
     this.root.recursive_insert(item);
   }
 
-  public remove(shape: ItemType) {
-    this.items.delete(shape.id);
-    this.root.recursive_remove(shape);
+  public remove(item: ItemType) {
+    this.items.delete(item.id);
+    this.root.recursive_remove(item);
   }
 
   public get_by_id(id: Id): ItemType | undefined {
     return this.items.get(id);
   }
+
+  protected abstract get_root_node(dimensions: Rect): NodeType;
 }

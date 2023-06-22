@@ -17,7 +17,7 @@ export class StationaryModule implements IStationaryModule {
   public readonly pos: Point;
 
   constructor(
-    protected readonly entity: Entity & HasStationaryModule,
+    public readonly entity: Entity & HasStationaryModule,
     data: StationaryModuleData
   ) {
     this.pos = data.pos;

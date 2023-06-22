@@ -25,7 +25,7 @@ export class HealthModule implements IHealthModule {
 
   constructor(
     public readonly observable: HealthObservable,
-    protected readonly entity: Entity & HasHealthModule,
+    public readonly entity: Entity & HasHealthModule,
     data: HealthModuleData
   ) {
     this.max_health = data.max_health;

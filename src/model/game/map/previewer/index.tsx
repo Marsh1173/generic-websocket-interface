@@ -2,8 +2,10 @@ import { createRoot } from "react-dom/client";
 import { safe_get_element_by_selector } from "../../../../client/utils/SafeGetElementBySelector";
 import React from "react";
 import "./PreviewStyles.less";
-import { PerlinNoiseGenerator } from "../model/PerlinNoiseGenerator";
-import { makeNoise2D, makeRectangle } from "../model/SimplexNoiseGenerator";
+import {
+  makeNoise2D,
+  makeRectangle,
+} from "../model/generation/SimplexNoiseGenerator";
 
 const map_canvas_element: JSX.Element = (
   <div>
@@ -40,7 +42,9 @@ const run = async () => {
 
   // HTML PREP
 
-  var canvas: HTMLCanvasElement = safe_get_element_by_selector("canvas") as HTMLCanvasElement;
+  var canvas: HTMLCanvasElement = safe_get_element_by_selector(
+    "canvas"
+  ) as HTMLCanvasElement;
   var ctx = canvas.getContext("2d")!;
   canvas.width = width * res_factor;
   canvas.height = height * res_factor;
@@ -66,8 +70,14 @@ const run = async () => {
   const t_octaves = 2;
   const v_octaves = 5;
 
-  const temp_map = makeRectangle(width, height, makeNoise2D(Date.now()), { frequency, octaves: t_octaves });
-  const vegetation_map = makeRectangle(width, height, makeNoise2D(Date.now()), { frequency, octaves: v_octaves });
+  const temp_map = makeRectangle(width, height, makeNoise2D(Date.now()), {
+    frequency,
+    octaves: t_octaves,
+  });
+  const vegetation_map = makeRectangle(width, height, makeNoise2D(Date.now()), {
+    frequency,
+    octaves: v_octaves,
+  });
   // const temp_map = PerlinNoiseGenerator.generate_map(width, height, t_noise_level);
   // const vegetation_map = PerlinNoiseGenerator.generate_map(width, height, v_noise_level);
 
@@ -90,7 +100,10 @@ const run = async () => {
   const grid_size = 10 * res_factor;
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      if ((x * res_factor) % grid_size === 0 || (y * res_factor) % grid_size === 0) {
+      if (
+        (x * res_factor) % grid_size === 0 ||
+        (y * res_factor) % grid_size === 0
+      ) {
         ctx.fillStyle = "#00000022";
         ctx.fillRect(x * res_factor, y * res_factor, 1, 1);
       }

@@ -18,7 +18,7 @@ export class TeamModule implements ITeamModule {
   public readonly team: Team;
 
   constructor(
-    protected readonly entity: Entity & HasTeamModule,
+    public readonly entity: Entity & HasTeamModule,
     data: TeamModuleData
   ) {
     this.team = data.team;

@@ -1,7 +1,5 @@
 // This is free and unencumbered software released into the public domain
 
-const TWO_PI = 2 * Math.PI;
-
 function shuffleSeed(seed: Uint32Array): Uint32Array {
   const newSeed = new Uint32Array(1);
   newSeed[0] = seed[0] * 1664525 + 1013904223;
@@ -22,7 +20,11 @@ interface Contribution2D {
   ysb: number;
 }
 
-function contribution2D(multiplier: number, xsb: number, ysb: number): Contribution2D {
+function contribution2D(
+  multiplier: number,
+  xsb: number,
+  ysb: number
+): Contribution2D {
   return {
     dx: -xsb - multiplier * SQUISH_2D,
     dy: -ysb - multiplier * SQUISH_2D,
@@ -85,11 +87,19 @@ export function makeNoise2D(clientSeed: number): Noise2D {
     const yins = ys - ysb;
 
     const inSum = xins + yins;
-    const hash = (xins - yins + 1) | (inSum << 1) | ((inSum + yins) << 2) | ((inSum + xins) << 4);
+    const hash =
+      (xins - yins + 1) |
+      (inSum << 1) |
+      ((inSum + yins) << 2) |
+      ((inSum + xins) << 4);
 
     let value = 0;
 
-    for (let c: Contribution2D | undefined = lookup[hash]; c !== undefined; c = c.next) {
+    for (
+      let c: Contribution2D | undefined = lookup[hash];
+      c !== undefined;
+      c = c.next
+    ) {
       const dx = dx0 + c.dx;
       const dy = dy0 + c.dy;
 
@@ -118,9 +128,14 @@ const base2D = [
 
 const gradients2D = [5, 2, 2, 5, -5, 2, -2, 5, 5, -2, 2, -5, -5, -2, -2, -5];
 
-const lookupPairs2D = [0, 1, 1, 0, 4, 1, 17, 0, 20, 2, 21, 2, 22, 5, 23, 5, 26, 4, 39, 3, 42, 4, 43, 3];
+const lookupPairs2D = [
+  0, 1, 1, 0, 4, 1, 17, 0, 20, 2, 21, 2, 22, 5, 23, 5, 26, 4, 39, 3, 42, 4, 43,
+  3,
+];
 
-const p2D = [0, 0, 1, -1, 0, 0, -1, 1, 0, 2, 1, 1, 1, 2, 2, 0, 1, 2, 0, 2, 1, 0, 0, 0];
+const p2D = [
+  0, 0, 1, -1, 0, 0, -1, 1, 0, 2, 1, 1, 1, 2, 2, 0, 1, 2, 0, 2, 1, 0, 0, 0,
+];
 
 /* NOISE */
 
@@ -156,7 +171,9 @@ export function makeRectangle(
       let value = 0.0;
       for (let octave = 0; octave < octaves; octave++) {
         const freq = frequency * Math.pow(2, octave);
-        value += noise2(x * freq, y * freq) * (amplitude * Math.pow(persistence, octave));
+        value +=
+          noise2(x * freq, y * freq) *
+          (amplitude * Math.pow(persistence, octave));
       }
       field[x][y] = value / (2 - 1 / Math.pow(2, octaves - 1));
       if (scale) field[x][y] = scale(field[x][y]);
