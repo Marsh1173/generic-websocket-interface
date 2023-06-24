@@ -1,6 +1,6 @@
-import { Entity } from "../../../entities/model/entity/Entity";
-import { QuadTreeNode } from "../../../model/quadtree/QuadTreeNode";
-import { IsInBoundingBox } from "../../../physics/math/IsInBoundingBox";
+import { Entity } from "../entities/model/entity/Entity";
+import { QuadTreeNode } from "../model/quadtree/QuadTreeNode";
+import { IsInBoundingBox } from "../physics/math/IsInBoundingBox";
 
 export class EntityQuadTreeNode extends QuadTreeNode<
   Entity,

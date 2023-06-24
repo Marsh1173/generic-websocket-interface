@@ -33,5 +33,11 @@ export abstract class QuadTree<
     return this.items.get(id);
   }
 
+  public apply_to_all(f: (item: ItemType) => void) {
+    for (const [id, item] of this.items) {
+      f(item);
+    }
+  }
+
   protected abstract get_root_node(dimensions: Rect): NodeType;
 }

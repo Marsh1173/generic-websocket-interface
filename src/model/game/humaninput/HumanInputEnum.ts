@@ -1,0 +1,17 @@
+export enum HumanInputEnum {
+  MoveUpStart,
+  MoveUpEnd,
+  MoveDownStart,
+  MoveDownEnd,
+  MoveLeftStart,
+  MoveLeftEnd,
+  MoveRightStart,
+  MoveRightEnd,
+  MouseMove,
+  PrimaryActionStart,
+  PrimaryActionEnd,
+  SecondaryActionStart,
+  SecondaryActionEnd,
+  TertiaryActionStart,
+  TertiaryActionEnd,
+}
