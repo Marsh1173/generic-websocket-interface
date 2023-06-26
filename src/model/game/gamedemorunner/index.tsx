@@ -1,14 +1,24 @@
-import React from "react";
-import "./styles.less";
-import { safe_get_element_by_selector } from "../../../client/utils/SafeGetElementBySelector";
 import { createRoot } from "react-dom/client";
+import { safe_get_element_by_selector } from "../../../client/utils/SafeGetElementBySelector";
+import React from "react";
+import { LocalGameComponent } from "../../../client/game/local/LocalGameView";
+import { DEFAULT_HUMAN_INPUT_CONFIG } from "../humaninput/HumanInputConfig";
+import { LocalGameSystemData } from "../gamesystem/LocalGameSystem";
 
-const game_element: JSX.Element = (
-  <div>
-    <canvas id="#canvas"></canvas>
-  </div>
+const game_data: LocalGameSystemData = {
+  human_input_config: DEFAULT_HUMAN_INPUT_CONFIG,
+  resolution: "mini",
+  map_size: { w: 10, h: 10 },
+};
+
+const game_component: JSX.Element = (
+  <LocalGameComponent
+    props={{
+      local_game_data: game_data,
+    }}
+  ></LocalGameComponent>
 );
 
 const dom_container = safe_get_element_by_selector("#react-dom");
 const root = createRoot(dom_container);
-root.render(game_element);
+root.render(game_component);

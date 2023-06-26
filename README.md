@@ -8,6 +8,4 @@
 
 ## GT
 
-- Settle on menu theme (what game?)
-  - valorant
-  - overwatch
+- remove all pixijs packages except the necessary ones

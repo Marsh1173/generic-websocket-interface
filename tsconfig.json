@@ -6,7 +6,8 @@
     "jsx": "react",
     "esModuleInterop": true,
     "target": "ESNext",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "moduleResolution": "node"
   },
   "include": [
     "src/client/**/*.js",
