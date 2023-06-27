@@ -1,15 +1,14 @@
-import { Observable } from "../model/observer/Observable";
-import { HasId } from "../../utils/Id";
+import { StateObservable } from "../../utils/observer/StateObserver";
 
-export interface SystemStatsManagerObserver extends HasId {
-  update_fps?(new_fps: number): void;
+export interface SystemStatsManagerState {
+  fps: number;
 }
 
 const TICKS_PER_UPDATE: number = 120; //roughly 2 seconds
 
-export class SystemStatsManager extends Observable<SystemStatsManagerObserver> {
+export class SystemStatsManager extends StateObservable<SystemStatsManagerState> {
   constructor() {
-    super();
+    super({ fps: 0 });
     this.begin_ticks_timestamp = Date.now();
   }
 
@@ -19,7 +18,8 @@ export class SystemStatsManager extends Observable<SystemStatsManagerObserver> {
   public update() {
     if (this.ticks_since_last_update > TICKS_PER_UPDATE) {
       const time_diff = Date.now() - this.begin_ticks_timestamp;
-      this.update_fps((1000 * TICKS_PER_UPDATE) / time_diff);
+
+      this.state = { fps: (1000 * TICKS_PER_UPDATE) / time_diff };
 
       this.ticks_since_last_update = 0;
       this.begin_ticks_timestamp = Date.now();
@@ -27,6 +27,4 @@ export class SystemStatsManager extends Observable<SystemStatsManagerObserver> {
       this.ticks_since_last_update += 1;
     }
   }
-
-  private readonly update_fps = this.broadcast((o) => o.update_fps);
 }

@@ -2,8 +2,9 @@ import React from "react";
 import "./SystemStatsStyles.less";
 import { Component } from "react";
 import { IClientGameSystem } from "../../../../model/game/gamesystem/ClientGameSystem";
-import { SystemStatsManagerObserver } from "../../../../model/game/systemstatsmanager/SystemStatsManager";
+import { SystemStatsManagerState } from "../../../../model/game/systemstatsmanager/SystemStatsManager";
 import { Id, uuid } from "../../../../model/utils/Id";
+import { StateObserver } from "../../../../model/utils/observer/StateObserver";
 
 interface SystemStatsComponentProps {
   game_system: IClientGameSystem;
@@ -15,7 +16,7 @@ interface SystemStatsComponentState {
 
 export class SystemStatsComponent
   extends Component<SystemStatsComponentProps, SystemStatsComponentState>
-  implements SystemStatsManagerObserver
+  implements StateObserver<SystemStatsManagerState>
 {
   private readonly component_ref: React.RefObject<HTMLDivElement> =
     React.createRef();
@@ -40,11 +41,12 @@ export class SystemStatsComponent
     );
   }
 
-  public update_fps(new_fps: number) {
+  public update_fps(new_value: number) {
+    console.log("here");
     if (this.component_ref.current) {
-      this.setState({ fps: new_fps });
+      this.setState({ fps: new_value });
     } else {
-      this.state = { ...this.state, fps: new_fps };
+      this.state = { ...this.state, fps: new_value };
     }
   }
 

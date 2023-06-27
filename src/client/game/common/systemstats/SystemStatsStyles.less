@@ -1,11 +1,22 @@
+@import "../../../commonview/styles/Mixins.less";
+@import "../../../commonview/styles/Variables.less";
+
 .SystemStatsComponent {
+  .no-select ();
   position: absolute;
+  background-color: fade(@deep-black, 30%);
+
+  width: max-content;
+  height: max-content;
+
+  padding: 4px;
 
   .row {
     display: flex;
-  }
-
-  span {
-    color: white; //standardize
+    justify-content: space-between;
+    span {
+      color: @white;
+      .smaller-text();
+    }
   }
 }

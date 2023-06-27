@@ -1,4 +1,4 @@
-import { Observer } from "../model/observer/Observer";
+import { Observer } from "../../utils/observer/Observer";
 import { HumanInputParams } from "./HumanInputManager";
 
 export interface HumanInputObserver extends Observer {

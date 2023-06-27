@@ -4,6 +4,7 @@ import React from "react";
 import { LocalGameComponent } from "../../../client/game/local/LocalGameView";
 import { DEFAULT_HUMAN_INPUT_CONFIG } from "../humaninput/HumanInputConfig";
 import { LocalGameSystemData } from "../gamesystem/LocalGameSystem";
+import "./styles.less";
 
 const game_data: LocalGameSystemData = {
   human_input_config: DEFAULT_HUMAN_INPUT_CONFIG,

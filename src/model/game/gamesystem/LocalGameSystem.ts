@@ -43,24 +43,35 @@ export class LocalGameSystem extends GameSystem {
       entity.movable_module?.update_position(elapsed_time);
     });
 
-    if (this.img) {
-      this.img.rotation += elapsed_time / 200;
+    if (this.img1 && this.img2) {
+      this.img1.rotation += elapsed_time / 200;
+      this.img2.rotation -= elapsed_time / 200;
     }
   }
 
-  private img: Sprite | undefined;
+  protected cleanup() {
+    super.cleanup();
+    this.human_input_manager.stop_listening();
+  }
+
+  private img1: Sprite | undefined;
+  private img2: Sprite | undefined;
   private async test() {
     const texture = await Assets.load("images/test.png");
 
-    this.img = new Sprite(texture);
+    this.img1 = new Sprite(texture);
+    this.img2 = new Sprite(texture);
 
-    this.img.x = this.view_app.renderer.width / 2;
-    this.img.y = this.view_app.renderer.height / 2;
+    this.img1.x = this.view_app.renderer.width / 2;
+    this.img1.y = this.view_app.renderer.height / 2;
 
-    this.img.anchor.x = 0.5;
-    this.img.anchor.y = 0.5;
+    this.img1.anchor.x = 0.5;
+    this.img1.anchor.y = 0.5;
+    this.img2.anchor.x = 0.5;
+    this.img2.anchor.y = 0.5;
 
-    this.view_app.stage.addChild(this.img);
+    this.view_app.stage.addChild(this.img1);
+    this.view_app.stage.addChild(this.img2);
   }
 }
 

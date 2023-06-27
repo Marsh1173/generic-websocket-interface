@@ -31,7 +31,6 @@ export class LocalGameComponent extends Component<
       width: resolution.w,
       height: resolution.h,
       antialias: false,
-      autoDensity: false,
     });
 
     this.game_system = new LocalGameSystem(

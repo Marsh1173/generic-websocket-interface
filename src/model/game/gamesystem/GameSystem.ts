@@ -20,6 +20,8 @@ export abstract class GameSystem extends HasId implements Updateable {
     this.update_all_entities(elapsed_time);
   }
 
+  protected cleanup() {}
+
   protected abstract handle_inputs(elapsed_time: number): void;
   protected abstract update_all_entities(elapsed_time: number): void;
 }

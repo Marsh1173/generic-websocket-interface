@@ -1,5 +1,3 @@
-import { HasId, Id } from "../utils/Id";
-
 export interface ITicker {
   going: boolean;
   start(): void;
