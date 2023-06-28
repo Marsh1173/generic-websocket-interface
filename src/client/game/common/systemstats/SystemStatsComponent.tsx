@@ -24,10 +24,9 @@ export class SystemStatsComponent
 
   constructor(props: any) {
     super(props);
-    this.state = { fps: 0 };
 
-    this.update_fps = this.update_fps.bind(this);
-    this.props.game_system.system_stats_manager.add_observer(this);
+    this.update_entire_state = this.update_entire_state.bind(this);
+    this.state = this.props.game_system.system_stats_manager.add_observer(this);
   }
 
   public render() {
@@ -41,12 +40,11 @@ export class SystemStatsComponent
     );
   }
 
-  public update_fps(new_value: number) {
-    console.log("here");
+  public update_entire_state(new_state: SystemStatsManagerState): void {
     if (this.component_ref.current) {
-      this.setState({ fps: new_value });
+      this.setState(new_state);
     } else {
-      this.state = { ...this.state, fps: new_value };
+      this.state = new_state;
     }
   }
 
