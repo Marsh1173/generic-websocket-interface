@@ -8,7 +8,10 @@ export type StateObserver<StateType> = Partial<{
     new_value: StateType[Property]
   ) => void;
 }> &
-  HasId & { on_dispose?(): void };
+  HasId & {
+    on_dispose?(): void;
+    update_entire_state?(new_state: StateType): void;
+  };
 
 export class StateObservable<StateType extends Record<string, any>> {
   protected readonly observer_map: Map<Id, StateObserver<StateType>> =
@@ -39,6 +42,10 @@ export class StateObservable<StateType extends Record<string, any>> {
       }
     }
     this._state = { ...this._state, ...new_state };
+
+    for (const [id, observer] of this.observer_map) {
+      observer.update_entire_state?.(this._state);
+    }
   }
 
   public get state() {
