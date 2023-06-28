@@ -1,4 +1,4 @@
-import { Entity, EntityData } from "../../model/entity/Entity";
+import { Entity, BaseEntityData } from "../../model/entity/Entity";
 import {
   HasHealthModule,
   HealthModule,
@@ -14,9 +14,11 @@ import {
 } from "../../model/modules/stationary/StationaryModule";
 
 export interface TreeData
-  extends EntityData,
+  extends BaseEntityData,
     HealthModuleData,
-    StationaryModuleData {}
+    StationaryModuleData {
+  type: "TreeData";
+}
 
 export class Tree
   extends Entity

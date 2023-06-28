@@ -10,7 +10,7 @@ import {
 } from "../modules/stationary/StationaryModule";
 import { HasTeamModule, ITeamModule } from "../modules/team/TeamModule";
 
-export interface EntityData {
+export interface BaseEntityData {
   readonly id?: Id;
 }
 
@@ -23,7 +23,7 @@ export abstract class Entity
     HasId
 {
   public readonly id: Id;
-  constructor(data: EntityData) {
+  constructor(data: BaseEntityData) {
     this.id = data.id ?? uuid();
   }
 

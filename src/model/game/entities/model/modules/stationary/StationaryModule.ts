@@ -1,7 +1,7 @@
 import { Point, StaticPoint } from "../../../../physics/geometry/Point";
-import { Entity, EntityData } from "../../entity/Entity";
+import { Entity, BaseEntityData } from "../../entity/Entity";
 
-export interface StationaryModuleData extends EntityData {
+export interface StationaryModuleData extends BaseEntityData {
   readonly pos: StaticPoint;
 }
 

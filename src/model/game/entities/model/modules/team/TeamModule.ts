@@ -1,8 +1,8 @@
-import { Entity, EntityData } from "../../entity/Entity";
+import { Entity, BaseEntityData } from "../../entity/Entity";
 
 export type Team = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
-export interface TeamModuleData extends EntityData {
+export interface TeamModuleData extends BaseEntityData {
   readonly team: Team;
 }
 
