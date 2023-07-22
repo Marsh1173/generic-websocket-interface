@@ -7,12 +7,24 @@ export namespace Tester {
   const quiet: boolean = process.argv.includes("-quiet");
   const timer: boolean = process.argv.includes("-timer");
 
-  export function run(name: string, tests: [string, () => void][]) {
+  export function run(
+    name: string,
+    tests: [string, () => void][],
+    only_run_first: boolean = false
+  ) {
     if (timer) console.time(name);
     console.group("Running tests for " + name);
-    for (const test of tests) {
-      safely_run_individual_test(test);
+
+    if (only_run_first) {
+      if (tests.length > 0) {
+        safely_run_individual_test(tests[0]);
+      }
+    } else {
+      for (const test of tests) {
+        safely_run_individual_test(test);
+      }
     }
+
     console.groupEnd();
     if (timer) console.timeEnd(name);
 

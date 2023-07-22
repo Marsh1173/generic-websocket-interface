@@ -25,5 +25,17 @@ export abstract class Observable<ObserverType extends Observer> {
     };
   }
 
-  public readonly on_deconstruct = this.broadcast((o) => o.on_deconstruct);
+  protected broadcast_no_params<ParamsType>(
+    f: (observer: ObserverType) => (() => void) | undefined
+  ) {
+    return () => {
+      for (const [id, observer] of this.observer_map) {
+        f(observer)?.();
+      }
+    };
+  }
+
+  public on_deconstruct() {
+    this.broadcast_no_params((o) => o.on_deconstruct)();
+  }
 }

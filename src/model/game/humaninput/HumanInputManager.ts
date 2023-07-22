@@ -1,5 +1,5 @@
 import { Observable } from "../../utils/observer/Observer";
-import { Point, StaticPoint } from "../physics/geometry/Point";
+import { Point, StaticPoint } from "../../utils/physics/geometry/Point";
 import { HumanInputConfig } from "./HumanInputConfig";
 import { HumanInputEnum } from "./HumanInputEnum";
 import { HumanInputObserver } from "./HumanInputObserver";

@@ -4,6 +4,9 @@
 .SystemStatsComponent {
   .no-select ();
   position: absolute;
+  top: 0px;
+  left: 0px;
+
   background-color: fade(@deep-black, 30%);
 
   width: max-content;
@@ -13,6 +16,7 @@
 
   .row {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     span {
       color: @white;

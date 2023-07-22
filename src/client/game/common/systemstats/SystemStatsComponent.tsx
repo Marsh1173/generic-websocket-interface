@@ -11,7 +11,8 @@ interface SystemStatsComponentProps {
 }
 
 interface SystemStatsComponentState {
-  fps: number;
+  fps?: number;
+  ping?: number;
 }
 
 export class SystemStatsComponent
@@ -25,22 +26,33 @@ export class SystemStatsComponent
   constructor(props: any) {
     super(props);
 
-    this.update_entire_state = this.update_entire_state.bind(this);
-    this.state = this.props.game_system.system_stats_manager.add_observer(this);
+    this.on_state_change = this.on_state_change.bind(this);
+    this.state = { fps: undefined, ping: undefined };
+    this.props.game_system.system_stats_manager.add_observer_and_get_state(
+      this
+    );
   }
 
   public render() {
     return (
       <div className="SystemStatsComponent" ref={this.component_ref}>
-        <div className="row">
-          <span>FPS:&nbsp;</span>
-          <span>{Math.round(this.state.fps)}</span>
-        </div>
+        {!!this.state.ping && (
+          <div className="row">
+            <span>PING (ms):&nbsp;</span>
+            <span>{Math.round(this.state.ping)}</span>
+          </div>
+        )}
+        {!!this.state.fps && (
+          <div className="row">
+            <span>FPS:&nbsp;</span>
+            <span>{Math.round(this.state.fps)}</span>
+          </div>
+        )}
       </div>
     );
   }
 
-  public update_entire_state(new_state: SystemStatsManagerState): void {
+  public on_state_change(new_state: SystemStatsManagerState): void {
     if (this.component_ref.current) {
       this.setState(new_state);
     } else {

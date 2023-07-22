@@ -1,5 +1,5 @@
 import { Id } from "../../utils/Id";
-import { Entity } from "../entities/model/entity/Entity";
+import { Entity } from "../entitymodel/entity/Entity";
 
 export interface IEntityContainer {
   get_by_id(id: Id): Entity | undefined;

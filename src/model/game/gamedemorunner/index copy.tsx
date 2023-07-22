@@ -28,7 +28,7 @@ const run = async () => {
   document.body.appendChild(app.view);
 
   // load the texture we need
-  const texture = await Assets.load("images/test.png");
+  const texture = await Assets.load("assets/images/test.png");
 
   // This creates a texture from a 'bunny.png' image
   const img = new Sprite(texture);

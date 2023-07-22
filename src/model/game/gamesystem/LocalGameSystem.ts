@@ -1,13 +1,14 @@
 import { Application, Assets, Sprite } from "pixi.js";
-import { Entity } from "../entities/model/entity/Entity";
+import { Entity } from "../entitymodel/entity/Entity";
 import { IEntityContainer } from "../entitycontainer/EntityContainer";
 import { EntityQuadTree } from "../entitycontainer/EntityQuadTree";
-import { LocalEntityFactory } from "../entityfactory/LocalEntityFactor";
+import { LocalEntityFactory } from "../entityfactory/LocalEntityFactory";
 import { LocalGameStateManager } from "../gamestatemanager/LocalGameStateManager";
 import { HumanInputManager } from "../humaninput/HumanInputManager";
 import { ClientGameSystemData } from "./ClientGameSystem";
 import { GameSystem, GameSystemData } from "./GameSystem";
 import { SystemStatsManager } from "../systemstatsmanager/SystemStatsManager";
+import { Renderables } from "../display/renderables/Renderables";
 
 export class LocalGameSystem extends GameSystem {
   declare entity_container: IEntityContainer;
@@ -15,20 +16,26 @@ export class LocalGameSystem extends GameSystem {
   declare game_state_manager: LocalGameStateManager;
   public readonly human_input_manager: HumanInputManager;
   public readonly system_stats_manager: SystemStatsManager;
+  public readonly renderables: Renderables;
 
   constructor(
     data: LocalGameSystemData,
-    public readonly view_app: Application
+    public readonly view_app: Application<HTMLCanvasElement>
   ) {
     super(data);
 
     this.entity_container = new EntityQuadTree(data.map_size);
-    this.entity_factory = new LocalEntityFactory();
+    this.renderables = new Renderables();
+    this.entity_factory = new LocalEntityFactory(this.view_app, this);
     this.game_state_manager = new LocalGameStateManager(this);
     this.human_input_manager = new HumanInputManager(data.human_input_config);
     this.system_stats_manager = new SystemStatsManager();
 
-    this.test();
+    this.entity_factory.tree({
+      type: "TreeData",
+      game_space_data: { origin: { x: 500, y: 500 } },
+      health_module_data: { max_health: 100 },
+    });
   }
 
   public update(elapsed_time: number) {
@@ -40,38 +47,17 @@ export class LocalGameSystem extends GameSystem {
 
   protected update_all_entities(elapsed_time: number): void {
     this.entity_container.apply_to_all((entity: Entity) => {
-      entity.movable_module?.update_position(elapsed_time);
+      // entity.movable_module?.update_position(elapsed_time);
     });
 
-    if (this.img1 && this.img2) {
-      this.img1.rotation += elapsed_time / 200;
-      this.img2.rotation -= elapsed_time / 200;
-    }
+    this.renderables.apply_to_all_renderables((renderable) => {
+      renderable.update(elapsed_time);
+    });
   }
 
   protected cleanup() {
     super.cleanup();
     this.human_input_manager.stop_listening();
-  }
-
-  private img1: Sprite | undefined;
-  private img2: Sprite | undefined;
-  private async test() {
-    const texture = await Assets.load("images/test.png");
-
-    this.img1 = new Sprite(texture);
-    this.img2 = new Sprite(texture);
-
-    this.img1.x = this.view_app.renderer.width / 2;
-    this.img1.y = this.view_app.renderer.height / 2;
-
-    this.img1.anchor.x = 0.5;
-    this.img1.anchor.y = 0.5;
-    this.img2.anchor.x = 0.5;
-    this.img2.anchor.y = 0.5;
-
-    this.view_app.stage.addChild(this.img1);
-    this.view_app.stage.addChild(this.img2);
   }
 }
 

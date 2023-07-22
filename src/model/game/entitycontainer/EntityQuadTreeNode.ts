@@ -1,6 +1,6 @@
-import { Entity } from "../entities/model/entity/Entity";
-import { QuadTreeNode } from "../model/quadtree/QuadTreeNode";
-import { IsInBoundingBox } from "../physics/math/IsInBoundingBox";
+import { Entity } from "../entitymodel/entity/Entity";
+import { GTCollision } from "../../utils/physics/collision/GTCollision";
+import { QuadTreeNode } from "../../utils/quadtree/QuadTreeNode";
 
 export class EntityQuadTreeNode extends QuadTreeNode<
   Entity,
@@ -21,7 +21,9 @@ export class EntityQuadTreeNode extends QuadTreeNode<
 
   public is_completely_in_bounding_box(item: Entity): boolean {
     // for (const v of item.vertices) {
-    //   if (!IsInBoundingBox(v, this.top, this.left, this.bottom, this.right)) {
+    //   if (
+    //     !GTCollision.IsInBoundingBox(v, this.top, this.left, this.bottom, this.right)
+    //   ) {
     //     return false;
     //   }
     // }

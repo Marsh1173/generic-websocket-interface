@@ -30,14 +30,18 @@ def run_tests(argv):
     quiet = [flags.quiet] if quiet_flag_included else []
     timer = [flags.timer] if timer_flag_included else []
     
-    # iterating over all files
-    for test_file_path in paths:
-        subprocess.run(["npx", "ts-node-dev", test_file_path] + quiet + timer)
+    paths_list = list(paths)
+    if len(paths_list) == 0:
+        print("Could not find any files in " + dirname)
+    else:
+        # iterating over all files
+        for test_file_path in paths_list:
+            subprocess.run(["npx", "ts-node-dev", test_file_path] + quiet + timer)
  
 argv = sys.argv
 if flags.help in argv:
     print(
-        flags.help + '\t\t\t\tTake a wild guess\n' +
+        flags.help + '\t\t\t\tPrints command options\n' +
         flags.path +' <absolute path>\t\tLimits tests to specified (absolute) path\n' +
         flags.quiet + '\t\t\t\tSkips unnecessary output\n' +
         flags.timer + "\t\t\t\tDisplays time taken for tests"

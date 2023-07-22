@@ -13,18 +13,32 @@ import {
 import "./Standards.less";
 import "./MainStyles.less";
 import { AuthMenuProps, AuthMenuView } from "../authmenu/AuthMenuView";
+import {
+  LocalGameComponent,
+  LocalGameComponentProps,
+} from "../game/local/LocalGameView";
+import {
+  LoadingComponent,
+  LoadingComponentProps,
+} from "../game/common/loading/LoadingComponent";
+
+export interface MainViewProps {
+  initial_state?: MainViewState;
+}
 
 type MainViewState =
   | { type: "connecting"; props: ConnectingViewProps }
   | { type: "disconnected"; msg: string }
   | { type: "authenticating"; props: AuthenticationViewProps }
-  | { type: "authmenu"; props: AuthMenuProps };
+  | { type: "authmenu"; props: AuthMenuProps }
+  | { type: "loading-game"; props: LoadingComponentProps }
+  | { type: "game"; props: LocalGameComponentProps };
 
-export class MainView extends Component<{}, MainViewState> {
-  constructor(props: any) {
+export class MainView extends Component<MainViewProps, MainViewState> {
+  constructor(props: MainViewProps) {
     super(props);
 
-    this.state = {
+    this.state = this.props.initial_state ?? {
       type: "connecting",
       props: {},
     };
@@ -49,6 +63,10 @@ export class MainView extends Component<{}, MainViewState> {
         return <DisconnectionView msg={this.state.msg} />;
       case "authmenu":
         return <AuthMenuView props={this.state.props} />;
+      case "loading-game":
+        return <LoadingComponent props={this.state.props} />;
+      case "game":
+        return <LocalGameComponent props={this.state.props} />;
     }
   }
 }

@@ -2,7 +2,11 @@ export namespace Assertions {
   class AssertionError extends Error {}
 
   function make_console_readable(val: any): string {
-    return JSON.stringify(val);
+    if (typeof val === "object") {
+      return JSON.stringify(val);
+    } else {
+      return val;
+    }
   }
 
   function assert(condition: boolean, assertion: string) {
@@ -25,17 +29,19 @@ export namespace Assertions {
   }
 
   export function assertEquals<T>(
-    val1: T,
-    val2: T,
-    equals?: (val1: T, val2: T) => boolean
+    value: T,
+    expected_value: T,
+    equals?: (value: T, expected_value: T) => boolean
   ) {
-    let are_equal: boolean = equals ? equals(val1, val2) : val1 === val2;
+    let are_equal: boolean = equals
+      ? equals(value, expected_value)
+      : value === expected_value;
     assert(
       are_equal,
-      make_console_readable(val1) +
-        " and " +
-        make_console_readable(val2) +
-        " must be equal"
+      make_console_readable(value) +
+        " (result) and " +
+        make_console_readable(expected_value) +
+        " (expected) must be equal"
     );
   }
 }

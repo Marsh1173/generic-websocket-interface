@@ -1,4 +1,4 @@
-import { Rect } from "../physics/geometry/Rect";
+import { Rect } from "../../utils/physics/geometry/Rect";
 
 export type Resolution = "standard" | "4k" | "mini";
 export const ResolutionDimensions: Record<Resolution, Rect> = {
