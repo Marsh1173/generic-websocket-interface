@@ -1,5 +1,4 @@
 import { GameSystem } from "../../gamesystem/GameSystem";
-import { BaseEntity } from "../../entitymodel/entity/Entity";
 import { BaseEntityData } from "../../entitymodel/entity/EntityData";
 import {
   GameSpaceStaticCollidableShape,
@@ -15,6 +14,7 @@ import {
 } from "../../entitymodel/modules/health/HealthModule";
 import { HealthObservable } from "../../entitymodel/modules/health/HealthObservable";
 import { TreeShapeData } from "./TreeShape";
+import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 
 export interface TreeData extends BaseEntityData {
   type: "TreeData";
@@ -27,8 +27,8 @@ export class Tree
   implements HasHealthModule, HasGameSpaceStaticCollidableShape
 {
   public readonly type = "Tree";
-  declare health_module: IHealthModule;
-  declare game_space_data: GameSpaceStaticCollidableShape;
+  public readonly health_module: IHealthModule;
+  public readonly game_space_data: GameSpaceStaticCollidableShape;
 
   constructor(data: TreeData, public readonly game_system: GameSystem) {
     super(data);

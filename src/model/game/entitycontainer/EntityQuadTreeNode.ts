@@ -1,6 +1,7 @@
 import { Entity } from "../entitymodel/entity/Entity";
 import { GTCollision } from "../../utils/physics/collision/GTCollision";
 import { QuadTreeNode } from "../../utils/quadtree/QuadTreeNode";
+import { GTMath } from "../../utils/physics/math/GTMath";
 
 export class EntityQuadTreeNode extends QuadTreeNode<
   Entity,
@@ -28,6 +29,16 @@ export class EntityQuadTreeNode extends QuadTreeNode<
     //   }
     // }
     // return true;
+    switch (item.game_space_data.type) {
+      case "GameSpaceDynamicPoint":
+        return GTCollision.IsInBoundingBox(
+          item.game_space_data.pos,
+          this.top,
+          this.left,
+          this.bottom,
+          this.right
+        );
+    }
     return false;
   }
 

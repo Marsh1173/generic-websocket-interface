@@ -23,6 +23,8 @@ export class DynamicPointModule implements GameSpaceDynamicPoint {
     this.mom = data.mom;
     this.prev_mom = { ...data.mom };
   }
+
+  //add force logic from forceable module
 }
 
 export interface GameSpaceDynamicPointData {

@@ -4,6 +4,7 @@ import { IEntityFactory } from "../entityfactory/EntityFactory";
 import { IGameStateManager } from "../gamestatemanager/GameStateManager";
 import { Updateable } from "../../ticker/Updater";
 import { HasId } from "../../utils/Id";
+import { EntityData } from "../entitymodel/entity/EntityData";
 
 export abstract class GameSystem extends HasId implements Updateable {
   public abstract readonly entity_container: IEntityContainer;
@@ -30,4 +31,5 @@ export abstract class GameSystem extends HasId implements Updateable {
 
 export interface GameSystemData {
   map_size: Rect;
+  entities: EntityData[];
 }

@@ -9,3 +9,6 @@
 ## GT
 
 - remove all pixijs packages except the necessary ones
+- finish basic game space data classes, then finish quad tree
+- client state
+- input
