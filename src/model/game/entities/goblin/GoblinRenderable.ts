@@ -14,7 +14,7 @@ export class GoblinRenderable extends Renderable<Goblin> {
     return sprite;
   }
 
-  public update(elapsed_time: number): void {
+  public update(elapsed_seconds: number): void {
     this.display_object.zIndex = this.entity.game_space_data.pos.y;
   }
 }

@@ -27,7 +27,7 @@ export class GameCanvas {
     this.view_app.stage.removeChild(renderable.display_object);
   }
 
-  public update_all_renderables(elapsed_time: number) {
-    this.renderable_map.forEach((r) => r.update(elapsed_time));
+  public update_all_renderables(elapsed_seconds: number) {
+    this.renderable_map.forEach((r) => r.update(elapsed_seconds));
   }
 }

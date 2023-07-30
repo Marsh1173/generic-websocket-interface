@@ -60,7 +60,7 @@ export class LocalGameComponent extends Component<
     this.view_app.ticker.remove(this.update_game_system);
   }
 
-  protected readonly update_game_system = (elapsed_time: number) => {
-    this.game_system.update(elapsed_time);
+  protected readonly update_game_system = (elapsed_seconds: number) => {
+    this.game_system.update(elapsed_seconds);
   };
 }

@@ -2,7 +2,7 @@ import { HasId, Id } from "../../utils/Id";
 import { ITicker } from "./Ticker";
 
 export interface Updateable extends HasId {
-  update(elapsed_time: number): void;
+  update(elapsed_seconds: number): void;
 }
 
 export interface IUpdater {

@@ -27,5 +27,5 @@ export abstract class Renderable<EntityType extends Entity> {
   }
 
   protected abstract get_display_object(): DisplayObject;
-  public abstract update(elapsed_time: number): void;
+  public abstract update(elapsed_seconds: number): void;
 }

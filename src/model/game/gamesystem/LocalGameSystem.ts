@@ -41,19 +41,19 @@ export class LocalGameSystem extends GameSystem {
     );
   }
 
-  public update(elapsed_time: number) {
-    super.update(elapsed_time);
+  public update(elapsed_seconds: number) {
+    super.update(elapsed_seconds);
     this.system_stats_manager.update();
   }
 
-  protected handle_inputs(elapsed_time: number): void {}
+  protected handle_inputs(elapsed_seconds: number): void {}
 
-  protected update_all_entities(elapsed_time: number): void {
+  protected update_all_entities(elapsed_seconds: number): void {
     this.entity_container.apply_to_all((entity: Entity) => {
-      // entity.movable_module?.update_position(elapsed_time);
+      // entity.movable_module?.update_position(elapsed_seconds);
     });
 
-    this.game_canvas.update_all_renderables(elapsed_time);
+    this.game_canvas.update_all_renderables(elapsed_seconds);
   }
 
   protected cleanup() {

@@ -5,9 +5,9 @@ export interface HasBehaviorModule extends BaseEntityData {
 }
 
 export interface IBehaviorModule {
-  update(elapsed_time: number): void;
+  update(elapsed_seconds: number): void;
 }
 
 export abstract class BehaviorModule implements IBehaviorModule {
-  public abstract update(elapsed_time: number): void;
+  public abstract update(elapsed_seconds: number): void;
 }

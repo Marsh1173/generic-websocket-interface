@@ -14,9 +14,9 @@ export class TreeRenderable extends Renderable<Tree> {
   }
 
   // Temporary wave-y logic
-  private total_elapsed_time: number = Math.random() * 25;
-  public update(elapsed_time: number): void {
-    this.total_elapsed_time += elapsed_time / 25;
-    this.display_object.skew.x = Math.sin(this.total_elapsed_time) / 40;
+  private total_elapsed_seconds: number = Math.random() * 25;
+  public update(elapsed_seconds: number): void {
+    this.total_elapsed_seconds += elapsed_seconds / 25;
+    this.display_object.skew.x = Math.sin(this.total_elapsed_seconds) / 40;
   }
 }

@@ -15,18 +15,18 @@ export abstract class GameSystem extends HasId implements Updateable {
     super();
   }
 
-  public update(elapsed_time: number) {
-    this.handle_inputs(elapsed_time);
-    this.game_state_manager.update(elapsed_time);
-    this.update_all_entities(elapsed_time);
+  public update(elapsed_seconds: number) {
+    this.handle_inputs(elapsed_seconds);
+    this.game_state_manager.update(elapsed_seconds);
+    this.update_all_entities(elapsed_seconds);
   }
 
   protected cleanup() {
     // extendable observer cleanup file
   }
 
-  protected abstract handle_inputs(elapsed_time: number): void;
-  protected abstract update_all_entities(elapsed_time: number): void;
+  protected abstract handle_inputs(elapsed_seconds: number): void;
+  protected abstract update_all_entities(elapsed_seconds: number): void;
 }
 
 export interface GameSystemData {

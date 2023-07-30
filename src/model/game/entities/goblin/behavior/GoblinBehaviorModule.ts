@@ -12,7 +12,7 @@ export class GoblinBehaviorModule extends BehaviorModule {
     super();
     this.move = new GoblinMoveBehavior(goblin, data.move);
   }
-  public update(elapsed_time: number): void {
+  public update(elapsed_seconds: number): void {
     this.move.update();
   }
 }
