@@ -1,7 +1,8 @@
 import { HasId, Id, uuid } from "../../../utils/Id";
-import { GameSpaceDynamicPoint } from "../gamespacedata/dynamicpoint/GameSpaceDynamicPoint";
-import { GameSpaceStaticCollidableShape } from "../gamespacedata/staticcollidableshape/GameSpaceStaticCollidableShape";
-import { GameSpaceStaticPoint } from "../gamespacedata/staticpoint/GameSpaceStaticPoint";
+import { DynamicForceablePoint } from "../gamespacedata/dynamicforceablepoint/DynamicForceablePoint";
+import { DynamicMovablePoint } from "../gamespacedata/dynamicmovablepoint/DynamicMovablePoint";
+import { StaticCollidableShape } from "../gamespacedata/staticcollidableshape/StaticCollidableShape";
+import { GameSpaceStaticPoint } from "../gamespacedata/staticpoint/StaticPoint";
 import {
   HasBehaviorModule,
   IBehaviorModule,
@@ -35,7 +36,8 @@ export abstract class BaseEntity
   public readonly behavior_module?: IBehaviorModule | undefined;
 
   public abstract readonly game_space_data:
-    | GameSpaceDynamicPoint
-    | GameSpaceStaticCollidableShape
+    | DynamicForceablePoint
+    | DynamicMovablePoint
+    | StaticCollidableShape
     | GameSpaceStaticPoint;
 }

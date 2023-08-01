@@ -1,16 +1,16 @@
 import { StaticPoint } from "../../../../utils/physics/geometry/Point";
 
-export interface HasGameSpaceStaticCollidableCircle {
-  readonly game_space_data: GameSpaceStaticCollidableCircleData;
+export interface HasStaticCollidableCircle {
+  readonly game_space_data: StaticCollidableCircleData;
 }
 
-export interface GameSpaceStaticCollidableCircleData {
+export interface StaticCollidableCircleData {
   origin: StaticPoint;
   radius: number;
 }
 
-export interface GameSpaceStaticCollidableCircle {
-  readonly type: "GameSpaceStaticCollidableCircle";
+export interface StaticCollidableCircle {
+  readonly type: "StaticCollidableCircle";
   readonly origin: StaticPoint;
   readonly radius: number;
 }

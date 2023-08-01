@@ -1,11 +1,11 @@
 import { GameSystem } from "../../gamesystem/GameSystem";
 import { BaseEntityData } from "../../entitymodel/entity/EntityData";
 import {
-  GameSpaceStaticCollidableShape,
-  GameSpaceStaticCollidableShapeData,
-  HasGameSpaceStaticCollidableShape,
+  StaticCollidableShape,
+  StaticCollidableShapeData,
+  HasStaticCollidableShape,
   StaticCollidableShapeModule,
-} from "../../entitymodel/gamespacedata/staticcollidableshape/GameSpaceStaticCollidableShape";
+} from "../../entitymodel/gamespacedata/staticcollidableshape/StaticCollidableShape";
 import {
   HasHealthModule,
   HealthModule,
@@ -18,19 +18,19 @@ import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 
 export interface TreeData extends BaseEntityData {
   type: "TreeData";
-  game_space_data: GameSpaceStaticCollidableShapeData;
+  game_space_data: StaticCollidableShapeData;
   health_module_data: HealthModuleData;
 }
 
 export class Tree
   extends BaseEntity
-  implements HasHealthModule, HasGameSpaceStaticCollidableShape
+  implements HasHealthModule, HasStaticCollidableShape
 {
   public readonly type = "Tree";
   public readonly health_module: IHealthModule;
-  public readonly game_space_data: GameSpaceStaticCollidableShape;
+  public readonly game_space_data: StaticCollidableShape;
 
-  constructor(data: TreeData, public readonly game_system: GameSystem) {
+  constructor(data: TreeData, protected readonly game_system: GameSystem) {
     super(data);
 
     const health_observable = new HealthObservable();

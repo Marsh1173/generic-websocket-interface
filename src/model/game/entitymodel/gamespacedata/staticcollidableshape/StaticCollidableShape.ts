@@ -4,21 +4,19 @@ import {
   LocalShapeVertices,
 } from "../../../../utils/physics/geometry/Shape";
 
-export interface GameSpaceStaticCollidableShape {
-  readonly type: "GameSpaceStaticCollidableShape";
+export interface StaticCollidableShape {
+  readonly type: "StaticCollidableShape";
   readonly origin: StaticPoint;
   readonly shape: Shape;
 }
 
-export class StaticCollidableShapeModule
-  implements GameSpaceStaticCollidableShape
-{
-  public readonly type = "GameSpaceStaticCollidableShape";
+export class StaticCollidableShapeModule implements StaticCollidableShape {
+  public readonly type = "StaticCollidableShape";
   public readonly origin: StaticPoint;
   public readonly shape: Shape;
 
   constructor(
-    data: GameSpaceStaticCollidableShapeData,
+    data: StaticCollidableShapeData,
     shape_vertices: LocalShapeVertices
   ) {
     this.origin = data.origin;
@@ -26,10 +24,10 @@ export class StaticCollidableShapeModule
   }
 }
 
-export interface HasGameSpaceStaticCollidableShape {
-  readonly game_space_data: GameSpaceStaticCollidableShape;
+export interface HasStaticCollidableShape {
+  readonly game_space_data: StaticCollidableShape;
 }
 
-export interface GameSpaceStaticCollidableShapeData {
+export interface StaticCollidableShapeData {
   origin: StaticPoint;
 }

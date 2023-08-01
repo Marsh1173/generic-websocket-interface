@@ -1,5 +1,5 @@
-import { Application, DisplayObject } from "pixi.js";
-import { Id, uuid } from "../../../utils/Id";
+import { DisplayObject } from "pixi.js";
+import { uuid } from "../../../utils/Id";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 
@@ -13,12 +13,15 @@ export abstract class Renderable<EntityType extends Entity> {
   ) {
     this.display_object = this.get_display_object();
 
-    if (this.entity.game_space_data.type === "GameSpaceStaticCollidableShape") {
+    if (this.entity.game_space_data.type === "StaticCollidableShape") {
       this.display_object.position.set(
         this.entity.game_space_data.origin.x,
         this.entity.game_space_data.origin.y
       );
-    } else if (this.entity.game_space_data.type === "GameSpaceDynamicPoint") {
+    } else if (
+      this.entity.game_space_data.type === "DynamicMovablePoint" ||
+      this.entity.game_space_data.type === "DynamicForceablePoint"
+    ) {
       this.display_object.position.set(
         this.entity.game_space_data.pos.x,
         this.entity.game_space_data.pos.y

@@ -30,7 +30,8 @@ export class EntityQuadTreeNode extends QuadTreeNode<
     // }
     // return true;
     switch (item.game_space_data.type) {
-      case "GameSpaceDynamicPoint":
+      case "DynamicForceablePoint":
+      case "DynamicMovablePoint":
         return GTCollision.IsInBoundingBox(
           item.game_space_data.pos,
           this.top,
