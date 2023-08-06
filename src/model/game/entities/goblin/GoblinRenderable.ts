@@ -9,12 +9,15 @@ export class GoblinRenderable extends Renderable<Goblin> {
     sprite.anchor.set(0.5, 0.9);
     sprite.scale.set(0.3);
 
-    sprite.zIndex = this.entity.game_space_data.pos.y;
-
     return sprite;
   }
 
   public update(elapsed_seconds: number): void {
     this.display_object.zIndex = this.entity.game_space_data.pos.y;
+
+    this.display_object.position.set(
+      this.entity.game_space_data.pos.x,
+      this.entity.game_space_data.pos.y
+    );
   }
 }

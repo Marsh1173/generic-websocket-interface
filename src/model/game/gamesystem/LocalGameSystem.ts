@@ -49,9 +49,8 @@ export class LocalGameSystem extends GameSystem {
   protected handle_inputs(elapsed_seconds: number): void {}
 
   protected update_all_entities(elapsed_seconds: number): void {
-    this.entity_container.apply_to_all((entity: Entity) => {
-      // entity.movable_module?.update_position(elapsed_seconds);
-    });
+    this.entity_container.perform_all_behaviors(elapsed_seconds);
+    this.entity_container.process_all_physics(elapsed_seconds);
 
     this.game_canvas.update_all_renderables(elapsed_seconds);
   }
