@@ -1,4 +1,4 @@
-import { HasId, Id, uuid } from "../../../utils/Id";
+import { HasId, Id } from "../../../utils/Id";
 import { DynamicForceablePoint } from "../gamespacedata/dynamicforceablepoint/DynamicForceablePoint";
 import { DynamicMovablePoint } from "../gamespacedata/dynamicmovablepoint/DynamicMovablePoint";
 import { StaticCollidableShape } from "../gamespacedata/staticcollidableshape/StaticCollidableShape";
@@ -28,7 +28,7 @@ export abstract class BaseEntity
     new DeconstructModule();
 
   constructor(data: BaseEntityData) {
-    this.id = data.id ?? uuid();
+    this.id = data.id;
   }
 
   public readonly health_module?: IHealthModule | undefined;

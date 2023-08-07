@@ -21,7 +21,7 @@ export class StateObservable<StateType extends Object> extends Observable<
     return this._state;
   }
 
-  protected set state(new_state: Partial<StateType>) {
+  protected set_state(new_state: Partial<StateType>) {
     this._state = { ...this._state, ...new_state };
     this.broadcast_state_change({ ...this._state });
   }

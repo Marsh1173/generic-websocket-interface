@@ -1,40 +1,38 @@
 import { HumanInputEnum } from "./HumanInputEnum";
 
-export type HumanInputConfig = {
-  code: string;
-  start: HumanInputEnum;
-  end?: HumanInputEnum;
-}[];
+// export type HumanInputConfig = {
+//   code: string;
+//   start: HumanInputEnum;
+//   end?: HumanInputEnum;
+// }[];
+export type HumanInputConfig = Record<
+  string,
+  { start: HumanInputEnum; end: HumanInputEnum } | undefined
+>;
 
-export const DEFAULT_HUMAN_INPUT_CONFIG: HumanInputConfig = [
-  {
-    code: "KeyW",
+export const DEFAULT_HUMAN_INPUT_CONFIG: HumanInputConfig = {
+  KeyW: {
     start: HumanInputEnum.MoveUpStart,
     end: HumanInputEnum.MoveUpEnd,
   },
-  {
-    code: "KeyS",
+  KeyS: {
     start: HumanInputEnum.MoveDownStart,
     end: HumanInputEnum.MoveDownEnd,
   },
-  {
-    code: "KeyA",
+  KeyA: {
     start: HumanInputEnum.MoveLeftStart,
     end: HumanInputEnum.MoveLeftEnd,
   },
-  {
-    code: "KeyD",
+  KeyD: {
     start: HumanInputEnum.MoveRightStart,
     end: HumanInputEnum.MoveRightEnd,
   },
-  {
-    code: "0",
+  Mouse0: {
     start: HumanInputEnum.PrimaryActionStart,
     end: HumanInputEnum.PrimaryActionEnd,
   },
-  {
-    code: "2",
+  Mouse2: {
     start: HumanInputEnum.SecondaryActionStart,
     end: HumanInputEnum.SecondaryActionEnd,
   },
-];
+};

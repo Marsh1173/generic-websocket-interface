@@ -19,7 +19,7 @@ export class SystemStatsManager extends StateObservable<SystemStatsManagerState>
     if (this.ticks_since_last_update > TICKS_PER_UPDATE) {
       const time_diff = Date.now() - this.last_update_timestamp;
 
-      this.state = { fps: (1000 * TICKS_PER_UPDATE) / time_diff };
+      this.set_state({ fps: (1000 * TICKS_PER_UPDATE) / time_diff });
 
       this.ticks_since_last_update = 0;
       this.last_update_timestamp = Date.now();

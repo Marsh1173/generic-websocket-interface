@@ -9,10 +9,15 @@ import {
 
 export interface DynamicForceablePoint extends DynamicPoint {
   readonly type: "DynamicForceablePoint";
+  instant_act_on(force: Vector): void;
+  process_pos_mom_delta(data: PositionUpdateData): void;
+  constant_act_on(force: Vector, cap?: Vector): void;
 }
 export interface HasDynamicForceablePoint extends HasDynamicPoint {
   readonly game_space_data: DynamicForceablePoint;
 }
+
+const DEFAULT_FRICTION_CONST: number = 0.8;
 
 export class DynamicForceablePointModule
   extends DynamicPointModule
@@ -166,5 +171,3 @@ export class DynamicForceablePointModule
     return [force, overflow];
   }
 }
-
-const DEFAULT_FRICTION_CONST: number = 3000;

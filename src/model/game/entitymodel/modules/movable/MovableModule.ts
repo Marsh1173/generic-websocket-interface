@@ -2,10 +2,9 @@ import { HasId } from "../../../../utils/Id";
 import { Point } from "../../../../utils/physics/geometry/Point";
 import { Vector } from "../../../../utils/physics/geometry/Vector";
 import { Entity } from "../../entity/Entity";
-import { BaseEntityData } from "../../entity/EntityData";
 import { MovableObservable } from "./MovableObservable";
 
-export interface MovableModuleData extends BaseEntityData {
+export interface MovableModuleData {
   readonly pos: Point;
   readonly mom?: Vector;
 }

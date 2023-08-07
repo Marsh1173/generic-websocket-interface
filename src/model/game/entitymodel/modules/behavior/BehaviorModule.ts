@@ -1,6 +1,4 @@
-import { BaseEntityData } from "../../entity/EntityData";
-
-export interface HasBehaviorModule extends BaseEntityData {
+export interface HasBehaviorModule {
   behavior_module: IBehaviorModule;
 }
 

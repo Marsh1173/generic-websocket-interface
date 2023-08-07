@@ -1,9 +1,8 @@
 import { Id } from "../../../../utils/Id";
 import { Entity } from "../../entity/Entity";
-import { BaseEntityData } from "../../entity/EntityData";
 import { HealthObservable } from "./HealthObservable";
 
-export interface HealthModuleData extends BaseEntityData {
+export interface HealthModuleData {
   readonly max_health: number;
   readonly current_health?: number;
 }
