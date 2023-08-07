@@ -1,5 +1,4 @@
 import { Vector } from "../../../../utils/physics/geometry/Vector";
-import { PositionUpdateData } from "../../modules/movable/ForceableModule";
 import {
   DynamicPoint,
   DynamicPointData,
@@ -10,7 +9,6 @@ import {
 export interface DynamicForceablePoint extends DynamicPoint {
   readonly type: "DynamicForceablePoint";
   instant_act_on(force: Vector): void;
-  process_pos_mom_delta(data: PositionUpdateData): void;
   constant_act_on(force: Vector, cap?: Vector): void;
 }
 export interface HasDynamicForceablePoint extends HasDynamicPoint {
@@ -58,19 +56,6 @@ export class DynamicForceablePointModule
 
     this.prev_mom.x = this.mom.x;
     this.prev_mom.y = this.mom.y;
-  }
-
-  public process_pos_mom_delta(data: PositionUpdateData) {
-    this.pos.x = data.pos.x;
-    this.pos.y = data.pos.y;
-
-    if (data.mom) {
-      this.mom.x = data.mom.x;
-      this.mom.y = data.mom.y;
-
-      this.prev_mom.x = data.mom.x;
-      this.prev_mom.y = data.mom.y;
-    }
   }
 
   protected apply_friction(elapsed_seconds: number, friction_const: number) {

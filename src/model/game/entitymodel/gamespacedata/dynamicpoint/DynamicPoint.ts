@@ -7,6 +7,7 @@ import {
 
 export interface DynamicPoint extends Movable {
   update_position(elapsed_seconds: number): void;
+  process_pos_mom_delta(data: PositionUpdateData): void;
 }
 
 export abstract class DynamicPointModule implements DynamicPoint {
@@ -32,6 +33,19 @@ export abstract class DynamicPointModule implements DynamicPoint {
     this.prev_mom.x = this.mom.x;
     this.prev_mom.y = this.mom.y;
   }
+
+  public process_pos_mom_delta(data: PositionUpdateData) {
+    this.pos.x = data.pos.x;
+    this.pos.y = data.pos.y;
+
+    if (data.mom) {
+      this.mom.x = data.mom.x;
+      this.mom.y = data.mom.y;
+
+      this.prev_mom.x = data.mom.x;
+      this.prev_mom.y = data.mom.y;
+    }
+  }
 }
 
 export interface DynamicPointData {
@@ -41,4 +55,9 @@ export interface DynamicPointData {
 
 export interface HasDynamicPoint {
   readonly game_space_data: DynamicPoint;
+}
+
+export interface PositionUpdateData {
+  readonly pos: Point;
+  readonly mom?: Vector;
 }
