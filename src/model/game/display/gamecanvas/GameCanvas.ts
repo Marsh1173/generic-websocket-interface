@@ -16,7 +16,7 @@ export class GameCanvas {
 
     renderable.entity.deconstruct_module.add_observer({
       id: renderable.id,
-      on_deconstruct: () => {
+      on_observable_deconstruct: () => {
         this.remove_renderable(renderable);
       },
     });

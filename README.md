@@ -11,5 +11,6 @@
 - remove all pixijs packages except the necessary ones
 - finish basic game space data classes, then finish quad tree
 
-- goblin controller
-- goblin movement
+- Rigging
+- Map + tiles
+- Goblin behavior

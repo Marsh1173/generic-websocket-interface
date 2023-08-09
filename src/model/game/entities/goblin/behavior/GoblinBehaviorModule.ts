@@ -1,19 +1,20 @@
-import { BehaviorModule } from "../../../entitymodel/modules/behavior/BehaviorModule";
+import { IBehaviorModule } from "../../../entitymodel/modules/behavior/BehaviorModule";
 import { Goblin } from "../Goblin";
-import {
-  GoblinMoveBehavior,
-  GoblinMoveBehaviorState,
-} from "./GoblinMoveBehavior";
+import { GoblinMoveBehavior, GoblinMoveBehaviorState } from "./GoblinMoveBehavior";
 
-export class GoblinBehaviorModule extends BehaviorModule {
+export class GoblinBehaviorModule implements IBehaviorModule {
   public readonly move: GoblinMoveBehavior;
 
   constructor(data: GoblinBehaviorData, goblin: Goblin) {
-    super();
     this.move = new GoblinMoveBehavior(goblin, data.move);
   }
+
   public update(elapsed_seconds: number): void {
     this.move.update();
+  }
+
+  public on_entity_deconstruct(): void {
+    this.move.on_deconstruct();
   }
 }
 

@@ -3,29 +3,17 @@ import { DynamicForceablePoint } from "../gamespacedata/dynamicforceablepoint/Dy
 import { DynamicMovablePoint } from "../gamespacedata/dynamicmovablepoint/DynamicMovablePoint";
 import { StaticCollidableShape } from "../gamespacedata/staticcollidableshape/StaticCollidableShape";
 import { GameSpaceStaticPoint } from "../gamespacedata/staticpoint/StaticPoint";
-import {
-  HasBehaviorModule,
-  IBehaviorModule,
-} from "../modules/behavior/BehaviorModule";
-import {
-  DeconstructModule,
-  HasDeconstructModule,
-} from "../modules/deconstruct/DeconstructModule";
+import { HasBehaviorModule, IBehaviorModule } from "../modules/behavior/BehaviorModule";
+import { DeconstructModule, HasDeconstructModule } from "../modules/deconstruct/DeconstructModule";
 import { HasHealthModule, IHealthModule } from "../modules/health/HealthModule";
 import { HasTeamModule, ITeamModule } from "../modules/team/TeamModule";
 import { BaseEntityData } from "./EntityData";
 
 export abstract class BaseEntity
-  implements
-    Partial<HasHealthModule>,
-    Partial<HasTeamModule>,
-    Partial<HasBehaviorModule>,
-    HasDeconstructModule,
-    HasId
+  implements Partial<HasHealthModule>, Partial<HasTeamModule>, Partial<HasBehaviorModule>, HasDeconstructModule, HasId
 {
   public readonly id: Id;
-  public readonly deconstruct_module: DeconstructModule =
-    new DeconstructModule();
+  public readonly deconstruct_module: DeconstructModule = new DeconstructModule(this);
 
   constructor(data: BaseEntityData) {
     this.id = data.id;

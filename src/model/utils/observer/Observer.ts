@@ -1,7 +1,7 @@
 import { HasId, Id } from "../Id";
 
 export interface Observer extends HasId {
-  on_deconstruct?(): void;
+  on_observable_deconstruct?(): void;
 }
 
 export abstract class Observable<ObserverType extends Observer> {
@@ -15,9 +15,7 @@ export abstract class Observable<ObserverType extends Observer> {
     return this.observer_map.delete(id);
   }
 
-  protected broadcast<ParamsType>(
-    f: (observer: ObserverType) => ((params: ParamsType) => void) | undefined
-  ) {
+  protected broadcast<ParamsType>(f: (observer: ObserverType) => ((params: ParamsType) => void) | undefined) {
     return (params: ParamsType) => {
       for (const [id, observer] of this.observer_map) {
         f(observer)?.(params);
@@ -25,9 +23,7 @@ export abstract class Observable<ObserverType extends Observer> {
     };
   }
 
-  protected broadcast_no_params<ParamsType>(
-    f: (observer: ObserverType) => (() => void) | undefined
-  ) {
+  protected broadcast_no_params<ParamsType>(f: (observer: ObserverType) => (() => void) | undefined) {
     return () => {
       for (const [id, observer] of this.observer_map) {
         f(observer)?.();
@@ -36,6 +32,6 @@ export abstract class Observable<ObserverType extends Observer> {
   }
 
   public on_deconstruct() {
-    this.broadcast_no_params((o) => o.on_deconstruct)();
+    this.broadcast_no_params((o) => o.on_observable_deconstruct)();
   }
 }
