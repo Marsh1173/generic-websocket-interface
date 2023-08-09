@@ -1,14 +1,6 @@
 import { HumanInputEnum } from "./HumanInputEnum";
 
-// export type HumanInputConfig = {
-//   code: string;
-//   start: HumanInputEnum;
-//   end?: HumanInputEnum;
-// }[];
-export type HumanInputConfig = Record<
-  string,
-  { start: HumanInputEnum; end: HumanInputEnum } | undefined
->;
+export type HumanInputConfig = Record<string, { start: HumanInputEnum; end: HumanInputEnum } | undefined>;
 
 export const DEFAULT_HUMAN_INPUT_CONFIG: HumanInputConfig = {
   KeyW: {

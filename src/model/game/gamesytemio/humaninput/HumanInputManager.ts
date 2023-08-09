@@ -7,7 +7,9 @@ import { HumanInputObserver } from "./HumanInputObserver";
 export class HumanInputManager extends Observable<HumanInputObserver> {
   private readonly prev_mouse_pos: Point = { x: 0, y: 0 };
   private readonly mouse_pos: Point = { x: 0, y: 0 };
+
   private input_buffer: HumanInputEnum[] = [];
+  private held_inputs: Set<HumanInputEnum> = new Set();
 
   constructor(protected readonly config: HumanInputConfig) {
     super();
@@ -15,10 +17,7 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
   }
 
   public update() {
-    if (
-      this.prev_mouse_pos.x !== this.mouse_pos.x ||
-      this.prev_mouse_pos.y !== this.mouse_pos.y
-    ) {
+    if (this.prev_mouse_pos.x !== this.mouse_pos.x || this.prev_mouse_pos.y !== this.mouse_pos.y) {
       this.broadcast_mouse_move(this.mouse_pos);
       this.prev_mouse_pos.x = this.mouse_pos.x;
       this.prev_mouse_pos.y = this.mouse_pos.y;
@@ -52,6 +51,23 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
     };
   }
 
+  private push_input_to_buffer(code: string, starting: boolean) {
+    const input_mapping = this.config[code];
+    if (input_mapping !== undefined) {
+      if (starting) {
+        if (!this.held_inputs.has(input_mapping.start)) {
+          this.input_buffer.push(input_mapping.start);
+          this.held_inputs.add(input_mapping.start);
+        }
+      } else {
+        if (this.held_inputs.has(input_mapping.start)) {
+          this.input_buffer.push(input_mapping.end);
+          this.held_inputs.delete(input_mapping.start);
+        }
+      }
+    }
+  }
+
   public stop_listening() {
     window.onmousemove = null;
     window.onmousedown = null;
@@ -60,16 +76,5 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
     window.onkeyup = null;
 
     this.on_deconstruct();
-  }
-
-  private push_input_to_buffer(code: string, starting: boolean) {
-    const input_mapping = this.config[code];
-    if (input_mapping !== undefined) {
-      if (starting) {
-        this.input_buffer.push(input_mapping.start);
-      } else {
-        this.input_buffer.push(input_mapping.end);
-      }
-    }
   }
 }

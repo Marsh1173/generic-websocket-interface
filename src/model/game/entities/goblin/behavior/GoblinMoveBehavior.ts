@@ -3,32 +3,18 @@ import { Goblin } from "../Goblin";
 
 export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState> {
   private readonly linear_move_force: number = 5;
-  private readonly diagonal_move_force: number =
-    this.linear_move_force / Math.sqrt(2);
+  private readonly diagonal_move_force: number = this.linear_move_force / Math.sqrt(2);
 
   constructor(private readonly goblin: Goblin, data?: GoblinMoveBehaviorState) {
     super(data ?? default_move_data);
   }
 
   public update() {
-    const horizontal =
-      this.state.left === this.state.right
-        ? "neither"
-        : this.state.left
-        ? "left"
-        : "right";
-    const vertical =
-      this.state.up === this.state.down
-        ? "neither"
-        : this.state.up
-        ? "up"
-        : "down";
+    const horizontal = this.state.left === this.state.right ? "neither" : this.state.left ? "left" : "right";
+    const vertical = this.state.up === this.state.down ? "neither" : this.state.up ? "up" : "down";
 
     if (horizontal !== "neither") {
-      const h_force_magnitude =
-        vertical === "neither"
-          ? this.linear_move_force
-          : this.diagonal_move_force;
+      const h_force_magnitude = vertical === "neither" ? this.linear_move_force : this.diagonal_move_force;
       let v;
       if (horizontal === "left") {
         v = { x: -h_force_magnitude, y: 0 };
@@ -39,10 +25,7 @@ export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState>
     }
 
     if (vertical !== "neither") {
-      const v_force_magnitude =
-        horizontal === "neither"
-          ? this.linear_move_force
-          : this.diagonal_move_force;
+      const v_force_magnitude = horizontal === "neither" ? this.linear_move_force : this.diagonal_move_force;
       let v;
       if (vertical === "up") {
         v = { x: 0, y: -v_force_magnitude };
