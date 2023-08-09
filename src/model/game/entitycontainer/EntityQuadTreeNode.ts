@@ -1,12 +1,10 @@
 import { Entity } from "../entitymodel/entity/Entity";
 import { GTCollision } from "../../utils/physics/collision/GTCollision";
 import { QuadTreeNode } from "../../utils/quadtree/QuadTreeNode";
-import { GTMath } from "../../utils/physics/math/GTMath";
+import { Shape } from "../../utils/physics/geometry/Shape";
+import { Point } from "../../utils/physics/geometry/Point";
 
-export class EntityQuadTreeNode extends QuadTreeNode<
-  Entity,
-  EntityQuadTreeNode
-> {
+export class EntityQuadTreeNode extends QuadTreeNode<Entity, EntityQuadTreeNode> {
   /**
    * Top and right are not inclusive;
    */
@@ -21,34 +19,29 @@ export class EntityQuadTreeNode extends QuadTreeNode<
   }
 
   public is_completely_in_bounding_box(item: Entity): boolean {
-    // for (const v of item.vertices) {
-    //   if (
-    //     !GTCollision.IsInBoundingBox(v, this.top, this.left, this.bottom, this.right)
-    //   ) {
-    //     return false;
-    //   }
-    // }
-    // return true;
     switch (item.game_space_data.type) {
+      case "StaticCollidableShape":
+        return this.shape_is_completely_in_bounding_box(item.game_space_data.shape);
       case "DynamicForceablePoint":
       case "DynamicMovablePoint":
-        return GTCollision.IsInBoundingBox(
-          item.game_space_data.pos,
-          this.top,
-          this.left,
-          this.bottom,
-          this.right
-        );
+        return this.point_falls_in_this_bounding_box(item.game_space_data.pos);
     }
-    return false;
   }
 
-  protected get_child_node(
-    top: number,
-    left: number,
-    bottom: number,
-    right: number
-  ): EntityQuadTreeNode {
+  private shape_is_completely_in_bounding_box(shape: Shape): boolean {
+    for (const v_data of shape.vertices_data) {
+      if (!this.point_falls_in_this_bounding_box(v_data.vertex)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private point_falls_in_this_bounding_box(p: Point): boolean {
+    return GTCollision.IsInBoundingBox(p, this.top, this.left, this.bottom, this.right);
+  }
+
+  protected get_child_node(top: number, left: number, bottom: number, right: number): EntityQuadTreeNode {
     return new EntityQuadTreeNode(top, left, bottom, right, this);
   }
 }

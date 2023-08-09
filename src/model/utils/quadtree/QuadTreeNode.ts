@@ -2,10 +2,7 @@ import { HasId, Id } from "../Id";
 
 const MAX_NODE_SIZE: number = 10;
 
-export abstract class QuadTreeNode<
-  ItemType extends HasId,
-  NodeType extends QuadTreeNode<ItemType, NodeType>
-> {
+export abstract class QuadTreeNode<ItemType extends HasId, NodeType extends QuadTreeNode<ItemType, NodeType>> {
   /** This node contains all items completely contained in this node
    *  (unless this node has subnodes, then not including items that completely fit into the subnodes)
    */
@@ -47,9 +44,11 @@ export abstract class QuadTreeNode<
       if (this.items.size > MAX_NODE_SIZE) {
         // Subdivide and distribute shapes.
         this.set_nodes();
-        for (const [id, shape] of this.items) {
+
+        const current_items = Array.from(this.items);
+        for (const [id, item] of current_items) {
           this.items.delete(id);
-          this.recursive_insert(shape);
+          this.recursive_insert(item);
         }
       }
     }
@@ -80,10 +79,5 @@ export abstract class QuadTreeNode<
     ];
   }
 
-  protected abstract get_child_node(
-    top: number,
-    left: number,
-    bottom: number,
-    right: number
-  ): NodeType;
+  protected abstract get_child_node(top: number, left: number, bottom: number, right: number): NodeType;
 }
