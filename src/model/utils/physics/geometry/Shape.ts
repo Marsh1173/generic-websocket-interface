@@ -46,8 +46,7 @@ export class Shape {
         x: vertex.x + this.origin.x,
         y: vertex.y + this.origin.y,
       };
-      const next_local_vertex =
-        shape_vertices.vertices[(index + 1) % shape_vertices.vertices.length];
+      const next_local_vertex = shape_vertices.vertices[(index + 1) % shape_vertices.vertices.length];
       const next_global_vertex = {
         x: next_local_vertex.x + this.origin.x,
         y: next_local_vertex.y + this.origin.y,
@@ -59,7 +58,7 @@ export class Shape {
           y: next_local_vertex.y - vertex.y,
         },
         edge_segment: { p1: global_vertex, p2: next_global_vertex },
-        angle: GTMath.Angle(global_vertex, next_global_vertex),
+        angle: GTMath.Rotation(global_vertex, next_global_vertex),
         normal: GTMath.Normal(vertex, next_local_vertex),
       };
     });

@@ -24,7 +24,7 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
     }
 
     for (const input of this.input_buffer) {
-      this.broadcast_input(input);
+      this.broadcast_input({ input, mouse_pos: this.mouse_pos });
     }
     this.input_buffer = [];
   }
@@ -33,6 +33,11 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
   private broadcast_mouse_move = this.broadcast((o) => o.on_mouse_move);
 
   private start_listening() {
+    window.oncontextmenu = (ev) => {
+      // stop right click from opening context menu
+      ev.preventDefault();
+    };
+
     window.onmousemove = (ev) => {
       this.mouse_pos.x = ev.x;
       this.mouse_pos.y = ev.y;
@@ -74,6 +79,7 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
     window.onmouseup = null;
     window.onkeydown = null;
     window.onkeyup = null;
+    window.oncontextmenu = null;
 
     this.on_deconstruct();
   }

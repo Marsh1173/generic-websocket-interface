@@ -1,10 +1,5 @@
-import { Vector } from "../../../../utils/physics/geometry/Vector";
-import {
-  DynamicPoint,
-  DynamicPointData,
-  DynamicPointModule,
-  HasDynamicPoint,
-} from "../dynamicpoint/DynamicPoint";
+import { Vector } from "../../../../../utils/physics/geometry/Vector";
+import { DynamicPoint, DynamicPointData, DynamicPointModule, HasDynamicPoint } from "../DynamicPoint";
 
 export interface DynamicForceablePoint extends DynamicPoint {
   readonly type: "DynamicForceablePoint";
@@ -15,12 +10,9 @@ export interface HasDynamicForceablePoint extends HasDynamicPoint {
   readonly game_space_data: DynamicForceablePoint;
 }
 
-const DEFAULT_FRICTION_CONST: number = 0.8;
+const DEFAULT_FRICTION_CONST: number = 1.5;
 
-export class DynamicForceablePointModule
-  extends DynamicPointModule
-  implements DynamicForceablePoint
-{
+export class DynamicForceablePointModule extends DynamicPointModule implements DynamicForceablePoint {
   public readonly type = "DynamicForceablePoint";
 
   private constant_forces: { force: Vector; cap?: Vector }[] = [];
@@ -58,6 +50,10 @@ export class DynamicForceablePointModule
     this.prev_mom.y = this.mom.y;
   }
 
+  public constant_act_on(force: Vector, cap?: Vector) {
+    this.constant_forces.push({ force, cap });
+  }
+
   protected apply_friction(elapsed_seconds: number, friction_const: number) {
     if (this.mom.x != 0 || this.mom.y != 0) {
       let len: number = Math.sqrt(this.mom.x ** 2 + this.mom.y ** 2);
@@ -76,10 +72,6 @@ export class DynamicForceablePointModule
         this.mom.y = Math.min(0, this.mom.y - normalized_anti_momentum.y);
       }
     }
-  }
-
-  public constant_act_on(force: Vector, cap?: Vector) {
-    this.constant_forces.push({ force, cap });
   }
 
   protected apply_constant_forces(elapsed_seconds: number) {
@@ -138,10 +130,7 @@ export class DynamicForceablePointModule
     this.constant_forces = [];
   }
 
-  protected get_force_and_overflow(
-    pairs: [number, number][],
-    is_negative: boolean
-  ): [number, number] {
+  protected get_force_and_overflow(pairs: [number, number][], is_negative: boolean): [number, number] {
     let force = 0,
       overflow = 0;
     pairs.sort(([x1, c1], [x2, c2]) => (!is_negative ? c1 - c2 : c2 - c1));

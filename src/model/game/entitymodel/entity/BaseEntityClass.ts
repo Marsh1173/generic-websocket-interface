@@ -1,6 +1,6 @@
 import { HasId, Id } from "../../../utils/Id";
-import { DynamicForceablePoint } from "../gamespacedata/dynamicforceablepoint/DynamicForceablePoint";
-import { DynamicMovablePoint } from "../gamespacedata/dynamicmovablepoint/DynamicMovablePoint";
+import { DynamicForceablePoint } from "../gamespacedata/dynamicpoint/dynamicforceablepoint/DynamicForceablePoint";
+import { DynamicMovablePoint } from "../gamespacedata/dynamicpoint/dynamicmovablepoint/DynamicMovablePoint";
 import { StaticCollidableShape } from "../gamespacedata/staticcollidableshape/StaticCollidableShape";
 import { GameSpaceStaticPoint } from "../gamespacedata/staticpoint/StaticPoint";
 import { HasBehaviorModule, IBehaviorModule } from "../modules/behavior/BehaviorModule";

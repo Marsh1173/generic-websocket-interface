@@ -1,4 +1,4 @@
-import { Application, Assets, Sprite } from "pixi.js";
+import { Application } from "pixi.js";
 import { IEntityContainer } from "../entitycontainer/EntityContainer";
 import { EntityQuadTree } from "../entitycontainer/EntityQuadTree";
 import { LocalEntityFactory } from "../entityfactory/LocalEntityFactory";
@@ -7,9 +7,9 @@ import { ClientGameSystemData } from "./ClientGameSystem";
 import { GameSystem } from "./GameSystem";
 import { SystemStatsManager } from "../systemstatsmanager/SystemStatsManager";
 import { GameCanvas } from "../display/gamecanvas/GameCanvas";
-import { GameSystemIO } from "../gamesytemio/GameSystemIO";
 import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
 import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
+import { ShowCursor } from "../devtools/ShowCursor";
 
 export class LocalGameSystem extends GameSystem {
   declare entity_container: IEntityContainer;
@@ -20,10 +20,7 @@ export class LocalGameSystem extends GameSystem {
   public readonly game_system_io: LocalGameSystemIO;
   public readonly game_canvas: GameCanvas;
 
-  constructor(
-    data: LocalGameSystemData,
-    public readonly view_app: Application<HTMLCanvasElement>
-  ) {
+  constructor(data: LocalGameSystemData, public readonly view_app: Application<HTMLCanvasElement>) {
     super(data);
 
     this.game_system_io = new LocalGameSystemIO(data);
@@ -32,13 +29,11 @@ export class LocalGameSystem extends GameSystem {
     this.entity_factory = new LocalEntityFactory(this);
     this.game_state_manager = new LocalGameStateManager(this);
     this.system_stats_manager = new SystemStatsManager();
+    this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entity_factory.insert_entities(data.entities);
 
-    this.user_state_manager = new LocalUserStateManager(
-      this,
-      data.user_state_data
-    );
+    ShowCursor(this.view_app, this.game_system_io);
   }
 
   public update(elapsed_seconds: number) {

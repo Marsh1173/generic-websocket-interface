@@ -1,8 +1,4 @@
-import {
-  DynamicPoint,
-  DynamicPointModule,
-  HasDynamicPoint,
-} from "../dynamicpoint/DynamicPoint";
+import { DynamicPoint, HasDynamicPoint, DynamicPointModule } from "../DynamicPoint";
 
 export interface DynamicMovablePoint extends DynamicPoint {
   readonly type: "DynamicMovablePoint";

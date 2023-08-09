@@ -4,7 +4,7 @@ import {
   DynamicForceablePointModule,
   DynamicForceablePoint,
   HasDynamicForceablePoint,
-} from "../../entitymodel/gamespacedata/dynamicforceablepoint/DynamicForceablePoint";
+} from "../../entitymodel/gamespacedata/dynamicpoint/dynamicforceablepoint/DynamicForceablePoint";
 import { DynamicPointData } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { HasBehaviorModule } from "../../entitymodel/modules/behavior/BehaviorModule";
 import {

@@ -13,11 +13,8 @@ export class FullSegment {
    */
   public readonly angle: number;
   public readonly length: number;
-  constructor(
-    public readonly p1: StaticPoint,
-    public readonly p2: StaticPoint
-  ) {
+  constructor(public readonly p1: StaticPoint, public readonly p2: StaticPoint) {
     this.length = GTMath.Distance(p1, p2);
-    this.angle = GTMath.Angle(p1, p2);
+    this.angle = GTMath.Rotation(p1, p2);
   }
 }

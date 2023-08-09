@@ -8,7 +8,7 @@ import { EntityData } from "../entitymodel/entity/EntityData";
 const goblin_id: Id = uuid();
 
 const trees: EntityData[] = [];
-for (let i: number = 0; i < 30; i++) {
+for (let i: number = 0; i < 10; i++) {
   const x = (i % 10) * 170 + 200;
   const y = Math.floor(i / 10) * 300 + 300;
   trees.push({
