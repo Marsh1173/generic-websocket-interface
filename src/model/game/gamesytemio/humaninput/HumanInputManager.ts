@@ -39,6 +39,7 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
     };
 
     window.onmousemove = (ev) => {
+      //TODO - find GAME coords from event coords to fix screen window scale sizing
       this.mouse_pos.x = ev.x;
       this.mouse_pos.y = ev.y;
     };

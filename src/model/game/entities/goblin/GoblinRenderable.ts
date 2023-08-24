@@ -7,7 +7,7 @@ export class GoblinRenderable extends Renderable<Goblin> {
   protected get_display_object(): DisplayObject {
     const sprite = new Sprite(ImageAssets.textures["entity-goblin"]);
     sprite.anchor.set(0.5, 0.9);
-    sprite.scale.set(0.3);
+    sprite.scale.set(0.2);
 
     return sprite;
   }

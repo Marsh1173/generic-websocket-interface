@@ -16,34 +16,31 @@ import { HealthObservable } from "../../entitymodel/modules/health/HealthObserva
 import { TreeShapeData } from "./TreeShape";
 import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 
+export type TreeVariation = 1 | 2 | 3;
+
 export interface TreeData extends BaseEntityData {
   type: "TreeData";
   game_space_data: StaticCollidableShapeData;
   health_module_data: HealthModuleData;
+  variation: TreeVariation;
 }
 
-export class Tree
-  extends BaseEntity
-  implements HasHealthModule, HasStaticCollidableShape
-{
+export class Tree extends BaseEntity implements HasHealthModule, HasStaticCollidableShape {
   public readonly type = "Tree";
   public readonly health_module: IHealthModule;
   public readonly game_space_data: StaticCollidableShape;
 
+  public readonly variation: TreeVariation;
+
   constructor(data: TreeData, protected readonly game_system: GameSystem) {
     super(data);
 
-    const health_observable = new HealthObservable();
-    this.health_module = new HealthModule(
-      health_observable,
-      this,
-      data.health_module_data
-    );
+    this.variation = data.variation;
 
-    this.game_space_data = new StaticCollidableShapeModule(
-      data.game_space_data,
-      TreeShapeData
-    );
+    const health_observable = new HealthObservable();
+    this.health_module = new HealthModule(health_observable, this, data.health_module_data);
+
+    this.game_space_data = new StaticCollidableShapeModule(data.game_space_data, TreeShapeData);
 
     /**
      * Behavior

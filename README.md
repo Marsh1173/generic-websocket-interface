@@ -10,12 +10,12 @@
 
 ## GT
 
-- remove all pixijs packages except the necessary ones
-  - make my own ticker
-- finish basic game space data classes, then finish quad tree
+- BUG: Try pushing a goblin in the direction you're running. You should see a weird bounce animation.
+
+* make multiple quad trees (collision hitbox, select hitbox)
 
   - update quad tree when entities move
 
-- Rigging
-- Map + tiles
-- Goblin behavior
+* Rigging
+* Map + tiles
+* Phinish Fysics
