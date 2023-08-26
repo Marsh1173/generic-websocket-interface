@@ -1,9 +1,9 @@
-import { ArrowData, Arrow } from "../entities/arrow/Arrow";
-import { GoblinData, Goblin } from "../entities/goblin/Goblin";
-import { TreeData, Tree } from "../entities/tree/Tree";
-import { Entity } from "../entitymodel/entity/Entity";
-import { EntityData } from "../entitymodel/entity/EntityData";
-import { GameSystem } from "../gamesystem/GameSystem";
+import { ArrowData, Arrow } from "../../entities/arrow/Arrow";
+import { GoblinData, Goblin } from "../../entities/goblin/Goblin";
+import { TreeData, Tree } from "../../entities/tree/Tree";
+import { Entity } from "../../entitymodel/entity/Entity";
+import { EntityData } from "../../entitymodel/entity/EntityData";
+import { GameSystem } from "../../gamesystem/GameSystem";
 
 export class EntityFactory {
   constructor(protected readonly game_system: GameSystem) {}

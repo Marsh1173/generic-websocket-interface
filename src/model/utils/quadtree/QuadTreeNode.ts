@@ -2,14 +2,19 @@ import { HasId, Id } from "../Id";
 
 const MAX_NODE_SIZE: number = 10;
 
-export abstract class QuadTreeNode<ItemType extends HasId, NodeType extends QuadTreeNode<ItemType, NodeType>> {
-  /** This node contains all items completely contained in this node
-   *  (unless this node has subnodes, then not including items that completely fit into the subnodes)
+export abstract class QuadTreeNode<
+  ItemType extends HasId,
+  NodeType extends QuadTreeNode<ItemType, NodeType>
+> {
+  /**
+   * This node contains all items completely contained in this node
+   * (unless this node has subnodes, then not including items that completely fit into the subnodes)
    */
   protected readonly items: Map<Id, ItemType> = new Map();
 
-  /** If this node has been subdivided, this node will contain 4 subnodes.
-   *  Nodes in order: top right, top left, bottom left, bottom right;
+  /**
+   * If this node has been subdivided, this node will contain 4 subnodes.
+   * Nodes in order: top right, top left, bottom left, bottom right;
    */
   protected nodes?: [NodeType, NodeType, NodeType, NodeType];
 
@@ -79,5 +84,10 @@ export abstract class QuadTreeNode<ItemType extends HasId, NodeType extends Quad
     ];
   }
 
-  protected abstract get_child_node(top: number, left: number, bottom: number, right: number): NodeType;
+  protected abstract get_child_node(
+    top: number,
+    left: number,
+    bottom: number,
+    right: number
+  ): NodeType;
 }

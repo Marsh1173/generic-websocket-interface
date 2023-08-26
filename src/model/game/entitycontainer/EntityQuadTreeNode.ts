@@ -4,7 +4,10 @@ import { QuadTreeNode } from "../../utils/quadtree/QuadTreeNode";
 import { Shape } from "../../utils/physics/geometry/Shape";
 import { Point } from "../../utils/physics/geometry/Point";
 
-export class EntityQuadTreeNode extends QuadTreeNode<Entity, EntityQuadTreeNode> {
+export class EntityQuadTreeNode extends QuadTreeNode<
+  Entity,
+  EntityQuadTreeNode
+> {
   /**
    * Top and right are not inclusive;
    */
@@ -21,7 +24,9 @@ export class EntityQuadTreeNode extends QuadTreeNode<Entity, EntityQuadTreeNode>
   public is_completely_in_bounding_box(item: Entity): boolean {
     switch (item.game_space_data.type) {
       case "StaticCollidableShape":
-        return this.shape_is_completely_in_bounding_box(item.game_space_data.shape);
+        return this.shape_is_completely_in_bounding_box(
+          item.game_space_data.shape
+        );
       case "DynamicForceablePoint":
       case "DynamicMovablePoint":
         return this.point_falls_in_this_bounding_box(item.game_space_data.pos);
@@ -38,10 +43,21 @@ export class EntityQuadTreeNode extends QuadTreeNode<Entity, EntityQuadTreeNode>
   }
 
   private point_falls_in_this_bounding_box(p: Point): boolean {
-    return GTCollision.IsInBoundingBox(p, this.top, this.left, this.bottom, this.right);
+    return GTCollision.IsInBoundingBox(
+      p,
+      this.top,
+      this.left,
+      this.bottom,
+      this.right
+    );
   }
 
-  protected get_child_node(top: number, left: number, bottom: number, right: number): EntityQuadTreeNode {
+  protected get_child_node(
+    top: number,
+    left: number,
+    bottom: number,
+    right: number
+  ): EntityQuadTreeNode {
     return new EntityQuadTreeNode(top, left, bottom, right, this);
   }
 }

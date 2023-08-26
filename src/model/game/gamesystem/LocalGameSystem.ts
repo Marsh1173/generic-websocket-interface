@@ -1,7 +1,7 @@
 import { Application } from "pixi.js";
 import { IEntityContainer } from "../entitycontainer/EntityContainer";
 import { EntityQuadTree } from "../entitycontainer/EntityQuadTree";
-import { LocalEntityFactory } from "../entityfactory/LocalEntityFactory";
+import { LocalEntityFactory } from "../entityhandler/factory/LocalEntityFactory";
 import { LocalGameStateManager } from "../gamestatemanager/LocalGameStateManager";
 import { ClientGameSystemData } from "./ClientGameSystem";
 import { GameSystem } from "./GameSystem";
@@ -10,8 +10,11 @@ import { GameCanvas } from "../display/gamecanvas/GameCanvas";
 import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
 import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
 import { ShowCursor } from "../devtools/ShowCursor";
+import { EntityHandler } from "../entityhandler/EntityHandler";
+import { LocalEntityHandler } from "../entityhandler/LocalEntityHandler";
 
 export class LocalGameSystem extends GameSystem {
+  public declare entities: LocalEntityHandler;
   declare entity_container: IEntityContainer;
   declare entity_factory: LocalEntityFactory;
   declare game_state_manager: LocalGameStateManager;
@@ -20,7 +23,10 @@ export class LocalGameSystem extends GameSystem {
   public readonly game_system_io: LocalGameSystemIO;
   public readonly game_canvas: GameCanvas;
 
-  constructor(data: LocalGameSystemData, public readonly view_app: Application<HTMLCanvasElement>) {
+  constructor(
+    data: LocalGameSystemData,
+    public readonly view_app: Application<HTMLCanvasElement>
+  ) {
     super(data);
 
     this.game_system_io = new LocalGameSystemIO(data);
@@ -29,7 +35,10 @@ export class LocalGameSystem extends GameSystem {
     this.entity_factory = new LocalEntityFactory(this);
     this.game_state_manager = new LocalGameStateManager(this);
     this.system_stats_manager = new SystemStatsManager();
-    this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
+    this.user_state_manager = new LocalUserStateManager(
+      this,
+      data.user_state_data
+    );
 
     this.entity_factory.insert_entities(data.entities);
 

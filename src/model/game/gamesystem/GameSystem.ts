@@ -1,15 +1,16 @@
 import { Rect } from "../../utils/physics/geometry/Rect";
 import { IEntityContainer } from "../entitycontainer/EntityContainer";
-import { EntityFactory } from "../entityfactory/EntityFactory";
 import { IGameStateManager } from "../gamestatemanager/GameStateManager";
 import { Updateable } from "../../ticker/Updater";
 import { HasId } from "../../utils/Id";
 import { EntityData } from "../entitymodel/entity/EntityData";
 import { GameSystemIO } from "../gamesytemio/GameSystemIO";
+import { EntityHandler } from "../entityhandler/EntityHandler";
 
 export abstract class GameSystem extends HasId implements Updateable {
   public abstract readonly entity_container: IEntityContainer;
-  public abstract readonly entity_factory: EntityFactory;
+  public abstract readonly entities: EntityHandler;
+
   public abstract readonly game_state_manager: IGameStateManager;
   public abstract readonly game_system_io: GameSystemIO;
 

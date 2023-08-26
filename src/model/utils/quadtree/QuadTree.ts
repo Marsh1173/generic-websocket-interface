@@ -1,4 +1,4 @@
-import { HasId, Id } from "../Id";
+import { HasId } from "../Id";
 import { Rect } from "../physics/geometry/Rect";
 import { QuadTreeNode } from "./QuadTreeNode";
 
@@ -6,7 +6,6 @@ export abstract class QuadTree<
   ItemType extends HasId,
   NodeType extends QuadTreeNode<ItemType, NodeType>
 > {
-  protected readonly items: Map<Id, ItemType> = new Map();
   protected readonly root: NodeType;
 
   public constructor(dimensions: Rect) {
@@ -14,29 +13,11 @@ export abstract class QuadTree<
   }
 
   public insert(item: ItemType) {
-    if (this.items.has(item.id)) {
-      console.error("TRIED TO ADD ITEM THAT WAS ALREADY IN TREE:");
-      console.error(JSON.stringify(item));
-      return;
-    }
-
-    this.items.set(item.id, item);
     this.root.recursive_insert(item);
   }
 
   public remove(item: ItemType) {
-    this.items.delete(item.id);
     this.root.recursive_remove(item);
-  }
-
-  public get_by_id(id: Id): ItemType | undefined {
-    return this.items.get(id);
-  }
-
-  public apply_to_all(f: (item: ItemType) => void) {
-    for (const [id, item] of this.items) {
-      f(item);
-    }
   }
 
   protected abstract get_root_node(dimensions: Rect): NodeType;
