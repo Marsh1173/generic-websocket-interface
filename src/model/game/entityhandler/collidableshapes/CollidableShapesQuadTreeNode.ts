@@ -1,6 +1,6 @@
-import { GTCollision } from "../../../utils/physics/collision/GTCollision";
-import { QuadTreeNode } from "../../../utils/quadtree/QuadTreeNode";
-import { Point } from "../../../utils/physics/geometry/Point";
+import { GTCollision } from "../../../common/physics/collision/GTCollision";
+import { QuadTreeNode } from "../../../common/quadtree/QuadTreeNode";
+import { Point } from "../../../common/physics/geometry/Point";
 import { StaticCollidableShapeWithId } from "../../entitymodel/gamespacedata/staticcollidableshape/StaticCollidableShape";
 
 export class CollidableShapesQuadTreeNode extends QuadTreeNode<

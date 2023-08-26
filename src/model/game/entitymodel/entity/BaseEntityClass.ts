@@ -1,4 +1,4 @@
-import { HasId, Id } from "../../../utils/Id";
+import { HasId, Id } from "../../../common/Id";
 import { DynamicForceablePoint } from "../gamespacedata/dynamicpoint/dynamicforceablepoint/DynamicForceablePoint";
 import { DynamicMovablePoint } from "../gamespacedata/dynamicpoint/dynamicmovablepoint/DynamicMovablePoint";
 import { StaticCollidableShape } from "../gamespacedata/staticcollidableshape/StaticCollidableShape";

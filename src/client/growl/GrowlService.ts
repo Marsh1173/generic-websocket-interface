@@ -1,4 +1,4 @@
-import { Singleton } from "../../model/utils/Singleton";
+import { Singleton } from "../../model/common/Singleton";
 import { safe_get_element_by_selector } from "../utils/SafeGetElementBySelector";
 
 import "./GrowlStyles.less";

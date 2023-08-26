@@ -3,8 +3,8 @@ import "./SystemStatsStyles.less";
 import { Component } from "react";
 import { IClientGameSystem } from "../../../../model/game/gamesystem/ClientGameSystem";
 import { SystemStatsManagerState } from "../../../../model/game/systemstatsmanager/SystemStatsManager";
-import { Id, uuid } from "../../../../model/utils/Id";
-import { StateObserver } from "../../../../model/utils/observer/StateObserver";
+import { Id, uuid } from "../../../../model/common/Id";
+import { StateObserver } from "../../../../model/common/observer/StateObserver";
 
 interface SystemStatsComponentProps {
   game_system: IClientGameSystem;
@@ -19,8 +19,7 @@ export class SystemStatsComponent
   extends Component<SystemStatsComponentProps, SystemStatsComponentState>
   implements StateObserver<SystemStatsManagerState>
 {
-  private readonly component_ref: React.RefObject<HTMLDivElement> =
-    React.createRef();
+  private readonly component_ref: React.RefObject<HTMLDivElement> = React.createRef();
   public readonly id: Id = uuid();
 
   constructor(props: any) {
@@ -28,9 +27,7 @@ export class SystemStatsComponent
 
     this.on_state_change = this.on_state_change.bind(this);
     this.state = { fps: undefined, ping: undefined };
-    this.props.game_system.system_stats_manager.add_observer_and_get_state(
-      this
-    );
+    this.props.game_system.system_stats_manager.add_observer_and_get_state(this);
   }
 
   public render() {

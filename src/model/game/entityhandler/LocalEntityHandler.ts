@@ -1,4 +1,4 @@
-import { Rect } from "../../utils/physics/geometry/Rect";
+import { Rect } from "../../common/physics/geometry/Rect";
 import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
 import { EntityHandler, EntityHandlerApi } from "./EntityHandler";
 import { LocalEntityFactory } from "./factory/LocalEntityFactory";

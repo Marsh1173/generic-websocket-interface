@@ -1,4 +1,4 @@
-import { Id } from "../../../utils/Id";
+import { Id } from "../../../common/Id";
 import { ArrowData } from "../../entities/arrow/Arrow";
 import { GoblinData } from "../../entities/goblin/Goblin";
 import { TreeData } from "../../entities/tree/Tree";

@@ -1,9 +1,6 @@
-import { Movable } from "../../../../utils/physics/geometry/Movable";
-import { Point, StaticPoint } from "../../../../utils/physics/geometry/Point";
-import {
-  StaticVector,
-  Vector,
-} from "../../../../utils/physics/geometry/Vector";
+import { Movable } from "../../../../common/physics/geometry/Movable";
+import { Point, StaticPoint } from "../../../../common/physics/geometry/Point";
+import { StaticVector, Vector } from "../../../../common/physics/geometry/Vector";
 
 export interface DynamicPoint extends Movable {
   update_position(elapsed_seconds: number): void;

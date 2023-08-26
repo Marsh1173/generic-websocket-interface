@@ -1,7 +1,7 @@
-import { Rect } from "../../utils/physics/geometry/Rect";
+import { Rect } from "../../common/physics/geometry/Rect";
 import { IGameStateManager } from "../gamestatemanager/GameStateManager";
 import { Updateable } from "../../ticker/Updater";
-import { HasId } from "../../utils/Id";
+import { HasId } from "../../common/Id";
 import { EntityData } from "../entitymodel/entity/EntityData";
 import { GameSystemIO } from "../gamesytemio/GameSystemIO";
 import { EntityHandlerApi } from "../entityhandler/EntityHandler";

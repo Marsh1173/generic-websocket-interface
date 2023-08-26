@@ -1,4 +1,4 @@
-import { HasId, Id } from "../utils/Id";
+import { HasId, Id } from "../common/Id";
 import { ITicker } from "./Ticker";
 
 export interface Updateable extends HasId {
@@ -39,16 +39,10 @@ export abstract class Updater implements IUpdater {
   /**
    * Map of updateables and their ids that are not being updated.
    */
-  protected readonly not_updatings: Map<Id, Updateable> = new Map<
-    Id,
-    Updateable
-  >();
+  protected readonly not_updatings: Map<Id, Updateable> = new Map<Id, Updateable>();
 
   public register_updateable(updateable: Updateable): boolean {
-    if (
-      !this.updatings.has(updateable.id) &&
-      !this.not_updatings.has(updateable.id)
-    ) {
+    if (!this.updatings.has(updateable.id) && !this.not_updatings.has(updateable.id)) {
       this.not_updatings.set(updateable.id, updateable);
       return true;
     }
@@ -56,8 +50,7 @@ export abstract class Updater implements IUpdater {
   }
 
   public start_updating(updateable_id: Id) {
-    let updateable: Updateable | undefined =
-      this.not_updatings.get(updateable_id);
+    let updateable: Updateable | undefined = this.not_updatings.get(updateable_id);
     if (updateable) {
       this.not_updatings.delete(updateable_id);
       this.updatings.set(updateable.id, updateable);

@@ -1,4 +1,4 @@
-import { IMessageBuffer, MessageBuffer } from "../../model/utils/MessageBuffer";
+import { IMessageBuffer, MessageBuffer } from "../../model/common/MessageBuffer";
 import { ClientConfig } from "../utils/ClientConfig";
 import { ServerMessage } from "./api/ClientApi";
 import { IClient } from "./Client";
@@ -8,15 +8,10 @@ export interface IServerTalker extends IMessageBuffer<IClient<any>> {
   force_close: () => void;
 }
 
-export class ServerTalker
-  extends MessageBuffer<string, IClient<any>>
-  implements IServerTalker
-{
+export class ServerTalker extends MessageBuffer<string, IClient<any>> implements IServerTalker {
   private wss: WebSocket;
 
-  constructor(
-    private readonly on_open: (server_talker: IServerTalker) => void
-  ) {
+  constructor(private readonly on_open: (server_talker: IServerTalker) => void) {
     super();
     this.wss = this.open_websocket();
   }
@@ -61,9 +56,7 @@ export class ServerTalker
 
   private on_close() {
     console.error("Websocket connection closed");
-    this.observer?.on_server_talker_close(
-      "You have been disconnected. Try refreshing."
-    );
+    this.observer?.on_server_talker_close("You have been disconnected. Try refreshing.");
 
     this.wss.onerror = () => {};
   }

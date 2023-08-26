@@ -1,4 +1,4 @@
-import { StaticPoint } from "../../../../utils/physics/geometry/Point";
+import { StaticPoint } from "../../../../common/physics/geometry/Point";
 import { Entity } from "../../entity/Entity";
 
 export interface HasStaticPoint {
@@ -13,10 +13,7 @@ export class GameSpaceStaticPoint {
   public readonly type = "GameSpaceStaticPoint";
   public readonly pos: StaticPoint;
 
-  constructor(
-    public readonly entity: Entity & HasStaticPoint,
-    data: StaticPointData
-  ) {
+  constructor(public readonly entity: Entity & HasStaticPoint, data: StaticPointData) {
     this.pos = data.pos;
   }
 }

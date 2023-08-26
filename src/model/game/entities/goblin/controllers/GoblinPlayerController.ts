@@ -1,7 +1,7 @@
-import { Id, uuid } from "../../../../utils/Id";
-import { Point, StaticPoint } from "../../../../utils/physics/geometry/Point";
-import { StaticVector } from "../../../../utils/physics/geometry/Vector";
-import { GTMath } from "../../../../utils/physics/math/GTMath";
+import { Id, uuid } from "../../../../common/Id";
+import { Point, StaticPoint } from "../../../../common/physics/geometry/Point";
+import { StaticVector } from "../../../../common/physics/geometry/Vector";
+import { GTMath } from "../../../../common/physics/math/GTMath";
 import { GameSystem } from "../../../gamesystem/GameSystem";
 import { HumanInputEnum } from "../../../gamesytemio/humaninput/HumanInputEnum";
 import { HumanInputObserver } from "../../../gamesytemio/humaninput/HumanInputObserver";

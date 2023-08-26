@@ -1,5 +1,5 @@
-import { StaticVector } from "../../../utils/physics/geometry/Vector";
-import { GTMath } from "../../../utils/physics/math/GTMath";
+import { StaticVector } from "../../../common/physics/geometry/Vector";
+import { GTMath } from "../../../common/physics/math/GTMath";
 import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 import { BaseEntityData } from "../../entitymodel/entity/EntityData";
 import { DynamicPointData } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";

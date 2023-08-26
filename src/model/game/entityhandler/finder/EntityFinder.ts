@@ -1,7 +1,7 @@
-import { Id } from "../../../utils/Id";
-import { SegmentCollidesWithStaticShapeReturnData } from "../../../utils/physics/collision/SegmentCollidesWithStaticShape";
-import { StaticPoint } from "../../../utils/physics/geometry/Point";
-import { Shape } from "../../../utils/physics/geometry/Shape";
+import { Id } from "../../../common/Id";
+import { SegmentCollidesWithStaticShapeReturnData } from "../../../common/physics/collision/SegmentCollidesWithStaticShape";
+import { StaticPoint } from "../../../common/physics/geometry/Point";
+import { Shape } from "../../../common/physics/geometry/Shape";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { EntityHandler } from "../EntityHandler";
 

@@ -1,4 +1,4 @@
-import { Vector } from "../../../../../utils/physics/geometry/Vector";
+import { Vector } from "../../../../../common/physics/geometry/Vector";
 import { DynamicPoint, DynamicPointData, DynamicPointModule, HasDynamicPoint } from "../DynamicPoint";
 
 export interface DynamicForceablePoint extends DynamicPoint {

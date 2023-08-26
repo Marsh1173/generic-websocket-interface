@@ -2,7 +2,7 @@ import { DEFAULT_HUMAN_INPUT_CONFIG } from "../gamesytemio/humaninput/HumanInput
 import { LocalGameSystemData } from "../gamesystem/LocalGameSystem";
 import "./styles.less";
 import { ViewChanger } from "../../../client/main/ViewChanger";
-import { Id, uuid } from "../../utils/Id";
+import { Id, uuid } from "../../common/Id";
 import { EntityData } from "../entitymodel/entity/EntityData";
 import { TreeVariation } from "../entities/tree/Tree";
 

@@ -1,4 +1,4 @@
-import { Id } from "../utils/Id";
+import { Id } from "../common/Id";
 import { ITicker } from "./Ticker";
 import { Updateable } from "./Updater";
 
@@ -28,10 +28,7 @@ export class ClientTicker implements ITicker {
       return;
     }
 
-    const elapsedTime = Math.min(
-      timestamp - this.last_frame,
-      this.max_tick_secs
-    );
+    const elapsedTime = Math.min(timestamp - this.last_frame, this.max_tick_secs);
     this.last_frame = timestamp;
 
     this.update_all(elapsedTime);

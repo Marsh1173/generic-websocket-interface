@@ -1,5 +1,5 @@
 import { DisplayObject } from "pixi.js";
-import { uuid } from "../../../utils/Id";
+import { uuid } from "../../../common/Id";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 

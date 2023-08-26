@@ -1,4 +1,4 @@
-import { Singleton } from "../utils/Singleton";
+import { Singleton } from "../common/Singleton";
 import { ClientTicker } from "./ClientTicker";
 import { ITicker } from "./Ticker";
 import { Updater } from "./Updater";

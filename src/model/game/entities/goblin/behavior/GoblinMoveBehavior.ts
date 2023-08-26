@@ -1,4 +1,4 @@
-import { StateObservable } from "../../../../utils/observer/StateObserver";
+import { StateObservable } from "../../../../common/observer/StateObserver";
 import { Goblin } from "../Goblin";
 
 export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState> {

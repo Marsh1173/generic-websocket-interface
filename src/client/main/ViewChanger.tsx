@@ -3,7 +3,7 @@ import { createRoot, Root } from "react-dom/client";
 import { AuthenticationViewProps } from "../authentication/AuthenticationView";
 import { ConnectingViewProps } from "../connecting/ConnectingView";
 import { safe_get_element_by_selector } from "../utils/SafeGetElementBySelector";
-import { Singleton } from "../../model/utils/Singleton";
+import { Singleton } from "../../model/common/Singleton";
 import { MainView, MainViewProps } from "./MainView";
 import { AuthMenuProps } from "../authmenu/AuthMenuView";
 import { LocalGameComponentProps } from "../game/local/LocalGameView";
@@ -21,9 +21,7 @@ export class ViewChanger {
   }
 
   public initialize(props?: MainViewProps) {
-    const main_view_element: JSX.Element = (
-      <MainView ref={this.main_view} initial_state={props?.initial_state} />
-    );
+    const main_view_element: JSX.Element = <MainView ref={this.main_view} initial_state={props?.initial_state} />;
     this.root.render(main_view_element);
   }
 

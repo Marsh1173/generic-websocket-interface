@@ -2,7 +2,7 @@ import { DisplayObject, Sprite } from "pixi.js";
 import { Renderable } from "../../display/renderables/Renderable";
 import { Arrow } from "./Arrow";
 import { ImageAssets } from "../../../../client/assets/image/ImageAssets";
-import { GTMath } from "../../../utils/physics/math/GTMath";
+import { GTMath } from "../../../common/physics/math/GTMath";
 
 export class ArrowRenderable extends Renderable<Arrow> {
   protected get_display_object(): DisplayObject {

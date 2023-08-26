@@ -1,5 +1,5 @@
-import { Id } from "../../../../utils/Id";
-import { Observer, Observable } from "../../../../utils/observer/Observer";
+import { Id } from "../../../../common/Id";
+import { Observer, Observable } from "../../../../common/observer/Observer";
 
 export interface OnLoseHealthParams {
   new_health: number;

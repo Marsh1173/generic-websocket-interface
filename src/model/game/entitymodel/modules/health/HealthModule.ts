@@ -1,4 +1,4 @@
-import { Id } from "../../../../utils/Id";
+import { Id } from "../../../../common/Id";
 import { Entity } from "../../entity/Entity";
 import { HealthObservable } from "./HealthObservable";
 
@@ -51,10 +51,7 @@ export class HealthModule implements IHealthModule {
 
   public receive_heal(params: ReceiveHealData) {
     const old_health = this.current_health;
-    this.current_health = Math.min(
-      this.current_health + params.amount,
-      this.max_health
-    );
+    this.current_health = Math.min(this.current_health + params.amount, this.max_health);
 
     this.observable.on_gain_health({
       issuer_id: params.issuer_id,

@@ -1,4 +1,4 @@
-import { StateObservable } from "../../utils/observer/StateObserver";
+import { StateObservable } from "../../common/observer/StateObserver";
 
 export interface SystemStatsManagerState {
   fps: number;

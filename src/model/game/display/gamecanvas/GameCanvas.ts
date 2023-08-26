@@ -1,7 +1,7 @@
 import { Application, TilingSprite } from "pixi.js";
 import { Renderable } from "../renderables/Renderable";
 import { Entity } from "../../entitymodel/entity/Entity";
-import { Id } from "../../../utils/Id";
+import { Id } from "../../../common/Id";
 import { ImageAssets } from "../../../../client/assets/image/ImageAssets";
 
 export class GameCanvas {

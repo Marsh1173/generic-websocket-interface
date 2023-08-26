@@ -1,4 +1,4 @@
-import { Observable, Observer } from "../../../../utils/observer/Observer";
+import { Observable, Observer } from "../../../../common/observer/Observer";
 import { BaseEntity } from "../../entity/BaseEntityClass";
 
 export interface HasDeconstructModule {

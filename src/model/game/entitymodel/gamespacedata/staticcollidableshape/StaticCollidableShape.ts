@@ -1,6 +1,6 @@
-import { HasId } from "../../../../utils/Id";
-import { StaticPoint } from "../../../../utils/physics/geometry/Point";
-import { Shape, LocalShapeVertices } from "../../../../utils/physics/geometry/Shape";
+import { HasId } from "../../../../common/Id";
+import { StaticPoint } from "../../../../common/physics/geometry/Point";
+import { Shape, LocalShapeVertices } from "../../../../common/physics/geometry/Shape";
 
 export interface StaticCollidableShapeWithId extends StaticCollidableShape, HasId {}
 

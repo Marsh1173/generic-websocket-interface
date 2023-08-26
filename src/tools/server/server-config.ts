@@ -1,5 +1,5 @@
-import { Config } from "../../model/utils/Config";
-import { Singleton } from "../../model/utils/Singleton";
+import { Config } from "../../model/common/Config";
+import { Singleton } from "../../model/common/Singleton";
 
 export interface IServerConfig {
   port: number;

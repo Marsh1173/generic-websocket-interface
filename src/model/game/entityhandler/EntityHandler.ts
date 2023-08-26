@@ -1,5 +1,5 @@
-import { Id } from "../../utils/Id";
-import { Rect } from "../../utils/physics/geometry/Rect";
+import { Id } from "../../common/Id";
+import { Rect } from "../../common/physics/geometry/Rect";
 import { Entity } from "../entitymodel/entity/Entity";
 import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { IBehaviorModule } from "../entitymodel/modules/behavior/BehaviorModule";
