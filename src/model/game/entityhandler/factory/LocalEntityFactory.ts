@@ -8,35 +8,30 @@ import { Goblin, GoblinData } from "../../entities/goblin/Goblin";
 import { GoblinRenderable } from "../../entities/goblin/GoblinRenderable";
 import { Arrow, ArrowData } from "../../entities/arrow/Arrow";
 import { ArrowRenderable } from "../../entities/arrow/ArrowRenderable";
+import { LocalEntityHandler } from "../LocalEntityHandler";
 
 export class LocalEntityFactory extends EntityFactory {
-  constructor(protected readonly game_system: LocalGameSystem) {
-    super(game_system);
+  constructor(protected readonly game_system: LocalGameSystem, protected readonly entity_handler: LocalEntityHandler) {
+    super(game_system, entity_handler);
   }
 
   public arrow(data: ArrowData): Arrow {
     const arrow = super.arrow(data);
-    this.game_system.game_canvas.insert_renderable(
-      new ArrowRenderable(arrow, this.game_system)
-    );
+    this.game_system.game_canvas.insert_renderable(new ArrowRenderable(arrow, this.game_system));
 
     return arrow;
   }
 
   public tree(data: TreeData): Tree {
     const tree = super.tree(data);
-    this.game_system.game_canvas.insert_renderable(
-      new TreeRenderable(tree, this.game_system)
-    );
+    this.game_system.game_canvas.insert_renderable(new TreeRenderable(tree, this.game_system));
 
     return tree;
   }
 
   public goblin(data: GoblinData): Goblin {
     const goblin = super.goblin(data);
-    this.game_system.game_canvas.insert_renderable(
-      new GoblinRenderable(goblin, this.game_system)
-    );
+    this.game_system.game_canvas.insert_renderable(new GoblinRenderable(goblin, this.game_system));
 
     return goblin;
   }

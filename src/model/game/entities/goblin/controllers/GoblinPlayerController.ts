@@ -59,7 +59,7 @@ export class GoblinPlayerController implements HumanInputObserver {
 
   private shoot_arrow(mouse_pos: StaticPoint) {
     const rotation = GTMath.Rotation(this.goblin.game_space_data.pos, mouse_pos);
-    this.game_system.entity_factory.arrow({
+    this.game_system.entities.make.arrow({
       type: "ArrowData",
       id: uuid(),
       game_space_data: {

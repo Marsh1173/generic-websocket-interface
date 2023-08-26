@@ -1,8 +1,8 @@
+import { HasId } from "../../../../utils/Id";
 import { StaticPoint } from "../../../../utils/physics/geometry/Point";
-import {
-  Shape,
-  LocalShapeVertices,
-} from "../../../../utils/physics/geometry/Shape";
+import { Shape, LocalShapeVertices } from "../../../../utils/physics/geometry/Shape";
+
+export interface StaticCollidableShapeWithId extends StaticCollidableShape, HasId {}
 
 export interface StaticCollidableShape {
   readonly type: "StaticCollidableShape";
@@ -15,10 +15,7 @@ export class StaticCollidableShapeModule implements StaticCollidableShape {
   public readonly origin: StaticPoint;
   public readonly shape: Shape;
 
-  constructor(
-    data: StaticCollidableShapeData,
-    shape_vertices: LocalShapeVertices
-  ) {
+  constructor(data: StaticCollidableShapeData, shape_vertices: LocalShapeVertices) {
     this.origin = data.origin;
     this.shape = new Shape(shape_vertices, this.origin);
   }
