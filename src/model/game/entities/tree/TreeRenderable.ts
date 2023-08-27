@@ -19,6 +19,7 @@ export class TreeRenderable extends Renderable<Tree> {
   private readonly wave_speed_variation: number = 0.1;
   private wave_speed: number = 1 - this.wave_speed_variation / 2 + Math.random() * this.wave_speed_variation;
   public update(elapsed_seconds: number): void {
+    super.update(elapsed_seconds);
     this.total_elapsed_seconds += (elapsed_seconds * this.wave_speed) / 25;
     this.display_object.skew.x = Math.sin(this.total_elapsed_seconds) / 80;
   }

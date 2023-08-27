@@ -14,7 +14,7 @@
 ---
 
 - each frame, renderables will
-  - maybe update x, y, z
+  - update x, y, z
   - update filters
   - update rig
 - renderable classes

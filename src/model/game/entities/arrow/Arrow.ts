@@ -23,8 +23,11 @@ export class Arrow extends BaseEntity implements HasDynamicMovablePoint {
   constructor(data: ArrowData, protected readonly game_system: GameSystem) {
     super(data);
 
-    const mom: StaticVector = GTMath.VectorFromRotation(data.rotation, 10);
+    const mom: StaticVector = GTMath.VectorFromRotation(data.rotation, 0.1);
 
-    this.game_space_data = new DynamicMovablePointModule({ ...data.game_space_data, mom });
+    this.game_space_data = new DynamicMovablePointModule({
+      ...data.game_space_data,
+      mom,
+    });
   }
 }

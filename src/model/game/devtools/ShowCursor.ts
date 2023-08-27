@@ -1,17 +1,42 @@
-import { Application, Graphics } from "pixi.js";
+import { DisplayObject, Graphics } from "pixi.js";
 import { uuid } from "../../common/Id";
-import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
+import { Renderable } from "../display/renderables/Renderable";
+import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
+import { BaseEntity } from "../entitymodel/entity/BaseEntityClass";
+import {
+  DynamicMovablePoint,
+  DynamicMovablePointModule,
+} from "../entitymodel/gamespacedata/dynamicpoint/dynamicmovablepoint/DynamicMovablePoint";
 
-export function ShowCursor(view_app: Application<HTMLCanvasElement>, game_system_io: LocalGameSystemIO) {
-  const mouse_finder: Graphics = new Graphics();
-  mouse_finder.beginFill(0xffffff);
-  mouse_finder.drawCircle(0, 0, 10);
-  game_system_io.human_input_manager.add_observer({
+export function ShowCursor(game_system: LocalGameSystem) {
+  const cursor = new Cursor({ id: uuid() });
+  const renderable = new CursorRenderable(cursor, game_system);
+
+  game_system.game_system_io.human_input_manager.add_observer({
     id: uuid(),
     on_input: () => {},
     on_mouse_move: (params) => {
-      mouse_finder.position.set(params.x, params.y);
+      cursor.game_space_data.pos.x = params.x;
+      cursor.game_space_data.pos.y = params.y;
     },
   });
-  view_app.stage.addChild(mouse_finder);
+
+  game_system.display.canvas.insert_renderable(renderable);
+}
+
+class Cursor extends BaseEntity {
+  public game_space_data: DynamicMovablePoint = new DynamicMovablePointModule({
+    pos: { x: 0, y: 0 },
+    mom: { x: 0, y: 0 },
+  });
+}
+
+class CursorRenderable extends Renderable<any> {
+  protected get_display_object(): DisplayObject {
+    const circle: Graphics = new Graphics();
+    circle.beginFill(0xffffff);
+    circle.drawCircle(0, 0, 10);
+
+    return circle;
+  }
 }

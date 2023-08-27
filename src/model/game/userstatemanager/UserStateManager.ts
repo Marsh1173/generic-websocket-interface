@@ -13,6 +13,8 @@ export abstract class UserStateManager {
       case "PlayerStateData":
         this.set_player_state(initial_state_data);
         break;
+      default:
+        throw new Error("You did not provide an initial user state.");
     }
   }
 
@@ -24,6 +26,12 @@ export abstract class UserStateManager {
   }
 
   protected abstract get_player_state(data: PlayerStateData, goblin: Goblin): UserState;
+
+  public set_loading_state() {
+    this.state.leave_state();
+
+    this.state = new LoadingUserState();
+  }
 
   protected get_loading_state(): UserState {
     return new LoadingUserState();

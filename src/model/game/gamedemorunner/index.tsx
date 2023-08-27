@@ -9,10 +9,11 @@ import { TreeVariation } from "../entities/tree/Tree";
 const goblin_id: Id = uuid();
 
 const trees: EntityData[] = [];
-for (let i: number = 0; i < 14; i++) {
-  const x = (i % 7) * 230 + 200;
-  const y = Math.floor(i / 7) * 300 + 300 + Math.random() * 150;
-  const variation: TreeVariation = (Math.floor(Math.random() * 3) + 1) as TreeVariation;
+for (let i: number = 0; i < 15; i++) {
+  const x = (i % 5) * 3 + 2 + Math.random();
+  const y = Math.floor(i / 5) * 3.5 + 3 + Math.random() * 1.5;
+  const variation: TreeVariation = (Math.floor(Math.random() * 3) +
+    1) as TreeVariation;
   trees.push({
     type: "TreeData",
     game_space_data: { origin: { x: x, y: y } },
@@ -33,7 +34,7 @@ const game_data: LocalGameSystemData = {
       type: "GoblinData",
       id: goblin_id,
       game_space_data: {
-        pos: { x: 400, y: 500 },
+        pos: { x: -2, y: 0 },
         mom: { x: 0, y: 0 },
       },
       health_module_data: { max_health: 100 },

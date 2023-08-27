@@ -8,11 +8,13 @@ import { GTNormalize } from "./Normalize";
 import { GTSegmentAndPointZScalar } from "./SegmentAndPointZScalar";
 import { GTVectorFromRotation } from "./VectorFromRotation";
 import { GTVectorProjection } from "./VectorProjection";
+import { GTDifference } from "./Difference";
 
 export namespace GTMath {
   export const Normal = GTNormal;
   export const Rotation = GTRotation;
   export const Distance = GTDistance;
+  export const Difference = GTDifference;
   export const VectorProjection = GTVectorProjection;
   export const DotProduct = GTDotProduct;
   export const Magnitude = GTMagnitude;

@@ -1,5 +1,10 @@
 import { Vector } from "../../../../../common/physics/geometry/Vector";
-import { DynamicPoint, DynamicPointData, DynamicPointModule, HasDynamicPoint } from "../DynamicPoint";
+import {
+  DynamicPoint,
+  DynamicPointData,
+  DynamicPointModule,
+  HasDynamicPoint,
+} from "../DynamicPoint";
 
 export interface DynamicForceablePoint extends DynamicPoint {
   readonly type: "DynamicForceablePoint";
@@ -12,7 +17,10 @@ export interface HasDynamicForceablePoint extends HasDynamicPoint {
 
 const DEFAULT_FRICTION_CONST: number = 1.5;
 
-export class DynamicForceablePointModule extends DynamicPointModule implements DynamicForceablePoint {
+export class DynamicForceablePointModule
+  extends DynamicPointModule
+  implements DynamicForceablePoint
+{
   public readonly type = "DynamicForceablePoint";
 
   private constant_forces: { force: Vector; cap?: Vector }[] = [];
@@ -130,7 +138,10 @@ export class DynamicForceablePointModule extends DynamicPointModule implements D
     this.constant_forces = [];
   }
 
-  protected get_force_and_overflow(pairs: [number, number][], is_negative: boolean): [number, number] {
+  protected get_force_and_overflow(
+    pairs: [number, number][],
+    is_negative: boolean
+  ): [number, number] {
     let force = 0,
       overflow = 0;
     pairs.sort(([x1, c1], [x2, c2]) => (!is_negative ? c1 - c2 : c2 - c1));

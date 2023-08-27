@@ -10,9 +10,15 @@ import { Goblin } from "../Goblin";
 export class GoblinPlayerController implements HumanInputObserver {
   public readonly id: Id = uuid();
 
-  constructor(private readonly goblin: Goblin, private readonly game_system: GameSystem) {}
+  constructor(
+    private readonly goblin: Goblin,
+    private readonly game_system: GameSystem
+  ) {}
 
-  public readonly on_input = (params: { input: HumanInputEnum; mouse_pos: StaticPoint }) => {
+  public readonly on_input = (params: {
+    input: HumanInputEnum;
+    mouse_pos: StaticPoint;
+  }) => {
     switch (params.input) {
       case HumanInputEnum.MoveUpStart:
         this.goblin.behavior_module.move.move_up(true);
@@ -39,7 +45,7 @@ export class GoblinPlayerController implements HumanInputObserver {
         this.goblin.behavior_module.move.move_right(false);
         break;
       case HumanInputEnum.PrimaryActionStart:
-        this.push_player(params.mouse_pos);
+        // this.push_player(params.mouse_pos);
         break;
       case HumanInputEnum.SecondaryActionStart:
         this.shoot_arrow(params.mouse_pos);
@@ -51,14 +57,17 @@ export class GoblinPlayerController implements HumanInputObserver {
 
   private push_player(mouse_pos: StaticPoint) {
     const goblin_to_point_v: StaticVector = {
-      x: (mouse_pos.x - this.goblin.game_space_data.pos.x) / 10,
-      y: (mouse_pos.y - this.goblin.game_space_data.pos.y) / 10,
+      x: (mouse_pos.x - this.goblin.game_space_data.pos.x) / 100,
+      y: (mouse_pos.y - this.goblin.game_space_data.pos.y) / 100,
     };
     this.goblin.game_space_data.instant_act_on(goblin_to_point_v);
   }
 
   private shoot_arrow(mouse_pos: StaticPoint) {
-    const rotation = GTMath.Rotation(this.goblin.game_space_data.pos, mouse_pos);
+    const rotation = GTMath.Rotation(
+      this.goblin.game_space_data.pos,
+      mouse_pos
+    );
     this.game_system.entities.make.arrow({
       type: "ArrowData",
       id: uuid(),

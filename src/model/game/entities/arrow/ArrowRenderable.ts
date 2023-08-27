@@ -12,10 +12,4 @@ export class ArrowRenderable extends Renderable<Arrow> {
     sprite.rotation = GTMath.Rotation(this.entity.game_space_data.mom);
     return sprite;
   }
-
-  public update(elapsed_seconds: number): void {
-    this.display_object.zIndex = this.entity.game_space_data.pos.y;
-
-    this.display_object.position.set(this.entity.game_space_data.pos.x, this.entity.game_space_data.pos.y);
-  }
 }
