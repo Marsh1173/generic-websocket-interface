@@ -64,6 +64,7 @@ export class DynamicForceablePointModule
   }
 
   protected apply_friction(elapsed_seconds: number, friction_const: number) {
+    //maybe make this a constant force instead?
     if (this.mom.x != 0 || this.mom.y != 0) {
       const len = GTMath.Magnitude(this.mom);
       let normalized_anti_momentum: Vector = {
@@ -84,6 +85,18 @@ export class DynamicForceablePointModule
   }
 
   protected apply_constant_forces(elapsed_seconds: number) {
+    /**
+     * What if instead of looking at each force, we just found each force that would add the most to this entity's momentum?
+     * (in each cardinal direction)
+     *
+     * We need to define what kinds of forces will act on an object.
+     *
+     * 1) constant forces (moving, rivers, wind spells)
+     * 2) redirecting forces (colliding)
+     * 3) instant forces (taking damage)
+     * 4) over time forces (charge) <- maybe animating a constant force?
+     */
+
     if (this.constant_forces.length == 0) {
       return;
     }
