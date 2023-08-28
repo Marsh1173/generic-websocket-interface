@@ -1,6 +1,6 @@
 import { HasId, Id } from "../Id";
 
-const MAX_NODE_SIZE: number = 10;
+const MAX_NODE_SIZE: number = 5;
 
 export abstract class QuadTreeNode<
   ItemType extends HasId,

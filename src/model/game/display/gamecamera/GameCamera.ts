@@ -21,10 +21,13 @@ export class GameCamera {
     }
   }
 
-  private readonly follow_delay_const: number = 0.08;
+  private readonly follow_delay_const: number = 0.05;
   public update(elapsed_seconds: number) {
     if (this.focus) {
-      const focus_diff = GTMath.Difference(this.camera_center, this.focus);
+      const focus_diff = GTMath.Difference(this.camera_center, {
+        x: this.focus.x,
+        y: this.focus.y - 1,
+      });
       this.camera_center.x += focus_diff.x * this.follow_delay_const;
       this.camera_center.y += focus_diff.y * this.follow_delay_const;
     }

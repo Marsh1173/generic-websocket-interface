@@ -1,4 +1,5 @@
 import { Vector } from "../../../../../common/physics/geometry/Vector";
+import { GTMath } from "../../../../../common/physics/math/GTMath";
 import {
   DynamicPoint,
   DynamicPointData,
@@ -64,7 +65,7 @@ export class DynamicForceablePointModule
 
   protected apply_friction(elapsed_seconds: number, friction_const: number) {
     if (this.mom.x != 0 || this.mom.y != 0) {
-      let len: number = Math.sqrt(this.mom.x ** 2 + this.mom.y ** 2);
+      const len = GTMath.Magnitude(this.mom);
       let normalized_anti_momentum: Vector = {
         x: (this.mom.x * friction_const * elapsed_seconds) / len,
         y: (this.mom.y * friction_const * elapsed_seconds) / len,
