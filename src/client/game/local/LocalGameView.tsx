@@ -53,6 +53,7 @@ export class LocalGameComponent extends Component<
 
   public componentDidMount() {
     this.view_ref.current!.appendChild(this.view_app.view);
+    this.last_time_stamp = Date.now();
     this.view_app.ticker.add(this.update_game_system);
   }
 
@@ -60,7 +61,12 @@ export class LocalGameComponent extends Component<
     this.view_app.ticker.remove(this.update_game_system);
   }
 
-  protected readonly update_game_system = (elapsed_seconds: number) => {
-    this.game_system.update(elapsed_seconds);
+  protected last_time_stamp: number = 0;
+  protected readonly update_game_system = () => {
+    const now = Date.now();
+    const diff = now - this.last_time_stamp;
+    this.last_time_stamp = now;
+
+    this.game_system.update(diff / 1000);
   };
 }

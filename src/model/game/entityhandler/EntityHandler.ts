@@ -34,13 +34,13 @@ export abstract class EntityHandler implements EntityHandlerApi {
       this.behaviors_map.set(entity.id, entity.behavior_module);
     }
 
-    if (
-      entity.game_space_data.type === "DynamicMovablePoint" ||
-      entity.game_space_data.type === "DynamicForceablePoint"
-    ) {
+    if (entity.game_space_data.type === "DynamicPoint") {
       this.dynamic_points_map.set(entity.id, entity.game_space_data);
     } else if (entity.game_space_data.type === "StaticCollidableShape") {
-      this.collidable_shapes.insert({ id: entity.id, ...entity.game_space_data });
+      this.collidable_shapes.insert({
+        id: entity.id,
+        ...entity.game_space_data,
+      });
     }
   }
 
@@ -50,7 +50,10 @@ export abstract class EntityHandler implements EntityHandlerApi {
     this.dynamic_points_map.delete(entity.id);
 
     if (entity.game_space_data.type === "StaticCollidableShape") {
-      this.collidable_shapes.remove({ id: entity.id, ...entity.game_space_data });
+      this.collidable_shapes.remove({
+        id: entity.id,
+        ...entity.game_space_data,
+      });
     }
 
     entity.deconstruct_module.on_deconstruct();
@@ -69,7 +72,7 @@ export abstract class EntityHandler implements EntityHandlerApi {
 
   public process_all_physics(elapsed_seconds: number): void {
     for (const physics_module of this.dynamic_points_map.values()) {
-      physics_module.update_position(elapsed_seconds);
+      physics_module.update(elapsed_seconds);
     }
   }
 }

@@ -9,7 +9,7 @@ export class ArrowRenderable extends Renderable<Arrow> {
     const sprite = new Sprite(ImageAssets.textures["entity-arrow"]);
     sprite.anchor.set(0.5, 0.9);
     sprite.scale.set(0.3);
-    sprite.rotation = GTMath.Rotation(this.entity.game_space_data.mom);
+    sprite.rotation = this.entity.rotation;
     return sprite;
   }
 }

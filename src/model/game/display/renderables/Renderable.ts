@@ -27,10 +27,7 @@ export abstract class Renderable<EntityType extends Entity> {
     let entity_pos!: StaticPoint;
     if (this.entity.game_space_data.type === "StaticCollidableShape") {
       entity_pos = this.entity.game_space_data.origin;
-    } else if (
-      this.entity.game_space_data.type === "DynamicMovablePoint" ||
-      this.entity.game_space_data.type === "DynamicForceablePoint"
-    ) {
+    } else if (this.entity.game_space_data.type === "DynamicPoint") {
       entity_pos = this.entity.game_space_data.pos;
     }
 
@@ -38,10 +35,7 @@ export abstract class Renderable<EntityType extends Entity> {
       this.game_system.display.camera.global_units_to_pixel_coords(entity_pos);
     this.display_object.position.set(pixel_coords.x, pixel_coords.y);
 
-    if (
-      this.entity.game_space_data.type === "DynamicMovablePoint" ||
-      this.entity.game_space_data.type === "DynamicForceablePoint"
-    ) {
+    if (this.entity.game_space_data.type === "DynamicPoint") {
       this.display_object.zIndex = this.entity.game_space_data.pos.y;
     }
 

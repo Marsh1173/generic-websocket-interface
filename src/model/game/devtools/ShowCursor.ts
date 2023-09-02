@@ -3,10 +3,7 @@ import { uuid } from "../../common/Id";
 import { Renderable } from "../display/renderables/Renderable";
 import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
 import { BaseEntity } from "../entitymodel/entity/BaseEntityClass";
-import {
-  DynamicMovablePoint,
-  DynamicMovablePointModule,
-} from "../entitymodel/gamespacedata/dynamicpoint/dynamicmovablepoint/DynamicMovablePoint";
+import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 
 export function ShowCursor(game_system: LocalGameSystem) {
   const cursor = new Cursor({ id: uuid() });
@@ -25,9 +22,8 @@ export function ShowCursor(game_system: LocalGameSystem) {
 }
 
 class Cursor extends BaseEntity {
-  public game_space_data: DynamicMovablePoint = new DynamicMovablePointModule({
+  public game_space_data: DynamicPoint = new DynamicPoint({
     pos: { x: 0, y: 0 },
-    mom: { x: 0, y: 0 },
   });
 }
 

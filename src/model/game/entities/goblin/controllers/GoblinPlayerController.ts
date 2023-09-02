@@ -45,7 +45,7 @@ export class GoblinPlayerController implements HumanInputObserver {
         this.goblin.behavior_module.move.move_right(false);
         break;
       case HumanInputEnum.PrimaryActionStart:
-        this.push_player(params.mouse_pos);
+        // this.push_player(params.mouse_pos);
         break;
       case HumanInputEnum.SecondaryActionStart:
         this.shoot_arrow(params.mouse_pos);
@@ -55,13 +55,13 @@ export class GoblinPlayerController implements HumanInputObserver {
 
   public on_mouse_move = (params: Readonly<Point>) => {};
 
-  private push_player(mouse_pos: StaticPoint) {
-    const goblin_to_point_v: StaticVector = {
-      x: mouse_pos.x - this.goblin.game_space_data.pos.x,
-      y: mouse_pos.y - this.goblin.game_space_data.pos.y,
-    };
-    this.goblin.game_space_data.instant_act_on(goblin_to_point_v);
-  }
+  // private push_player(mouse_pos: StaticPoint) {
+  //   const goblin_to_point_v: StaticVector = {
+  //     x: mouse_pos.x - this.goblin.game_space_data.pos.x,
+  //     y: mouse_pos.y - this.goblin.game_space_data.pos.y,
+  //   };
+  //   this.goblin.game_space_data.instant_act_on(goblin_to_point_v);
+  // }
 
   private shoot_arrow(mouse_pos: StaticPoint) {
     const rotation = GTMath.Rotation(

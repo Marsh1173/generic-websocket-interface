@@ -2,12 +2,11 @@ import { StaticVector } from "../../../common/physics/geometry/Vector";
 import { GTMath } from "../../../common/physics/math/GTMath";
 import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 import { BaseEntityData } from "../../entitymodel/entity/EntityData";
-import { DynamicPointData } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import {
-  HasDynamicMovablePoint,
-  DynamicMovablePoint,
-  DynamicMovablePointModule,
-} from "../../entitymodel/gamespacedata/dynamicpoint/dynamicmovablepoint/DynamicMovablePoint";
+  DynamicPointData,
+  HasDynamicPoint,
+  DynamicPoint,
+} from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { GameSystem } from "../../gamesystem/GameSystem";
 
 export interface ArrowData extends BaseEntityData {
@@ -16,18 +15,26 @@ export interface ArrowData extends BaseEntityData {
   rotation: number;
 }
 
-export class Arrow extends BaseEntity implements HasDynamicMovablePoint {
+const ARROW_VELOCITY: number = 7;
+
+export class Arrow extends BaseEntity implements HasDynamicPoint {
   public readonly type = "Arrow";
-  public readonly game_space_data: DynamicMovablePoint;
+  public readonly game_space_data: DynamicPoint;
+  public readonly rotation: number;
 
   constructor(data: ArrowData, protected readonly game_system: GameSystem) {
     super(data);
 
-    const mom: StaticVector = GTMath.VectorFromRotation(data.rotation, 0.1);
+    this.rotation = data.rotation;
+    const mom: StaticVector = GTMath.VectorFromRotation(
+      this.rotation,
+      ARROW_VELOCITY
+    );
 
-    this.game_space_data = new DynamicMovablePointModule({
+    this.game_space_data = new DynamicPoint({
       ...data.game_space_data,
-      mom,
     });
+
+    this.game_space_data.apply_constant_velocity("", mom);
   }
 }

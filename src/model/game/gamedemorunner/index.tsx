@@ -35,7 +35,6 @@ const game_data: LocalGameSystemData = {
       id: goblin_id,
       game_space_data: {
         pos: { x: -2, y: 0 },
-        mom: { x: 0, y: 0 },
       },
       health_module_data: { max_health: 100 },
       behavior_data: {},

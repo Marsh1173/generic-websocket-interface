@@ -1,7 +1,10 @@
 import { DisplayObject, Sprite } from "pixi.js";
 import { Renderable } from "../../display/renderables/Renderable";
 import { Tree } from "./Tree";
-import { GTTexture, ImageAssets } from "../../../../client/assets/image/ImageAssets";
+import {
+  GTTexture,
+  ImageAssets,
+} from "../../../../client/assets/image/ImageAssets";
 
 export class TreeRenderable extends Renderable<Tree> {
   protected get_display_object(): DisplayObject {
@@ -15,13 +18,16 @@ export class TreeRenderable extends Renderable<Tree> {
   }
 
   // Temporary wave-y logic
-  private total_elapsed_seconds: number = Math.random() * 25;
+  private total_elapsed_seconds: number = Math.random();
   private readonly wave_speed_variation: number = 0.1;
-  private wave_speed: number = 1 - this.wave_speed_variation / 2 + Math.random() * this.wave_speed_variation;
+  private wave_speed: number =
+    1 -
+    this.wave_speed_variation / 2 +
+    Math.random() * this.wave_speed_variation;
   public update(elapsed_seconds: number): void {
     super.update(elapsed_seconds);
-    this.total_elapsed_seconds += (elapsed_seconds * this.wave_speed) / 25;
-    this.display_object.skew.x = Math.sin(this.total_elapsed_seconds) / 80;
+    this.total_elapsed_seconds += elapsed_seconds * this.wave_speed;
+    this.display_object.skew.x = Math.sin(this.total_elapsed_seconds * 2) / 80;
   }
 
   private get_texture(): GTTexture {
