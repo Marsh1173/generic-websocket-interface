@@ -1,12 +1,9 @@
 import { Assertions } from "../../../../../tester/assert";
 import { Tester } from "../../../../../tester/tester";
 import { uuid } from "../../../../common/Id";
+import { NearlyEquals } from "../../../../common/NearlyEquals";
 import { StaticVector } from "../../../../common/physics/geometry/Vector";
 import { DynamicPoint, PositionPath } from "./DynamicPoint";
-
-const nearly_equals = (v1: number, v2: number) => {
-  return v2 < v1 + Number.EPSILON || v2 > v1 - Number.EPSILON;
-};
 
 Tester.run("DynamicPoint", [
   [
@@ -36,8 +33,8 @@ Tester.run("DynamicPoint", [
           p.update(1 / i);
         }
 
-        Assertions.assertEquals(p.pos.x, Math.sqrt(2), nearly_equals);
-        Assertions.assertEquals(p.pos.y, Math.sqrt(3), nearly_equals);
+        Assertions.assertEquals(p.pos.x, Math.sqrt(2), NearlyEquals);
+        Assertions.assertEquals(p.pos.y, Math.sqrt(3), NearlyEquals);
       }
     },
   ],
@@ -57,13 +54,13 @@ Tester.run("DynamicPoint", [
 
       p.update(time / 2);
 
-      Assertions.assertEquals(p.pos.x, 1, nearly_equals);
-      Assertions.assertEquals(p.pos.y, 0, nearly_equals);
+      Assertions.assertEquals(p.pos.x, 1, NearlyEquals);
+      Assertions.assertEquals(p.pos.y, 0, NearlyEquals);
 
       p.update(time / 2);
 
-      Assertions.assertEquals(p.pos.x, 0, nearly_equals);
-      Assertions.assertEquals(p.pos.y, -1, nearly_equals);
+      Assertions.assertEquals(p.pos.x, 0, NearlyEquals);
+      Assertions.assertEquals(p.pos.y, -1, NearlyEquals);
     },
   ],
   [
@@ -86,8 +83,8 @@ Tester.run("DynamicPoint", [
           p.update(1 / i);
         }
 
-        Assertions.assertEquals(p.pos.x, 0, nearly_equals);
-        Assertions.assertEquals(p.pos.y, -1, nearly_equals);
+        Assertions.assertEquals(p.pos.x, 0, NearlyEquals);
+        Assertions.assertEquals(p.pos.y, -1, NearlyEquals);
       }
     },
   ],
