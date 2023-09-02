@@ -22,9 +22,12 @@ export function ShowCursor(game_system: LocalGameSystem) {
 }
 
 class Cursor extends BaseEntity {
-  public game_space_data: DynamicPoint = new DynamicPoint({
-    pos: { x: 0, y: 0 },
-  });
+  public game_space_data: DynamicPoint = new DynamicPoint(
+    {
+      pos: { x: 0, y: 0 },
+    },
+    false
+  );
 }
 
 class CursorRenderable extends Renderable<any> {

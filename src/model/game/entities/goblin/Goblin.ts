@@ -39,7 +39,7 @@ export class Goblin
     super(data);
     const health_observable = new HealthObservable();
 
-    this.game_space_data = new DynamicPoint(data.game_space_data);
+    this.game_space_data = new DynamicPoint(data.game_space_data, true);
     this.health_module = new HealthModule(
       health_observable,
       this,

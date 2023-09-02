@@ -17,7 +17,7 @@ export class DynamicPoint {
   public readonly prev_pos: Point;
   public readonly pos: Point;
 
-  constructor(data: DynamicPointData) {
+  constructor(data: DynamicPointData, public readonly collision: boolean) {
     this.prev_pos = { ...data.pos };
     this.pos = { ...data.pos };
   }

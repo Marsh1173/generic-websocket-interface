@@ -12,7 +12,7 @@ Tester.run("DynamicPoint", [
   [
     "correctly affected by constant velocity",
     () => {
-      const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } });
+      const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } }, false);
       const force: StaticVector = { x: 10, y: 5 };
       const time: number = 1000;
       p.apply_constant_velocity(uuid(), force);
@@ -26,7 +26,10 @@ Tester.run("DynamicPoint", [
     "handle constant velocity consistently regardless of fps",
     () => {
       for (let i: number = 1; i <= 60; i++) {
-        const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } });
+        const p: DynamicPoint = new DynamicPoint(
+          { pos: { x: 0, y: 0 } },
+          false
+        );
         p.apply_constant_velocity(uuid(), { x: Math.sqrt(2), y: Math.sqrt(3) });
 
         for (let j: number = 1; j <= i; j++) {
@@ -41,7 +44,7 @@ Tester.run("DynamicPoint", [
   [
     "correctly affected by position curves",
     () => {
-      const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } });
+      const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } }, false);
       const time: number = Math.PI;
       const path: PositionPath = {
         f: (t: number) => {
@@ -67,7 +70,10 @@ Tester.run("DynamicPoint", [
     "handle position paths consistently regardless of fps",
     () => {
       for (let i: number = 1; i <= 60; i++) {
-        const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } });
+        const p: DynamicPoint = new DynamicPoint(
+          { pos: { x: 0, y: 0 } },
+          false
+        );
         const path: PositionPath = {
           f: (t: number) => {
             return { x: Math.sin(t), y: Math.cos(t) };
