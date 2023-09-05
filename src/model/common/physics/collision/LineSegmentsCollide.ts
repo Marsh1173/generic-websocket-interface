@@ -2,6 +2,10 @@ import { StaticPoint } from "../geometry/Point";
 import { StaticSegment } from "../geometry/Segment";
 import { GTMath } from "../math/GTMath";
 
+export type LineSegmentsCollideReturnData =
+  | undefined
+  | { seg1_proportion: number; seg2_proportion: number };
+
 /**
  * Get values from segment in the form of ax + by = c
  * @param seg
@@ -32,14 +36,14 @@ function get_segment_proportion(
 }
 
 /**
- * Returns the 0-1 proportion along `seg1` where the segments collide, or undefined if the segments do not collide.
+ * Returns the 0-1 proportion along `seg1` and `seg2` where the segments collide, or undefined if the segments do not collide.
  *
  * This is a comprehensive (and expensive) check, so do any possible narrowing beforehand.
  */
 export function GTLineSegmentsCollide(
   seg1: StaticSegment,
   seg2: StaticSegment
-): undefined | number {
+): LineSegmentsCollideReturnData {
   const [a1, b1, c1] = get_a_b_c(seg1);
   const [a2, b2, c2] = get_a_b_c(seg2);
   const d = a1 * b2 - b1 * a2;
@@ -68,6 +72,6 @@ export function GTLineSegmentsCollide(
     // collision happened outside of segments
     return undefined;
   } else {
-    return seg1_proportion;
+    return { seg1_proportion, seg2_proportion };
   }
 }

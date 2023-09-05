@@ -50,7 +50,7 @@ export class LocalGameSystem extends GameSystem {
 
   protected update_all_entities(elapsed_seconds: number): void {
     this.entities.perform_all_behaviors(elapsed_seconds);
-    this.entities.process_all_physics(elapsed_seconds);
+    this.entities.physics.execute(elapsed_seconds);
   }
 }
 

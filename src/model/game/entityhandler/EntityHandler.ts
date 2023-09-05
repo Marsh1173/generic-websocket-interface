@@ -6,17 +6,19 @@ import { IBehaviorModule } from "../entitymodel/modules/behavior/BehaviorModule"
 import { CollidableShapesQuadTree } from "./collidableshapes/CollidableShapesQuadTree";
 import { EntityFactory } from "./factory/EntityFactory";
 import { EntityFinder } from "./finder/EntityFinder";
+import { PhysicsEngine } from "./physics/PhysicsEngine";
 
 export interface EntityHandlerApi {
   readonly make: EntityFactory;
   readonly find: EntityFinder;
+  readonly physics: PhysicsEngine;
   perform_all_behaviors(elapsed_seconds: number): void;
-  process_all_physics(elapsed_seconds: number): void;
 }
 
 export abstract class EntityHandler implements EntityHandlerApi {
   public abstract readonly make: EntityFactory;
   public abstract readonly find: EntityFinder;
+  public readonly physics: PhysicsEngine;
 
   public readonly entity_map: Map<Id, Entity> = new Map();
   public readonly behaviors_map: Map<Id, IBehaviorModule> = new Map();
@@ -26,6 +28,11 @@ export abstract class EntityHandler implements EntityHandlerApi {
 
   constructor(dimensions: Rect) {
     this.collidable_shapes = new CollidableShapesQuadTree(dimensions);
+
+    this.physics = new PhysicsEngine(
+      this.dynamic_points_map,
+      this.collidable_shapes
+    );
   }
 
   public insert(entity: Entity) {
@@ -67,12 +74,6 @@ export abstract class EntityHandler implements EntityHandlerApi {
   public perform_all_behaviors(elapsed_seconds: number): void {
     for (const behavior of this.behaviors_map.values()) {
       behavior.update(elapsed_seconds);
-    }
-  }
-
-  public process_all_physics(elapsed_seconds: number): void {
-    for (const physics_module of this.dynamic_points_map.values()) {
-      physics_module.update(elapsed_seconds);
     }
   }
 }

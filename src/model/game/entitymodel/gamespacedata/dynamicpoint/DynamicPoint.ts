@@ -4,6 +4,7 @@ import {
   StaticVector,
   Vector,
 } from "../../../../common/physics/geometry/Vector";
+import { ShapeCollision } from "../../../entityhandler/physics/CollisionDetector";
 
 export class DynamicPoint {
   public readonly type = "DynamicPoint";
@@ -37,6 +38,11 @@ export class DynamicPoint {
   public clear_position_path(id: Id) {
     this.position_paths.delete(id);
   }
+
+  /**
+   * Optionally overridable
+   */
+  public on_collide(collision: ShapeCollision): void {}
 
   public update(elapsed_seconds: number) {
     const v: Vector = { x: 0, y: 0 };

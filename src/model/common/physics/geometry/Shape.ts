@@ -1,5 +1,6 @@
 import { GTMath } from "../math/GTMath";
 import { StaticPoint } from "./Point";
+import { GlobalRect } from "./Rect";
 import { StaticSegment } from "./Segment";
 import { StaticVector } from "./Vector";
 
@@ -46,7 +47,8 @@ export class Shape {
         x: vertex.x + this.origin.x,
         y: vertex.y + this.origin.y,
       };
-      const next_local_vertex = shape_vertices.vertices[(index + 1) % shape_vertices.vertices.length];
+      const next_local_vertex =
+        shape_vertices.vertices[(index + 1) % shape_vertices.vertices.length];
       const next_global_vertex = {
         x: next_local_vertex.x + this.origin.x,
         y: next_local_vertex.y + this.origin.y,
@@ -62,5 +64,42 @@ export class Shape {
         normal: GTMath.Normal(vertex, next_local_vertex),
       };
     });
+  }
+
+  public next_vertex(index: number): ShapeVertexData {
+    return this.vertices_data[(index + 1) % this.vertices_data.length];
+  }
+
+  public previous_vertex(index: number): ShapeVertexData {
+    return this.vertices_data[
+      (index + this.vertices_data.length - 1) % this.vertices_data.length
+    ];
+  }
+
+  private _bounding_box: GlobalRect | undefined = undefined;
+  public get bounding_box(): GlobalRect {
+    if (this._bounding_box) {
+      return this._bounding_box;
+    }
+
+    let top: number = this.vertices_data[0].vertex.y;
+    let bottom: number = this.vertices_data[0].vertex.y;
+    let left: number = this.vertices_data[0].vertex.x;
+    let right: number = this.vertices_data[0].vertex.x;
+
+    this.vertices_data.forEach((data) => {
+      top = Math.max(top, data.vertex.y);
+      bottom = Math.min(bottom, data.vertex.y);
+      left = Math.min(left, data.vertex.x);
+      right = Math.max(right, data.vertex.x);
+    });
+
+    this._bounding_box = {
+      top,
+      bottom,
+      left,
+      right,
+    };
+    return this._bounding_box;
   }
 }

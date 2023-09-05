@@ -10,10 +10,10 @@
 
 ## GT
 
-- Phinish Fysics
-  - Friction
-  - BUG: Try pushing a goblin in the direction you're running. You should see a weird bounce animation.
-  - static shape collision
+- Physics
+  - Make hecka tests
+  - Manually test
+- IDEA (especially for local games): Manage offline map tiles, and feed them into the entity handler as actors get close enough
 - Map + tiles
 - UI
   - health
