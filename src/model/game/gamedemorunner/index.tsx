@@ -9,9 +9,9 @@ import { TreeVariation } from "../entities/tree/Tree";
 const goblin_id: Id = uuid();
 
 const trees: EntityData[] = [];
-for (let i: number = 0; i < 15; i++) {
-  const x = (i % 5) * 3 + 2 + Math.random();
-  const y = Math.floor(i / 5) * 3.5 + 3 + Math.random() * 1.5;
+for (let i: number = 0; i < 12; i++) {
+  const x = (i % 4) * 4 + 2 + Math.random() * 1.5;
+  const y = Math.floor(i / 4) * 4 + 3 + Math.random() * 1.5;
   const variation: TreeVariation = (Math.floor(Math.random() * 3) +
     1) as TreeVariation;
   trees.push({
@@ -23,11 +23,26 @@ for (let i: number = 0; i < 15; i++) {
   });
 }
 
+const sheep: EntityData[] = [];
+for (let i: number = 0; i < 10; i++) {
+  const x = 2 + Math.random() * 14;
+  const y = 2 + Math.random() * 10;
+
+  trees.push({
+    type: "SheepData",
+    id: uuid(),
+    game_space_data: {
+      pos: { x, y },
+    },
+    health_module_data: { max_health: 100 },
+  });
+}
+
 const game_data: LocalGameSystemData = {
   human_input_config: DEFAULT_HUMAN_INPUT_CONFIG,
   resolution: "standard",
   map_size: { w: 10, h: 10 },
-  entities: trees,
+  entities: [...sheep, ...trees],
   user_state_data: {
     type: "PlayerStateData",
     goblin_data: {
