@@ -2,9 +2,10 @@ import { StaticPoint } from "../geometry/Point";
 import { StaticSegment } from "../geometry/Segment";
 import { GTMath } from "../math/GTMath";
 
-export type LineSegmentsCollideReturnData =
-  | undefined
-  | { seg1_proportion: number; seg2_proportion: number };
+export type LineSegmentsCollideReturnData = {
+  seg1_proportion: number;
+  seg2_proportion: number;
+};
 
 /**
  * Get values from segment in the form of ax + by = c
@@ -43,7 +44,7 @@ function get_segment_proportion(
 export function GTLineSegmentsCollide(
   seg1: StaticSegment,
   seg2: StaticSegment
-): LineSegmentsCollideReturnData {
+): LineSegmentsCollideReturnData | undefined {
   const [a1, b1, c1] = get_a_b_c(seg1);
   const [a2, b2, c2] = get_a_b_c(seg2);
   const d = a1 * b2 - b1 * a2;

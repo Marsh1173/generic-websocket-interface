@@ -8,7 +8,6 @@ export function GTVectorProjection(
   v1: StaticVector,
   v2: StaticVector
 ): StaticVector {
-  const mult_factor: number =
-    GTMath.DotProduct(v1, v2) / (v2.x ** 2 + v2.y ** 2);
+  const mult_factor: number = GTMath.ScalarProjection(v1, v2);
   return { x: v2.x * mult_factor, y: v2.y * mult_factor };
 }

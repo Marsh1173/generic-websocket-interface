@@ -14,7 +14,9 @@ Tester.run("LineSegmentsCollide", [
         p1: { x: 0, y: 2 },
         p2: { x: 2, y: 0 },
       });
-      Assertions.assertEquals(result1, 1 / 3);
+      Assertions.assertIsDefined(result1);
+      Assertions.assertEquals(result1.seg1_proportion, 1 / 3);
+      Assertions.assertEquals(result1.seg2_proportion, 1 / 2);
 
       const result2 = GTCollision.LineSegmentsCollide(seg1, {
         p1: { x: 2, y: 0 },
@@ -34,13 +36,15 @@ Tester.run("LineSegmentsCollide", [
         p1: { x: 1, y: 1 },
         p2: { x: 2, y: 2 },
       });
-      Assertions.assertEquals(result1, 0.5);
+      Assertions.assertIsDefined(result1);
+      Assertions.assertEquals(result1.seg1_proportion, 0.5);
 
       const result2 = GTCollision.LineSegmentsCollide(seg1, {
         p1: { x: 1, y: -1 },
         p2: { x: 3, y: 1 },
       });
-      Assertions.assertEquals(result2, 1);
+      Assertions.assertIsDefined(result2);
+      Assertions.assertEquals(result2.seg1_proportion, 1);
     },
   ],
   [
@@ -56,7 +60,8 @@ Tester.run("LineSegmentsCollide", [
           p2: { x: 2, y: 1 },
         }
       );
-      Assertions.assertEquals(result, 1);
+      Assertions.assertIsDefined(result);
+      Assertions.assertEquals(result.seg1_proportion, 1);
     },
   ],
   [
@@ -86,7 +91,8 @@ Tester.run("LineSegmentsCollide", [
         p1: { x: -1, y: 2 },
         p2: { x: 2, y: -1 },
       });
-      Assertions.assertEquals(happy_result, 0.5);
+      Assertions.assertIsDefined(happy_result);
+      Assertions.assertEquals(happy_result.seg1_proportion, 0.5);
 
       const sad_result = GTCollision.LineSegmentsCollide(vertical_segment, {
         p1: { x: 1, y: 1 },
@@ -106,7 +112,8 @@ Tester.run("LineSegmentsCollide", [
         p1: { x: 0, y: 1 },
         p2: { x: 3, y: -2 },
       });
-      Assertions.assertEquals(happy_result, 0.5);
+      Assertions.assertIsDefined(happy_result);
+      Assertions.assertEquals(happy_result.seg1_proportion, 0.5);
 
       const sad_result = GTCollision.LineSegmentsCollide(horizontal_segment, {
         p1: { x: 0, y: 2 },

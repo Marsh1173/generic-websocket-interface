@@ -16,5 +16,6 @@
     "src/model/**/*.js",
     "src/model/**/*.ts",
     "src/model/**/*.tsx"
-  ]
+  ],
+  "exclude": ["src/**/*.spec.ts"]
 }
