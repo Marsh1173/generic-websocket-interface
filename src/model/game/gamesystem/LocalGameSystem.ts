@@ -37,6 +37,8 @@ export class LocalGameSystem extends GameSystem {
     );
 
     this.entities.make.from_data(data.entities);
+
+    ShowCursor(this);
   }
 
   public update(elapsed_seconds: number) {
