@@ -19,25 +19,22 @@ export class TreeRenderable extends Renderable<Tree> {
     sprite.anchor.set(0.5, 0.95);
     sprite.scale.set(0.5);
 
-    sprite.zIndex = this.entity.game_space_data.shape.origin.y;
+    // const p1 = this.game_system.display.camera.global_units_to_pixel_coords(
+    //   this.entity.game_space_data.shape.vertices_data[0].vertex
+    // );
+    // const p2 = this.game_system.display.camera.global_units_to_pixel_coords(
+    //   this.entity.game_space_data.shape.vertices_data[2].vertex
+    // );
 
-    const p1 = this.game_system.display.camera.global_units_to_pixel_coords(
-      this.entity.game_space_data.shape.vertices_data[0].vertex
-    );
-    const p2 = this.game_system.display.camera.global_units_to_pixel_coords(
-      this.entity.game_space_data.shape.vertices_data[2].vertex
-    );
+    // const w = Math.abs(p1.x - p2.x);
+    // const h = Math.abs(p1.y - p2.y);
 
-    const w = Math.abs(p1.x - p2.x);
-    const h = Math.abs(p1.y - p2.y);
-
-    const rect = new Graphics();
-    rect.lineTextureStyle;
-    rect.lineStyle(1, 0xffffff);
-    rect.drawRect(-w / 2, -h / 2, w, h);
+    // const rect = new Graphics();
+    // rect.lineStyle(1, 0xffffff);
+    // rect.drawRect(-w / 2, -h / 2, w, h);
 
     container.addChild(sprite);
-    container.addChild(rect);
+    // container.addChild(rect);
 
     return container;
   }

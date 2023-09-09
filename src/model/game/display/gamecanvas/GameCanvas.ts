@@ -1,8 +1,7 @@
-import { Application, TilingSprite } from "pixi.js";
+import { Application } from "pixi.js";
 import { Renderable } from "../renderables/Renderable";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { Id } from "../../../common/Id";
-import { ImageAssets } from "../../../../client/assets/image/ImageAssets";
 
 export class GameCanvas {
   private readonly renderable_map: Map<Id, Renderable<Entity>> = new Map();
@@ -10,8 +9,6 @@ export class GameCanvas {
     // TODO find better-placed solution
     view_app.stage.sortableChildren = true;
     view_app.stage.interactiveChildren = false;
-
-    this.set_tiling_background();
   }
 
   public insert_renderable(renderable: Renderable<Entity>) {
@@ -33,18 +30,5 @@ export class GameCanvas {
 
   public update_all_renderables(elapsed_seconds: number) {
     this.renderable_map.forEach((r) => r.update(elapsed_seconds));
-  }
-
-  private set_tiling_background() {
-    // MVP - please delete at some point
-    const scale = 0.4;
-    const tiling_sprite = new TilingSprite(
-      ImageAssets.textures["ground-grass"]
-    );
-    tiling_sprite.scale.set(scale);
-    tiling_sprite.width = this.view_app.screen.width / scale;
-    tiling_sprite.height = this.view_app.screen.height / scale;
-
-    this.view_app.stage.addChild(tiling_sprite);
   }
 }

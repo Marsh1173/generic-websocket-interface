@@ -3,5 +3,5 @@ import { LocalShapeVertices } from "../../../common/physics/geometry/Shape";
 
 export const TreeShapeData: LocalShapeVertices = Rect.to_vertices({
   w: 2,
-  h: 2,
+  h: 1,
 });
