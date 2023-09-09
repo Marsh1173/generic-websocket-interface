@@ -37,7 +37,7 @@
     "build": "yarn && npx webpack --config src/tools/webpack/prod.config.js --mode production",
     "prod-server": "ts-node ./src/tools/server/prod-index.ts",
     "dev-server": "ts-node-dev --respawn --notify false --prefer-ts --ignore-watch node_modules -- ./src/tools/server/dev-index.ts",
-    "test": "python3 ./src/tester/run.py",
+    "test": "python ./src/tester/run.py",
     "reset-db": "ts-node ./src/tools/reset-db.ts",
     "change-user-password": "ts-node ./src/server/utils/tools/change-user-password.ts",
     "map-previewer": "yarn && npx webpack serve --config src/tools/webpack/map-previewer.config.js",

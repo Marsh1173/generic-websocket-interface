@@ -1,3 +1,5 @@
+import { NearlyEquals } from "../Nearly/NearlyEquals";
+import { NearlyGreaterThan } from "../Nearly/NearlyGreaterThan";
 import { StaticPoint } from "../geometry/Point";
 import { StaticSegment } from "../geometry/Segment";
 import { Shape, ShapeVertexData } from "../geometry/Shape";
@@ -25,30 +27,16 @@ export function GTSegmentCollidesWithStaticShape(
   segment: StaticSegment,
   shape: Shape
 ): SegmentCollidesWithStaticShapeReturnData | undefined {
-  let return_data: SegmentCollidesWithStaticShapeReturnData | undefined =
-    undefined;
+  let return_data: SegmentCollidesWithStaticShapeReturnData | undefined = undefined;
 
   for (const shape_vertex of shape.vertices_data) {
-    const collision_results = GTCollision.LineSegmentsCollide(
-      segment,
-      shape_vertex.edge_segment
-    );
+    const collision_results = GTCollision.LineSegmentsCollide(segment, shape_vertex.edge_segment);
 
-    if (
-      !collision_results ||
-      !is_viable_edge_collision(
-        segment,
-        shape_vertex,
-        collision_results.seg2_proportion
-      )
-    ) {
+    if (!collision_results || !is_viable_edge_collision(segment, shape_vertex, collision_results.seg2_proportion)) {
       continue;
     }
 
-    if (
-      !return_data ||
-      is_preferred_edge_collision(return_data, collision_results)
-    ) {
+    if (!return_data || is_preferred_edge_collision(return_data, collision_results)) {
       return_data = {
         seg_progress: collision_results.seg1_proportion,
         edge_progress: collision_results.seg2_proportion,
@@ -66,24 +54,13 @@ function is_viable_edge_collision(
   edge_progress: number
 ): boolean {
   return (
-    !move_segment_starts_inside_edge(
-      move_segment.p1,
-      vertex_data.edge_segment
-    ) &&
-    !move_segment_skids_off_corner(
-      move_segment.p1,
-      edge_progress,
-      vertex_data.edge_segment,
-      vertex_data.edge_vector
-    )
+    !move_segment_starts_inside_edge(move_segment.p1, vertex_data.edge_segment) &&
+    !move_segment_skids_off_corner(move_segment.p1, edge_progress, vertex_data.edge_segment, vertex_data.edge_vector)
   );
 }
 
-function move_segment_starts_inside_edge(
-  move_segment_start: StaticPoint,
-  edge_segment: StaticSegment
-): boolean {
-  return GTMath.SegmentAndPointZScalar(edge_segment, move_segment_start) < 0;
+function move_segment_starts_inside_edge(move_segment_start: StaticPoint, edge_segment: StaticSegment): boolean {
+  return !NearlyGreaterThan(GTMath.SegmentAndPointZScalar(edge_segment, move_segment_start), 0);
 }
 
 function move_segment_skids_off_corner(
@@ -95,7 +72,7 @@ function move_segment_skids_off_corner(
     y: edge_segment.p2.y - edge_segment.p1.y,
   }
 ): boolean {
-  if (edge_progress !== 0 && edge_progress !== 1) {
+  if (!NearlyEquals(edge_progress, 0) && !NearlyEquals(edge_progress, 1)) {
     // not colliding with a corner
     return false;
   }
@@ -106,14 +83,11 @@ function move_segment_skids_off_corner(
     y: move_segment_start.y - edge_segment.p1.y,
   };
 
-  const scalar_projection: number = GTMath.ScalarProjection(
-    local_move_start,
-    edge_vector
-  );
+  const scalar_projection: number = GTMath.ScalarProjection(local_move_start, edge_vector);
 
   return (
-    (scalar_projection <= 1 && edge_progress === 1) ||
-    (scalar_projection >= 0 && edge_progress === 0)
+    (scalar_projection <= 1 && NearlyEquals(edge_progress, 1)) ||
+    (scalar_projection >= 0 && NearlyEquals(edge_progress, 0))
   );
 }
 
@@ -144,9 +118,7 @@ function is_preferred_edge_collision(
 }
 
 export namespace TestGTSegmentCollidesWithStaticShape {
-  export const test_move_segment_starts_inside_edge =
-    move_segment_starts_inside_edge;
-  export const test_move_segment_skids_off_corner =
-    move_segment_skids_off_corner;
+  export const test_move_segment_starts_inside_edge = move_segment_starts_inside_edge;
+  export const test_move_segment_skids_off_corner = move_segment_skids_off_corner;
   export const test_is_preferred_edge_collision = is_preferred_edge_collision;
 }

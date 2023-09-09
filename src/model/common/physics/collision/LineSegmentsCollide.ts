@@ -1,3 +1,6 @@
+import { NearlyEquals } from "../Nearly/NearlyEquals";
+import { NearlyGreaterThan } from "../Nearly/NearlyGreaterThan";
+import { NearlyLessThan } from "../Nearly/NearlyLessThan";
 import { StaticPoint } from "../geometry/Point";
 import { StaticSegment } from "../geometry/Segment";
 import { GTMath } from "../math/GTMath";
@@ -13,22 +16,15 @@ export type LineSegmentsCollideReturnData = {
  * @returns
  */
 function get_a_b_c(seg: StaticSegment): [number, number, number] {
-  return [
-    seg.p1.y - seg.p2.y,
-    seg.p2.x - seg.p1.x,
-    -1 * GTMath.CrossProductZScalar(seg.p1, seg.p2),
-  ];
+  return [seg.p1.y - seg.p2.y, seg.p2.x - seg.p1.x, -1 * GTMath.CrossProductZScalar(seg.p1, seg.p2)];
 }
 
 /**
  * Finds the number that, when multiplied by seg, gives the point.
  * Assumes that the point has already been confirmed to fall along the segment.
  */
-function get_segment_proportion(
-  seg: StaticSegment,
-  point: StaticPoint
-): number {
-  if (seg.p1.x !== seg.p2.x) {
+function get_segment_proportion(seg: StaticSegment, point: StaticPoint): number {
+  if (!NearlyEquals(seg.p1.x, seg.p2.x)) {
     return (point.x - seg.p1.x) / (seg.p2.x - seg.p1.x);
   } else {
     //seg is vertical, use y instead of x
@@ -49,7 +45,7 @@ export function GTLineSegmentsCollide(
   const [a2, b2, c2] = get_a_b_c(seg2);
   const d = a1 * b2 - b1 * a2;
 
-  if (d === 0) {
+  if (NearlyEquals(d, 0)) {
     // lines are parallel
     return undefined;
   }
@@ -65,14 +61,14 @@ export function GTLineSegmentsCollide(
   let seg2_proportion: number = get_segment_proportion(seg2, collision);
 
   if (
-    seg1_proportion < 0 ||
-    seg1_proportion > 1 ||
-    seg2_proportion < 0 ||
-    seg2_proportion > 1
+    NearlyGreaterThan(seg1_proportion, 0) &&
+    NearlyLessThan(seg1_proportion, 1) &&
+    NearlyGreaterThan(seg2_proportion, 0) &&
+    NearlyLessThan(seg2_proportion, 1)
   ) {
     // collision happened outside of segments
-    return undefined;
-  } else {
     return { seg1_proportion, seg2_proportion };
+  } else {
+    return undefined;
   }
 }

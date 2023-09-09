@@ -14,9 +14,9 @@ export abstract class Rect {
     return {
       vertices: [
         { x: -rect.w / 2 + origin.x, y: -rect.h / 2 + origin.y },
-        { x: rect.w / 2 + origin.x, y: -rect.h / 2 + origin.y },
-        { x: rect.w / 2 + origin.x, y: rect.h / 2 + origin.y },
         { x: -rect.w / 2 + origin.x, y: rect.h / 2 + origin.y },
+        { x: rect.w / 2 + origin.x, y: rect.h / 2 + origin.y },
+        { x: rect.w / 2 + origin.x, y: -rect.h / 2 + origin.y },
       ],
     };
   }

@@ -1,5 +1,5 @@
 import { Id } from "../../common/Id";
-import { Rect } from "../../common/physics/geometry/Rect";
+import { Rect, StaticRect } from "../../common/physics/geometry/Rect";
 import { Entity } from "../entitymodel/entity/Entity";
 import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { IBehaviorModule } from "../entitymodel/modules/behavior/BehaviorModule";
@@ -26,8 +26,11 @@ export abstract class EntityHandler implements EntityHandlerApi {
 
   public readonly collidable_shapes: CollidableShapesQuadTree;
 
+  public readonly map_size: StaticRect;
+
   constructor(dimensions: Rect) {
-    this.collidable_shapes = new CollidableShapesQuadTree(dimensions);
+    this.map_size = dimensions;
+    this.collidable_shapes = new CollidableShapesQuadTree(this.map_size);
 
     this.physics = new PhysicsEngine(
       this.dynamic_points_map,

@@ -1,7 +1,7 @@
 import { Assertions } from "../../../../../tester/assert";
 import { Tester } from "../../../../../tester/tester";
 import { uuid } from "../../../../common/Id";
-import { NearlyEquals } from "../../../../common/NearlyEquals";
+import { NearlyEquals } from "../../../../common/physics/Nearly/NearlyEquals";
 import { StaticVector } from "../../../../common/physics/geometry/Vector";
 import { DynamicPoint, PositionPath } from "./DynamicPoint";
 
@@ -23,10 +23,7 @@ Tester.run("DynamicPoint", [
     "handle constant velocity consistently regardless of fps",
     () => {
       for (let i: number = 1; i <= 60; i++) {
-        const p: DynamicPoint = new DynamicPoint(
-          { pos: { x: 0, y: 0 } },
-          false
-        );
+        const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } }, false);
         p.apply_constant_velocity(uuid(), { x: Math.sqrt(2), y: Math.sqrt(3) });
 
         for (let j: number = 1; j <= i; j++) {
@@ -45,7 +42,7 @@ Tester.run("DynamicPoint", [
       const time: number = Math.PI;
       const path: PositionPath = {
         f: (t: number) => {
-          return { x: Math.sin(t), y: Math.cos(t) };
+          return { x: Math.sin(t), y: Math.sin(t) / 2 };
         },
         duration: time,
       };
@@ -55,25 +52,22 @@ Tester.run("DynamicPoint", [
       p.update(time / 2);
 
       Assertions.assertEquals(p.pos.x, 1, NearlyEquals);
-      Assertions.assertEquals(p.pos.y, 0, NearlyEquals);
+      Assertions.assertEquals(p.pos.y, 0.5, NearlyEquals);
 
       p.update(time / 2);
 
       Assertions.assertEquals(p.pos.x, 0, NearlyEquals);
-      Assertions.assertEquals(p.pos.y, -1, NearlyEquals);
+      Assertions.assertEquals(p.pos.y, 0, NearlyEquals);
     },
   ],
   [
     "handle position paths consistently regardless of fps",
     () => {
       for (let i: number = 1; i <= 60; i++) {
-        const p: DynamicPoint = new DynamicPoint(
-          { pos: { x: 0, y: 0 } },
-          false
-        );
+        const p: DynamicPoint = new DynamicPoint({ pos: { x: 0, y: 0 } }, false);
         const path: PositionPath = {
           f: (t: number) => {
-            return { x: Math.sin(t), y: Math.cos(t) };
+            return { x: Math.sin(t), y: Math.sin(t / 2) };
           },
           duration: 1,
         };
@@ -83,8 +77,8 @@ Tester.run("DynamicPoint", [
           p.update(1 / i);
         }
 
-        Assertions.assertEquals(p.pos.x, 0, NearlyEquals);
-        Assertions.assertEquals(p.pos.y, -1, NearlyEquals);
+        Assertions.assertEquals(p.pos.x, Math.sin(1), NearlyEquals);
+        Assertions.assertEquals(p.pos.y, Math.sin(0.5), NearlyEquals);
       }
     },
   ],

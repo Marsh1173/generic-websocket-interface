@@ -26,7 +26,7 @@ export abstract class Renderable<EntityType extends Entity> {
   private set_position() {
     let entity_pos!: StaticPoint;
     if (this.entity.game_space_data.type === "StaticCollidableShape") {
-      entity_pos = this.entity.game_space_data.origin;
+      entity_pos = this.entity.game_space_data.shape.origin;
     } else if (this.entity.game_space_data.type === "DynamicPoint") {
       entity_pos = this.entity.game_space_data.pos;
     }

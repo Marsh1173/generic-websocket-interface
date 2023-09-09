@@ -36,7 +36,7 @@ def run_tests(argv):
     else:
         # iterating over all files
         for test_file_path in paths_list:
-            subprocess.run(["npx", "ts-node-dev", "--quiet", test_file_path] + quiet + timer)
+            subprocess.run(["npx", "ts-node-dev", "--quiet", test_file_path] + quiet + timer, shell = True)
  
 argv = sys.argv
 if flags.help in argv:

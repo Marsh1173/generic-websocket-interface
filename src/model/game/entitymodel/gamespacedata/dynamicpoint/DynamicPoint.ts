@@ -1,19 +1,13 @@
 import { Id } from "../../../../common/Id";
 import { Point, StaticPoint } from "../../../../common/physics/geometry/Point";
-import {
-  StaticVector,
-  Vector,
-} from "../../../../common/physics/geometry/Vector";
+import { StaticVector, Vector } from "../../../../common/physics/geometry/Vector";
 import { ShapeCollision } from "../../../entityhandler/physics/CollisionDetector";
 
 export class DynamicPoint {
   public readonly type = "DynamicPoint";
 
   protected readonly constant_velocities: Map<Id, StaticVector> = new Map();
-  protected readonly position_paths: Map<
-    Id,
-    { path: PositionPath; run_time: number }
-  > = new Map();
+  protected readonly position_paths: Map<Id, { path: PositionPath; run_time: number }> = new Map();
 
   public readonly prev_pos: Point;
   public readonly pos: Point;
@@ -45,8 +39,6 @@ export class DynamicPoint {
   public on_collide(collision: ShapeCollision): void {}
 
   public update(elapsed_seconds: number) {
-    const v: Vector = { x: 0, y: 0 };
-
     const pos_path_velocity = this.calc_position_path_velocity(elapsed_seconds);
     const const_v_sum = this.sum_constant_velocities();
 
@@ -63,10 +55,7 @@ export class DynamicPoint {
 
     for (const [path_id, data] of this.position_paths) {
       const prev_p = data.path.f(data.run_time);
-      data.run_time = Math.min(
-        data.path.duration,
-        data.run_time + elapsed_seconds
-      );
+      data.run_time = Math.min(data.path.duration, data.run_time + elapsed_seconds);
       const current_p = data.path.f(data.run_time);
 
       result.x += (current_p.x - prev_p.x) / elapsed_seconds;

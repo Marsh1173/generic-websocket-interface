@@ -1,4 +1,4 @@
-import { NearlyEquals } from "../../NearlyEquals";
+import { NearlyEquals } from "../Nearly/NearlyEquals";
 
 export interface Point {
   x: number;
