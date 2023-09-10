@@ -29,10 +29,18 @@ export function GTSegmentCollidesWithStaticShape(
 ): SegmentCollidesWithStaticShapeReturnData | undefined {
   let return_data: SegmentCollidesWithStaticShapeReturnData | undefined = undefined;
 
+  const move_vector: StaticVector = {
+    x: segment.p2.x - segment.p1.x,
+    y: segment.p2.y - segment.p1.y,
+  };
+
   for (const shape_vertex of shape.vertices_data) {
     const collision_results = GTCollision.LineSegmentsCollide(segment, shape_vertex.edge_segment);
 
-    if (!collision_results || !is_viable_edge_collision(segment, shape_vertex, collision_results.seg2_proportion)) {
+    if (
+      !collision_results ||
+      !is_viable_edge_collision(segment, move_vector, shape_vertex, collision_results.seg2_proportion)
+    ) {
       continue;
     }
 
@@ -50,17 +58,18 @@ export function GTSegmentCollidesWithStaticShape(
 
 function is_viable_edge_collision(
   move_segment: StaticSegment,
+  move_vector: StaticVector,
   vertex_data: ShapeVertexData,
   edge_progress: number
 ): boolean {
   return (
-    !move_segment_starts_inside_edge(move_segment.p1, vertex_data.edge_segment) &&
+    !move_segment_moves_away_from_edge(move_vector, vertex_data.normal) &&
     !move_segment_skids_off_corner(move_segment.p1, edge_progress, vertex_data.edge_segment, vertex_data.edge_vector)
   );
 }
 
-function move_segment_starts_inside_edge(move_segment_start: StaticPoint, edge_segment: StaticSegment): boolean {
-  return !NearlyGreaterThan(GTMath.SegmentAndPointZScalar(edge_segment, move_segment_start), 0);
+function move_segment_moves_away_from_edge(move_vector: StaticVector, edge_normal_vector: StaticVector): boolean {
+  return NearlyGreaterThan(GTMath.ScalarProjection(move_vector, edge_normal_vector), 0);
 }
 
 function move_segment_skids_off_corner(
@@ -118,7 +127,7 @@ function is_preferred_edge_collision(
 }
 
 export namespace TestGTSegmentCollidesWithStaticShape {
-  export const test_move_segment_starts_inside_edge = move_segment_starts_inside_edge;
+  export const test_move_segment_moves_away_from_edge = move_segment_moves_away_from_edge;
   export const test_move_segment_skids_off_corner = move_segment_skids_off_corner;
   export const test_is_preferred_edge_collision = is_preferred_edge_collision;
 }
