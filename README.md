@@ -11,10 +11,9 @@
 ## GT
 
 - Physics
-  - Condition 3 on static shape colliding
-  - Make hecka tests
-  - Fix
-  - Manually test
+  - Figure out sticking issue
+  - Make more tests
+  - 2nd pass-over
 - IDEA (especially for local games): Manage offline map tiles, and feed them into the entity handler as actors get close enough
 - Map + tiles
 - UI
