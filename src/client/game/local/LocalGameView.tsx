@@ -18,7 +18,7 @@ export class LocalGameComponent extends Component<{ props: LocalGameComponentPro
   constructor(props: { props: LocalGameComponentProps }) {
     super(props);
 
-    const resolution = ResolutionDimensions[this.props.props.local_game_data.resolution];
+    const resolution = ResolutionDimensions[this.props.props.local_game_data.display_config.res];
     this.view_app = new Application<HTMLCanvasElement>({
       width: resolution.w,
       height: resolution.h,

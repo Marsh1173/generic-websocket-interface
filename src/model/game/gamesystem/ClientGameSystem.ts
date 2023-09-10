@@ -1,4 +1,4 @@
-import { Resolution } from "../display/Resolution";
+import { DisplayConfig } from "../display/DisplayConfig";
 import { HumanInputConfig } from "../gamesytemio/humaninput/HumanInputConfig";
 import { SystemStatsManager } from "../systemstatsmanager/SystemStatsManager";
 import { UserStateData } from "../userstatemanager/UserState";
@@ -7,8 +7,8 @@ import { GameSystemData } from "./GameSystem";
 
 export interface ClientGameSystemData extends GameSystemData {
   human_input_config: HumanInputConfig;
-  resolution: Resolution;
   user_state_data: UserStateData;
+  display_config: DisplayConfig;
 }
 
 export interface IClientGameSystem {

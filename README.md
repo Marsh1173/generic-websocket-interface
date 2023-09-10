@@ -10,6 +10,18 @@
 
 ## GT
 
+- Display
+  - make layers
+  - overhaul renderables
+    - make physics renderables
+    - make different updates for statics / dynamics
+  - make health
+- Behaviors
+
+  - split up
+    - facing
+    - wandering
+
 - Physics
   - Figure out sticking issue
   - Make more tests

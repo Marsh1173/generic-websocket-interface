@@ -10,6 +10,7 @@ import { GTVectorFromRotation } from "./VectorFromRotation";
 import { GTVectorProjection } from "./VectorProjection";
 import { GTDifference } from "./Difference";
 import { GTScalarProjection } from "./ScalarProjection";
+import { GTScaleVector } from "./ScaleVector";
 
 export namespace GTMath {
   export const Normal = GTNormal;
@@ -18,6 +19,7 @@ export namespace GTMath {
   export const Difference = GTDifference;
   export const VectorProjection = GTVectorProjection;
   export const ScalarProjection = GTScalarProjection;
+  export const ScaleVector = GTScaleVector;
   export const DotProduct = GTDotProduct;
   export const Magnitude = GTMagnitude;
   export const Normalize = GTNormalize;

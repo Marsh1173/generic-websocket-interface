@@ -1,17 +1,13 @@
 import { StaticPoint, Point } from "../../../common/physics/geometry/Point";
-import { Rect } from "../../../common/physics/geometry/Rect";
 import { GTMath } from "../../../common/physics/math/GTMath";
-import {
-  Resolution,
-  ResolutionDimensions,
-  UnitsPerScreen,
-} from "../Resolution";
+import { DisplayConfig } from "../DisplayConfig";
+import { ResolutionDimensions, UnitsPerScreen } from "../Resolution";
 
 export class GameCamera {
   private focus: StaticPoint | undefined = undefined;
   public readonly camera_center: Point = { x: 0, y: 0 };
 
-  constructor(public readonly resolution: Resolution) {}
+  constructor(private readonly config: DisplayConfig) {}
 
   public set_focus(focus: StaticPoint | undefined) {
     this.focus = focus;
@@ -35,12 +31,8 @@ export class GameCamera {
 
   public global_units_to_pixel_coords(p: StaticPoint): StaticPoint {
     return {
-      x:
-        ((p.x - this.camera_center.x) / UnitsPerScreen.w + 0.5) *
-        ResolutionDimensions[this.resolution].w,
-      y:
-        ((p.y - this.camera_center.y) / UnitsPerScreen.h + 0.5) *
-        ResolutionDimensions[this.resolution].h,
+      x: ((p.x - this.camera_center.x) / UnitsPerScreen.w + 0.5) * ResolutionDimensions[this.config.res].w,
+      y: ((p.y - this.camera_center.y) / UnitsPerScreen.h + 0.5) * ResolutionDimensions[this.config.res].h,
     };
   }
 }

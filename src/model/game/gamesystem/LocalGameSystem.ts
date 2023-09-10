@@ -22,7 +22,7 @@ export class LocalGameSystem extends GameSystem {
 
     this.game_system_io = new LocalGameSystemIO(data, this);
     this.entities = new LocalEntityHandler(this, data.map_size);
-    this.display = new GameDisplay(data.resolution, this.view_app);
+    this.display = new GameDisplay(data.display_config, this.view_app);
     this.game_state_manager = new LocalGameStateManager(this);
     this.system_stats_manager = new SystemStatsManager();
     this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);

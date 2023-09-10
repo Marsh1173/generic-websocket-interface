@@ -2,22 +2,15 @@ import { Container, DisplayObject, Graphics, Sprite } from "pixi.js";
 import { Renderable } from "../../display/renderables/Renderable";
 import { Tree } from "./Tree";
 import { GTTexture, ImageAssets } from "../../../../client/assets/image/ImageAssets";
+import { ResolutionScale } from "../../display/Resolution";
 
 export class TreeRenderable extends Renderable<Tree> {
-  // protected get_display_object(): DisplayObject {
-  //   const sprite = new Sprite(ImageAssets.textures[this.get_texture()]);
-  //   sprite.anchor.set(0.5, 0.95);
-  //   sprite.scale.set(0.5);
-
-  //   sprite.zIndex = this.entity.game_space_data.shape.origin.y;
-
-  //   return sprite;
-  // }
   protected get_display_object(): DisplayObject {
     const container = new Container();
     const sprite = new Sprite(ImageAssets.textures[this.get_texture()]);
+    const scale = ResolutionScale[this.game_system.display.config.res] * 0.8;
     sprite.anchor.set(0.5, 0.95);
-    sprite.scale.set(0.5);
+    sprite.scale.set(scale);
 
     // const p1 = this.game_system.display.camera.global_units_to_pixel_coords(
     //   this.entity.game_space_data.shape.vertices_data[0].vertex
@@ -45,8 +38,8 @@ export class TreeRenderable extends Renderable<Tree> {
   private wave_speed: number = 1 - this.wave_speed_variation / 2 + Math.random() * this.wave_speed_variation;
   public update(elapsed_seconds: number): void {
     super.update(elapsed_seconds);
-    // this.total_elapsed_seconds += elapsed_seconds * this.wave_speed;
-    // this.display_object.skew.x = Math.sin(this.total_elapsed_seconds * 2) / 80;
+    this.total_elapsed_seconds += elapsed_seconds * this.wave_speed;
+    this.display_object.skew.x = Math.sin(this.total_elapsed_seconds * 2) / 80;
   }
 
   private get_texture(): GTTexture {

@@ -39,7 +39,9 @@ for (let i: number = 0; i < 10; i++) {
 
 const game_data: LocalGameSystemData = {
   human_input_config: DEFAULT_HUMAN_INPUT_CONFIG,
-  resolution: "standard",
+  display_config: {
+    res: "standard",
+  },
   map_size: { w: 30, h: 30 },
   entities: [...sheep, ...trees],
   user_state_data: {
