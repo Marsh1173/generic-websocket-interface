@@ -6,8 +6,16 @@ import {
   ImageAssets,
 } from "../../../../../client/assets/image/ImageAssets";
 import { ResolutionScale } from "../../../display/Resolution";
+import { LocalGameSystem } from "../../../gamesystem/LocalGameSystem";
 
 export class TreeSprite extends GameEntitySprite<Tree> {
+  public readonly display_object: DisplayObject;
+
+  constructor(entity: Tree, game_system: LocalGameSystem) {
+    super(entity, game_system);
+    this.display_object = this.get_display_object();
+  }
+
   protected get_display_object(): DisplayObject {
     const sprite = new Sprite(ImageAssets.textures[this.get_texture()]);
     const scale = ResolutionScale[this.game_system.display.config.res] * 0.8;

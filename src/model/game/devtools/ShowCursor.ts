@@ -25,8 +25,11 @@ class CursorSpriteHandler extends GameSpriteHandler {
 }
 
 class CursorSprite extends GameEntitySprite<Cursor> {
+  public readonly display_object: DisplayObject;
   constructor(entity: Cursor, game_system: LocalGameSystem) {
     super(entity, game_system);
+
+    this.display_object = this.get_display_object();
 
     game_system.game_system_io.human_input_manager.add_observer({
       id: uuid(),

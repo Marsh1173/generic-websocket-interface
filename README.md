@@ -11,10 +11,7 @@
 ## GT
 
 - Display
-  - make layers
-  - overhaul renderables
-    - make physics renderables
-    - make different updates for statics / dynamics
+  - make different updates for statics / dynamics
   - make health
 - Behaviors
 
@@ -28,7 +25,5 @@
 - IDEA (especially for local games): Manage offline map tiles, and feed them into the entity handler as actors get close enough
 - Map + tiles
 - UI
-  - health
   - menu
-- Health
 - Rigging
