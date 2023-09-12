@@ -1,14 +1,19 @@
 import { DisplayObject } from "pixi.js";
-import { uuid } from "../../../common/Id";
-import { Entity } from "../../entitymodel/entity/Entity";
-import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 import { StaticPoint } from "../../../common/physics/geometry/Point";
+import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
+import { GameSprite } from "./GameSprite";
+import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 
-export abstract class Renderable<EntityType extends Entity> {
-  public readonly id = uuid();
+export abstract class GameEntitySprite<
+  EntityType extends BaseEntity
+> extends GameSprite {
   public readonly display_object: DisplayObject;
 
-  constructor(public readonly entity: EntityType, protected readonly game_system: LocalGameSystem) {
+  constructor(
+    protected readonly entity: EntityType,
+    game_system: LocalGameSystem
+  ) {
+    super(game_system);
     this.display_object = this.get_display_object();
 
     this.set_position();
@@ -32,7 +37,8 @@ export abstract class Renderable<EntityType extends Entity> {
       entity_pos = this.entity.game_space_data.pos;
     }
 
-    const pixel_coords = this.game_system.display.camera.global_units_to_pixel_coords(entity_pos);
+    const pixel_coords =
+      this.game_system.display.camera.global_units_to_pixel_coords(entity_pos);
     this.display_object.position.set(pixel_coords.x, pixel_coords.y);
 
     if (this.entity.game_space_data.type === "DynamicPoint") {
@@ -43,7 +49,6 @@ export abstract class Renderable<EntityType extends Entity> {
      * TODOS
      *
      * Have a boolean flag to know if we can skew the object and give the appearance of 3d
-     * Check if the object is movable, then update z-pos
      */
   }
 }

@@ -1,14 +1,14 @@
 import { Tree, TreeData } from "../../entities/tree/Tree";
 import { EntityFactory } from "./EntityFactory";
-import { TreeRenderable } from "../../entities/tree/TreeRenderable";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 import { Goblin, GoblinData } from "../../entities/goblin/Goblin";
-import { GoblinRenderable } from "../../entities/goblin/GoblinRenderable";
 import { Arrow, ArrowData } from "../../entities/arrow/Arrow";
-import { ArrowRenderable } from "../../entities/arrow/ArrowRenderable";
 import { LocalEntityHandler } from "../LocalEntityHandler";
 import { Sheep, SheepData } from "../../entities/sheep/Sheep";
-import { SheepRenderable } from "../../entities/sheep/SheepRenderable";
+import { SheepSpriteHandler } from "../../entities/sheep/sprite/SheepSpriteHandler";
+import { ArrowSpriteHandler } from "../../entities/arrow/sprite/ArrowSpriteHandler";
+import { TreeSpriteHandler } from "../../entities/tree/sprite/TreeSpriteHandler";
+import { GoblinSpriteHandler } from "../../entities/goblin/sprite/GoblinSpriteHandler";
 
 export class LocalEntityFactory extends EntityFactory {
   constructor(
@@ -20,8 +20,8 @@ export class LocalEntityFactory extends EntityFactory {
 
   public arrow(data: ArrowData): Arrow {
     const arrow = super.arrow(data);
-    this.game_system.display.canvas.insert_renderable(
-      new ArrowRenderable(arrow, this.game_system)
+    this.game_system.display.canvas.insert_sprite_handler(
+      new ArrowSpriteHandler(arrow, this.game_system)
     );
 
     return arrow;
@@ -29,8 +29,8 @@ export class LocalEntityFactory extends EntityFactory {
 
   public tree(data: TreeData): Tree {
     const tree = super.tree(data);
-    this.game_system.display.canvas.insert_renderable(
-      new TreeRenderable(tree, this.game_system)
+    this.game_system.display.canvas.insert_sprite_handler(
+      new TreeSpriteHandler(tree, this.game_system)
     );
 
     return tree;
@@ -38,8 +38,8 @@ export class LocalEntityFactory extends EntityFactory {
 
   public goblin(data: GoblinData): Goblin {
     const goblin = super.goblin(data);
-    this.game_system.display.canvas.insert_renderable(
-      new GoblinRenderable(goblin, this.game_system)
+    this.game_system.display.canvas.insert_sprite_handler(
+      new GoblinSpriteHandler(goblin, this.game_system)
     );
 
     return goblin;
@@ -47,8 +47,8 @@ export class LocalEntityFactory extends EntityFactory {
 
   public sheep(data: SheepData): Sheep {
     const sheep = super.sheep(data);
-    this.game_system.display.canvas.insert_renderable(
-      new SheepRenderable(sheep, this.game_system)
+    this.game_system.display.canvas.insert_sprite_handler(
+      new SheepSpriteHandler(sheep, this.game_system)
     );
 
     return sheep;

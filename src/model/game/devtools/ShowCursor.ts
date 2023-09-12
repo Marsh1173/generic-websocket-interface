@@ -1,24 +1,51 @@
-import { Container, DisplayObject, Graphics } from "pixi.js";
+import { DisplayObject, Graphics } from "pixi.js";
 import { uuid } from "../../common/Id";
-import { Renderable } from "../display/renderables/Renderable";
 import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
 import { BaseEntity } from "../entitymodel/entity/BaseEntityClass";
 import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
+import { GameSpriteHandler } from "../display/gamesprite/GameSpriteHandler";
+import { GameSprite } from "../display/gamesprite/GameSprite";
+import { GameEntitySprite } from "../display/gamesprite/GameEntitySprite";
 
 export function ShowCursor(game_system: LocalGameSystem) {
-  const cursor = new Cursor({ id: uuid() });
-  const renderable = new CursorRenderable(cursor, game_system);
+  game_system.display.canvas.insert_sprite_handler(
+    new CursorSpriteHandler(game_system)
+  );
+}
 
-  game_system.game_system_io.human_input_manager.add_observer({
-    id: uuid(),
-    on_input: () => {},
-    on_mouse_move: (params) => {
-      cursor.game_space_data.pos.x = params.x;
-      cursor.game_space_data.pos.y = params.y + 1;
-    },
-  });
+class CursorSpriteHandler extends GameSpriteHandler {
+  public readonly visual_data_sprites: GameSprite[];
 
-  game_system.display.canvas.insert_renderable(renderable);
+  constructor(game_system: LocalGameSystem) {
+    super(uuid(), game_system);
+    const cursor = new Cursor({ id: uuid() });
+
+    this.visual_data_sprites = [new CursorSprite(cursor, this.game_system)];
+  }
+}
+
+class CursorSprite extends GameEntitySprite<Cursor> {
+  constructor(entity: Cursor, game_system: LocalGameSystem) {
+    super(entity, game_system);
+
+    game_system.game_system_io.human_input_manager.add_observer({
+      id: uuid(),
+      on_input: () => {},
+      on_mouse_move: (params) => {
+        entity.game_space_data.pos.x = params.x;
+        entity.game_space_data.pos.y = params.y;
+      },
+    });
+  }
+
+  protected get_display_object(): DisplayObject {
+    const circle: Graphics = new Graphics();
+    circle.beginFill(0xffffff);
+    circle.drawCircle(0, 0, 10);
+    return circle;
+  }
+
+  public on_destroy(): void {}
 }
 
 class Cursor extends BaseEntity {
@@ -28,21 +55,4 @@ class Cursor extends BaseEntity {
     },
     false
   );
-}
-
-class CursorRenderable extends Renderable<any> {
-  protected get_display_object(): DisplayObject {
-    // const circle: Graphics = new Graphics();
-    // circle.beginFill(0xffffff);
-    // circle.drawCircle(0, 0, 10);
-
-    // return circle;
-
-    const rounded_rect: Graphics = new Graphics();
-    rounded_rect.lineStyle(5, 0x000, 0.2, 1);
-    rounded_rect.beginFill(0x000, 0.4);
-    rounded_rect.drawRoundedRect(-50, -15, 100, 30, 5);
-
-    return rounded_rect;
-  }
 }
