@@ -6,6 +6,7 @@ import {
   HasDynamicPoint,
 } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { HasBehaviorModule } from "../../entitymodel/modules/behavior/BehaviorModule";
+import { BehaviorWanderModuleData } from "../../entitymodel/modules/behavior/BehaviorWanderModule";
 import {
   HasHealthModule,
   HealthModule,
@@ -14,18 +15,14 @@ import {
 } from "../../entitymodel/modules/health/HealthModule";
 import { HealthObservable } from "../../entitymodel/modules/health/HealthObservable";
 import { GameSystem } from "../../gamesystem/GameSystem";
-import {
-  SheepBehaviorModule,
-  SheepBehaviorModuleData,
-} from "./behavior/SheepBehavior";
+import { SheepBehaviorModule } from "./behavior/SheepBehavior";
 
 export interface SheepData extends BaseEntityData {
   type: "SheepData";
   game_space_data: DynamicPointData;
   health_module_data: HealthModuleData;
-  behavior_data?: SheepBehaviorModuleData;
+  behavior_data?: BehaviorWanderModuleData;
 }
-
 export class Sheep
   extends BaseEntity
   implements HasHealthModule, HasDynamicPoint, HasBehaviorModule

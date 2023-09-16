@@ -6,7 +6,7 @@ import { GTMagnitude } from "./Magnitude";
 import { GTNormal } from "./Normal";
 import { GTNormalize } from "./Normalize";
 import { GTSegmentAndPointZScalar } from "./SegmentAndPointZScalar";
-import { GTVectorFromRotation } from "./VectorFromRotation";
+import { GTVectorFromAngle } from "./VectorFromRotation";
 import { GTVectorProjection } from "./VectorProjection";
 import { GTDifference } from "./Difference";
 import { GTScalarProjection } from "./ScalarProjection";
@@ -25,5 +25,5 @@ export namespace GTMath {
   export const Normalize = GTNormalize;
   export const CrossProductZScalar = GTCrossProductZScalar;
   export const SegmentAndPointZScalar = GTSegmentAndPointZScalar;
-  export const VectorFromRotation = GTVectorFromRotation;
+  export const VectorFromAngle = GTVectorFromAngle;
 }

@@ -26,7 +26,7 @@ export class Arrow extends BaseEntity implements HasDynamicPoint {
     super(data);
 
     this.rotation = data.rotation;
-    const mom: StaticVector = GTMath.VectorFromRotation(
+    const mom: StaticVector = GTMath.VectorFromAngle(
       this.rotation,
       ARROW_VELOCITY
     );
