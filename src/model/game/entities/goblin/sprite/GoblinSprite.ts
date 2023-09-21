@@ -15,7 +15,7 @@ export class GoblinSprite extends GameEntitySprite<Goblin> {
 
   protected get_display_object(): DisplayObject {
     const sprite = new Sprite(ImageAssets.textures["entity-goblin"]);
-    const scale = ResolutionScale[this.game_system.display.config.res] * 0.3;
+    const scale = ResolutionScale[this.game_system.display.config.res] * 0.25;
     sprite.anchor.set(0.5, 0.9);
     sprite.scale.set(scale);
 

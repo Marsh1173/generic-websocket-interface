@@ -11,13 +11,15 @@
 ## GT
 
 - Display
-  - make different updates for statics / dynamics
-  - make health
+  - make different game sprite classes for statics / dynamics
+  - FINISH HEALTH
 - Behaviors
+  - add facing module (abstract?)
+- START GOBLIN STATE
+- Architecture
 
-  - split up
-    - facing
-    - wandering
+  - game sprite container should manage insertion and deletion, given a game system. It should take its cues from the entity it observes. Updateable as a whole.
+  - change "factory" to "builder"?
 
 - Physics
   - Make more tests

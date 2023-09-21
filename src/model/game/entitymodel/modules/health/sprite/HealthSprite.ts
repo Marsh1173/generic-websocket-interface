@@ -16,11 +16,9 @@ const hp_colors = {
   ally: 0x33b1ff, //light blue
 };
 
-const bar_width: number = 80;
+const bar_width: number = 60;
 
-export class HealthSprite<
-  EntityType extends HasHealthModule & Entity
-> extends GameEntitySprite<EntityType> {
+export class HealthSprite<EntityType extends HasHealthModule & Entity> extends GameEntitySprite<EntityType> {
   public readonly display_object: GraphicsContainer;
   public readonly id: Id = uuid();
 
@@ -40,11 +38,11 @@ export class HealthSprite<
 
   protected color_bar!: Graphics;
   protected get_display_object() {
-    const height = 6;
-    const border = 1;
+    const height = 5;
+    const border = 2;
 
     const background_rect: Graphics = new Graphics();
-    background_rect.beginFill(0x111111);
+    background_rect.beginFill(0x000000);
     background_rect.drawRect(
       (bar_width + border * 2) / -2,
       (height + border * 2) / -2,
@@ -68,8 +66,8 @@ export class HealthSprite<
     const container = new Container<Graphics>();
     container.addChild(background_rect);
     container.addChild(this.color_bar);
-    container.alpha = 0.7;
-    container.pivot.set(0, 100);
+    container.alpha = 0.8;
+    container.pivot.set(0, 80);
     //set anchor?
 
     return container;
@@ -82,9 +80,6 @@ export class HealthSprite<
   }
 
   private get_hp_percentage(): number {
-    return (
-      this.entity.health_module.current_health /
-      this.entity.health_module.max_health
-    );
+    return this.entity.health_module.current_health / this.entity.health_module.max_health;
   }
 }
