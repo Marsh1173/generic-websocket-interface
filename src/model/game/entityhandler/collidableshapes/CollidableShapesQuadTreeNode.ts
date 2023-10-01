@@ -28,16 +28,6 @@ export class CollidableShapesQuadTreeNode extends QuadTreeNode<
     return new CollidableShapesQuadTreeNode(top, left, bottom, right, this);
   }
 
-  private point_falls_in_this_bounding_box(p: Point): boolean {
-    return GTCollision.IsInBoundingBox(
-      p,
-      this.top,
-      this.left,
-      this.bottom,
-      this.right
-    );
-  }
-
   public search_by_bounding_box(
     box: GlobalRect
   ): StaticCollidableShapeWithId[] {

@@ -1,23 +1,34 @@
 import { StateObservable } from "../../../../common/observer/StateObserver";
+import { IBehaviorModule } from "../../../entitymodel/modules/behavior/BehaviorModule";
 import { Goblin } from "../Goblin";
 
 const VERTICAL_MOVE_FORCE_ID = "vertical-move-force-id";
 const HORIZONTAL_MOVE_FORCE_ID = "horizontal-move-force-id";
 
-export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState> {
-  private readonly linear_move_force: number = 3;
-  private readonly diagonal_move_force: number =
-    this.linear_move_force / Math.sqrt(2);
+export class GoblinMoveBehavior
+  extends StateObservable<GoblinMoveBehaviorState>
+  implements IBehaviorModule
+{
+  private linear_move_force: number = 3;
+  private get diagonal_move_force(): number {
+    return this.linear_move_force / Math.sqrt(2);
+  }
 
   constructor(private readonly goblin: Goblin, data?: GoblinMoveBehaviorState) {
     super(data ?? default_move_data);
   }
 
-  protected update_move_forces() {
+  public update(elapsed_seconds: number): void {}
+
+  public update_move_forces() {
     this.goblin.game_space_data.clear_constant_velocity(VERTICAL_MOVE_FORCE_ID);
     this.goblin.game_space_data.clear_constant_velocity(
       HORIZONTAL_MOVE_FORCE_ID
     );
+
+    if (!this.goblin.behavior_module.state.allows_movement) {
+      return;
+    }
 
     const horizontal =
       this.state.left === this.state.right
@@ -67,21 +78,17 @@ export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState>
     }
   }
 
-  public move_up(starting: boolean) {
-    this.set_state({ up: starting });
+  public update_state(update: Partial<GoblinMoveBehaviorState>) {
+    this.set_state(update);
     this.update_move_forces();
   }
-  public move_down(starting: boolean) {
-    this.set_state({ down: starting });
-    this.update_move_forces();
+
+  public apply_move_multiplier(m: number) {
+    this.linear_move_force *= m;
   }
-  public move_left(starting: boolean) {
-    this.set_state({ left: starting });
-    this.update_move_forces();
-  }
-  public move_right(starting: boolean) {
-    this.set_state({ right: starting });
-    this.update_move_forces();
+
+  public remove_move_multiplier(m: number) {
+    this.linear_move_force /= m;
   }
 }
 

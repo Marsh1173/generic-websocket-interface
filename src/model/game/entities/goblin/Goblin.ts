@@ -45,6 +45,10 @@ export class Goblin
       this,
       data.health_module_data
     );
-    this.behavior_module = new GoblinBehaviorModule(data.behavior_data, this);
+    this.behavior_module = new GoblinBehaviorModule(
+      data.behavior_data,
+      this,
+      this.game_system
+    );
   }
 }

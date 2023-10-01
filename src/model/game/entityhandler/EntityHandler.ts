@@ -4,6 +4,7 @@ import { Entity } from "../entitymodel/entity/Entity";
 import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { IBehaviorModule } from "../entitymodel/modules/behavior/BehaviorModule";
 import { CollidableShapesQuadTree } from "./collidableshapes/CollidableShapesQuadTree";
+import { DynamicPointsQuadTree } from "./dynamicpoints/DynamicPointsQuadTree";
 import { EntityFactory } from "./factory/EntityFactory";
 import { EntityFinder } from "./finder/EntityFinder";
 import { PhysicsEngine } from "./physics/PhysicsEngine";
@@ -25,15 +26,18 @@ export abstract class EntityHandler implements EntityHandlerApi {
   public readonly dynamic_points_map: Map<Id, DynamicPoint> = new Map();
 
   public readonly collidable_shapes: CollidableShapesQuadTree;
+  public readonly dynamic_points: DynamicPointsQuadTree;
 
   public readonly map_size: StaticRect;
 
   constructor(dimensions: Rect) {
     this.map_size = dimensions;
     this.collidable_shapes = new CollidableShapesQuadTree(this.map_size);
+    this.dynamic_points = new DynamicPointsQuadTree(this.map_size);
 
     this.physics = new PhysicsEngine(
       this.dynamic_points_map,
+      this.dynamic_points,
       this.collidable_shapes
     );
   }
@@ -44,8 +48,9 @@ export abstract class EntityHandler implements EntityHandlerApi {
       this.behaviors_map.set(entity.id, entity.behavior_module);
     }
 
-    if (entity.game_space_data.type === "DynamicPoint") {
+    if (DynamicPoint.ExistsOnEntity(entity)) {
       this.dynamic_points_map.set(entity.id, entity.game_space_data);
+      this.dynamic_points.insert(entity);
     } else if (entity.game_space_data.type === "StaticCollidableShape") {
       this.collidable_shapes.insert({
         id: entity.id,
@@ -64,6 +69,8 @@ export abstract class EntityHandler implements EntityHandlerApi {
         id: entity.id,
         ...entity.game_space_data,
       });
+    } else if (DynamicPoint.ExistsOnEntity(entity)) {
+      this.dynamic_points.remove(entity);
     }
 
     entity.deconstruct_module.on_deconstruct();

@@ -1,4 +1,6 @@
 import { HasId, Id } from "../Id";
+import { GTCollision } from "../physics/collision/GTCollision";
+import { StaticPoint } from "../physics/geometry/Point";
 
 const MAX_NODE_SIZE: number = 5;
 
@@ -37,16 +39,13 @@ export abstract class QuadTreeNode<
           return;
         }
       }
-      // Only insert into this if the shape doesn't completely fit into any child nodes but fits in this node.
-      if (!this.parent_node || this.is_completely_in_bounding_box(item)) {
-        this.items.set(item.id, item);
-      } else {
-        this.parent_node.recursive_insert(item);
-      }
-    } else {
+    }
+
+    // Only insert into this if the shape doesn't completely fit into any child nodes but fits in this node.
+    if (!this.parent_node || this.is_completely_in_bounding_box(item)) {
       this.items.set(item.id, item);
 
-      if (this.items.size > MAX_NODE_SIZE) {
+      if (!this.nodes && this.items.size > MAX_NODE_SIZE) {
         // Subdivide and distribute shapes.
         this.set_nodes();
 
@@ -56,6 +55,8 @@ export abstract class QuadTreeNode<
           this.recursive_insert(item);
         }
       }
+    } else {
+      this.parent_node.recursive_insert(item);
     }
   }
 
@@ -90,4 +91,14 @@ export abstract class QuadTreeNode<
     bottom: number,
     right: number
   ): NodeType;
+
+  protected point_falls_in_this_bounding_box(p: StaticPoint): boolean {
+    return GTCollision.IsInBoundingBox(
+      p,
+      this.top,
+      this.left,
+      this.bottom,
+      this.right
+    );
+  }
 }

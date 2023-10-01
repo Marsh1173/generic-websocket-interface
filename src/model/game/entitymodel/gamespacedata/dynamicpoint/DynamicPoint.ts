@@ -1,13 +1,20 @@
 import { Id } from "../../../../common/Id";
 import { Point, StaticPoint } from "../../../../common/physics/geometry/Point";
-import { StaticVector, Vector } from "../../../../common/physics/geometry/Vector";
+import {
+  StaticVector,
+  Vector,
+} from "../../../../common/physics/geometry/Vector";
 import { ShapeCollision } from "../../../entityhandler/physics/CollisionDetector";
+import { Entity } from "../../entity/Entity";
 
 export class DynamicPoint {
   public readonly type = "DynamicPoint";
 
   protected readonly constant_velocities: Map<Id, StaticVector> = new Map();
-  protected readonly position_paths: Map<Id, { path: PositionPath; run_time: number }> = new Map();
+  protected readonly position_paths: Map<
+    Id,
+    { path: PositionPath; run_time: number }
+  > = new Map();
 
   public readonly prev_pos: Point;
   public readonly pos: Point;
@@ -55,7 +62,10 @@ export class DynamicPoint {
 
     for (const [path_id, data] of this.position_paths) {
       const prev_p = data.path.f(data.run_time);
-      data.run_time = Math.min(data.path.duration, data.run_time + elapsed_seconds);
+      data.run_time = Math.min(
+        data.path.duration,
+        data.run_time + elapsed_seconds
+      );
       const current_p = data.path.f(data.run_time);
 
       result.x += (current_p.x - prev_p.x) / elapsed_seconds;
@@ -83,6 +93,12 @@ export class DynamicPoint {
 
     return result;
   }
+
+  public static ExistsOnEntity(
+    entity: Entity
+  ): entity is EntityWithDynamicPoint {
+    return entity.game_space_data.type === "DynamicPoint";
+  }
 }
 
 export interface PositionPath {
@@ -98,7 +114,4 @@ export interface HasDynamicPoint {
   readonly game_space_data: DynamicPoint;
 }
 
-//   export interface PositionUpdateData {
-//     readonly pos: Point;
-//     readonly mom?: Vector;
-//   }
+export type EntityWithDynamicPoint = Entity & HasDynamicPoint;
