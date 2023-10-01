@@ -11,13 +11,9 @@
 ## GT
 
 - Display
+
   - make different updates for statics / dynamics
   - make health
-- Behaviors
-
-  - split up
-    - facing
-    - wandering
 
 - Physics
   - Make more tests

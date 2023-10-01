@@ -11,7 +11,7 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
   private readonly prev_mouse_global_pos: Point = { x: 0, y: 0 };
   private readonly mouse_screen_pos: Point = { x: 0, y: 0 };
 
-  private input_buffer: HumanInputEnum[] = [];
+  private input_buffer: [HumanInputEnum, boolean][] = [];
   private held_inputs: Set<HumanInputEnum> = new Set();
 
   constructor(
@@ -34,8 +34,8 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
       this.prev_mouse_global_pos.y = global_mouse_pos.y;
     }
 
-    for (const input of this.input_buffer) {
-      this.broadcast_input({ input, mouse_pos: global_mouse_pos });
+    for (const [input, starting] of this.input_buffer) {
+      this.broadcast_input({ input, starting });
     }
     this.input_buffer = [];
   }
@@ -71,14 +71,14 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
     const input_mapping = this.config[code];
     if (input_mapping !== undefined) {
       if (starting) {
-        if (!this.held_inputs.has(input_mapping.start)) {
-          this.input_buffer.push(input_mapping.start);
-          this.held_inputs.add(input_mapping.start);
+        if (!this.held_inputs.has(input_mapping)) {
+          this.input_buffer.push([input_mapping, starting]);
+          this.held_inputs.add(input_mapping);
         }
       } else {
-        if (this.held_inputs.has(input_mapping.start)) {
-          this.input_buffer.push(input_mapping.end);
-          this.held_inputs.delete(input_mapping.start);
+        if (this.held_inputs.has(input_mapping)) {
+          this.input_buffer.push([input_mapping, starting]);
+          this.held_inputs.delete(input_mapping);
         }
       }
     }

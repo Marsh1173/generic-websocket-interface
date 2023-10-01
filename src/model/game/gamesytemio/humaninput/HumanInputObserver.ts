@@ -4,7 +4,7 @@ import { HumanInputEnum } from "./HumanInputEnum";
 
 export interface HumanInputParams {
   input: HumanInputEnum;
-  mouse_pos: StaticPoint;
+  starting: boolean;
 }
 
 export interface HumanInputObserver extends Observer {
