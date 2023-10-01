@@ -1,27 +1,13 @@
-import { HasId, Id } from "../../../../common/Id";
+import { Id } from "../../../../common/Id";
 import { Point, StaticPoint } from "../../../../common/physics/geometry/Point";
 import {
   StaticVector,
   Vector,
 } from "../../../../common/physics/geometry/Vector";
 import { ShapeCollision } from "../../../entityhandler/physics/CollisionDetector";
+import { Entity } from "../../entity/Entity";
 
-export interface DynamicPointWithId extends DynamicPoint, HasId {}
-
-export interface DynamicPoint {
-  readonly type: "DynamicPoint";
-  readonly prev_pos: Point;
-  readonly pos: Point;
-  readonly collision: boolean;
-  apply_constant_velocity(id: Id, v: StaticVector): void;
-  clear_constant_velocity(id: Id): void;
-  apply_position_path(id: Id, path: PositionPath): void;
-  clear_position_path(id: Id): void;
-  on_collide(collision: ShapeCollision): void;
-  update(elapsed_seconds: number): void;
-}
-
-export class DynamicPointModule implements DynamicPoint {
+export class DynamicPoint {
   public readonly type = "DynamicPoint";
 
   protected readonly constant_velocities: Map<Id, StaticVector> = new Map();
@@ -107,6 +93,12 @@ export class DynamicPointModule implements DynamicPoint {
 
     return result;
   }
+
+  public static ExistsOnEntity(
+    entity: Entity
+  ): entity is EntityWithDynamicPoint {
+    return entity.game_space_data.type === "DynamicPoint";
+  }
 }
 
 export interface PositionPath {
@@ -122,7 +114,4 @@ export interface HasDynamicPoint {
   readonly game_space_data: DynamicPoint;
 }
 
-//   export interface PositionUpdateData {
-//     readonly pos: Point;
-//     readonly mom?: Vector;
-//   }
+export type EntityWithDynamicPoint = Entity & HasDynamicPoint;

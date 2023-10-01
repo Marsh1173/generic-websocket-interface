@@ -2,7 +2,6 @@ import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 import { BaseEntityData } from "../../entitymodel/entity/EntityData";
 import {
   DynamicPoint,
-  DynamicPointModule,
   DynamicPointData,
   HasDynamicPoint,
 } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
@@ -37,7 +36,7 @@ export class Sheep
     super(data);
     const health_observable = new HealthObservable();
 
-    this.game_space_data = new DynamicPointModule(data.game_space_data, true);
+    this.game_space_data = new DynamicPoint(data.game_space_data, true);
     this.health_module = new HealthModule(
       health_observable,
       this,

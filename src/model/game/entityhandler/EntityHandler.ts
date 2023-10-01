@@ -48,9 +48,9 @@ export abstract class EntityHandler implements EntityHandlerApi {
       this.behaviors_map.set(entity.id, entity.behavior_module);
     }
 
-    if (entity.game_space_data.type === "DynamicPoint") {
+    if (DynamicPoint.ExistsOnEntity(entity)) {
       this.dynamic_points_map.set(entity.id, entity.game_space_data);
-      this.dynamic_points.insert({ ...entity.game_space_data, id: entity.id });
+      this.dynamic_points.insert(entity);
     } else if (entity.game_space_data.type === "StaticCollidableShape") {
       this.collidable_shapes.insert({
         id: entity.id,
@@ -69,11 +69,8 @@ export abstract class EntityHandler implements EntityHandlerApi {
         id: entity.id,
         ...entity.game_space_data,
       });
-    } else if (entity.game_space_data.type === "DynamicPoint") {
-      this.dynamic_points.remove({
-        id: entity.id,
-        ...entity.game_space_data,
-      });
+    } else if (DynamicPoint.ExistsOnEntity(entity)) {
+      this.dynamic_points.remove(entity);
     }
 
     entity.deconstruct_module.on_deconstruct();

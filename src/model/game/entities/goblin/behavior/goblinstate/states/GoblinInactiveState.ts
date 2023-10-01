@@ -1,4 +1,5 @@
 import { uuid } from "../../../../../../common/Id";
+import { GTCollision } from "../../../../../../common/physics/collision/GTCollision";
 import { StaticPoint } from "../../../../../../common/physics/geometry/Point";
 import { GTMath } from "../../../../../../common/physics/math/GTMath";
 import { HumanInputEnum } from "../../../../../gamesytemio/humaninput/HumanInputEnum";
@@ -18,7 +19,10 @@ export class GoblinInactiveState extends BaseGoblinState {
       });
     } else if (this.is_shooting()) {
       this.active_inputs.delete(HumanInputEnum.SecondaryAction);
-      this.shoot_arrow(this.focus_pos);
+      this.shoot_arrow();
+    } else if (this.is_sniping()) {
+      this.active_inputs.delete(HumanInputEnum.PrimaryAction);
+      this.snipe();
     }
   }
 
@@ -34,10 +38,18 @@ export class GoblinInactiveState extends BaseGoblinState {
     return current && changed;
   }
 
-  private shoot_arrow(mouse_pos: StaticPoint) {
+  private previous_snipe_value: boolean = false;
+  private is_sniping(): boolean {
+    const current = this.active_inputs.has(HumanInputEnum.PrimaryAction);
+    const changed = current !== this.previous_snipe_value;
+    this.previous_snipe_value = current;
+    return current && changed;
+  }
+
+  private shoot_arrow() {
     const rotation = GTMath.Rotation(
       this.goblin.game_space_data.pos,
-      mouse_pos
+      this.focus_pos
     );
     this.game_system.entities.make.arrow({
       type: "ArrowData",
@@ -47,6 +59,24 @@ export class GoblinInactiveState extends BaseGoblinState {
       },
       rotation,
     });
+  }
+
+  private snipe() {
+    const closest = this.game_system.entities.find.dynamic_point_entities
+      .inside_box(this.focus_pos, 4)
+      .filter((e) => !!e.health_module)
+      .sort((e1, e2) => {
+        return GTCollision.CompareDistance(
+          e1.game_space_data.pos,
+          e2.game_space_data.pos,
+          this.focus_pos
+        );
+      })
+      .at(0);
+
+    if (closest) {
+      closest.health_module!.receive_damage({ amount: 20 });
+    }
   }
 }
 

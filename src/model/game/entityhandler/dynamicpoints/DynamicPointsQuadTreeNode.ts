@@ -1,14 +1,16 @@
 import { Id } from "../../../common/Id";
+import { GTCollision } from "../../../common/physics/collision/GTCollision";
 import { StaticPoint } from "../../../common/physics/geometry/Point";
+import { GlobalRect } from "../../../common/physics/geometry/Rect";
 import { QuadTreeNode } from "../../../common/quadtree/QuadTreeNode";
-import { DynamicPointWithId } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
+import { EntityWithDynamicPoint } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 
 export class DynamicPointsQuadTreeNode extends QuadTreeNode<
-  DynamicPointWithId,
+  EntityWithDynamicPoint,
   DynamicPointsQuadTreeNode
 > {
-  public is_completely_in_bounding_box(item: DynamicPointWithId): boolean {
-    return this.point_falls_in_this_bounding_box(item.pos);
+  public is_completely_in_bounding_box(item: EntityWithDynamicPoint): boolean {
+    return this.point_falls_in_this_bounding_box(item.game_space_data.pos);
   }
 
   protected get_child_node(
@@ -38,5 +40,43 @@ export class DynamicPointsQuadTreeNode extends QuadTreeNode<
     } else {
       console.error("COULD NOT FIND ITEM WITH ID: " + id);
     }
+  }
+
+  public search_by_bounding_box(
+    box: GlobalRect,
+    filter?: (e: EntityWithDynamicPoint) => boolean
+  ): EntityWithDynamicPoint[] {
+    let results: EntityWithDynamicPoint[] = []; //check this's items
+    this.items.forEach((item) => {
+      if (
+        GTCollision.IsInBoundingBox(
+          item.game_space_data.pos,
+          box.top,
+          box.left,
+          box.bottom,
+          box.right
+        ) &&
+        (!filter || filter(item))
+      ) {
+        results.push(item);
+      }
+    });
+
+    if (this.nodes) {
+      for (const node of this.nodes) {
+        //if box and node overlap (top and right are not inclusive)
+        if (
+          box.bottom < node.top &&
+          box.top >= node.bottom &&
+          box.left < node.right &&
+          box.right >= node.left
+        ) {
+          //search in node too
+          results = results.concat(node.search_by_bounding_box(box, filter));
+        }
+      }
+    }
+
+    return results;
   }
 }
