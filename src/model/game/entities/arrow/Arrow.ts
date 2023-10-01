@@ -6,6 +6,7 @@ import {
   DynamicPointData,
   HasDynamicPoint,
   DynamicPoint,
+  DynamicPointModule,
 } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { GameSystem } from "../../gamesystem/GameSystem";
 
@@ -31,7 +32,7 @@ export class Arrow extends BaseEntity implements HasDynamicPoint {
       ARROW_VELOCITY
     );
 
-    this.game_space_data = new DynamicPoint(
+    this.game_space_data = new DynamicPointModule(
       {
         ...data.game_space_data,
       },

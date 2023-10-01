@@ -1,13 +1,34 @@
-import { Id } from "../../../../common/Id";
+import { HasId, Id } from "../../../../common/Id";
 import { Point, StaticPoint } from "../../../../common/physics/geometry/Point";
-import { StaticVector, Vector } from "../../../../common/physics/geometry/Vector";
+import {
+  StaticVector,
+  Vector,
+} from "../../../../common/physics/geometry/Vector";
 import { ShapeCollision } from "../../../entityhandler/physics/CollisionDetector";
 
-export class DynamicPoint {
+export interface DynamicPointWithId extends DynamicPoint, HasId {}
+
+export interface DynamicPoint {
+  readonly type: "DynamicPoint";
+  readonly prev_pos: Point;
+  readonly pos: Point;
+  readonly collision: boolean;
+  apply_constant_velocity(id: Id, v: StaticVector): void;
+  clear_constant_velocity(id: Id): void;
+  apply_position_path(id: Id, path: PositionPath): void;
+  clear_position_path(id: Id): void;
+  on_collide(collision: ShapeCollision): void;
+  update(elapsed_seconds: number): void;
+}
+
+export class DynamicPointModule implements DynamicPoint {
   public readonly type = "DynamicPoint";
 
   protected readonly constant_velocities: Map<Id, StaticVector> = new Map();
-  protected readonly position_paths: Map<Id, { path: PositionPath; run_time: number }> = new Map();
+  protected readonly position_paths: Map<
+    Id,
+    { path: PositionPath; run_time: number }
+  > = new Map();
 
   public readonly prev_pos: Point;
   public readonly pos: Point;
@@ -55,7 +76,10 @@ export class DynamicPoint {
 
     for (const [path_id, data] of this.position_paths) {
       const prev_p = data.path.f(data.run_time);
-      data.run_time = Math.min(data.path.duration, data.run_time + elapsed_seconds);
+      data.run_time = Math.min(
+        data.path.duration,
+        data.run_time + elapsed_seconds
+      );
       const current_p = data.path.f(data.run_time);
 
       result.x += (current_p.x - prev_p.x) / elapsed_seconds;

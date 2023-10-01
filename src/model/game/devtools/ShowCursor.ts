@@ -2,7 +2,10 @@ import { DisplayObject, Graphics } from "pixi.js";
 import { uuid } from "../../common/Id";
 import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
 import { BaseEntity } from "../entitymodel/entity/BaseEntityClass";
-import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
+import {
+  DynamicPoint,
+  DynamicPointModule,
+} from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { GameSpriteHandler } from "../display/gamesprite/GameSpriteHandler";
 import { GameSprite } from "../display/gamesprite/GameSprite";
 import { GameEntitySprite } from "../display/gamesprite/GameEntitySprite";
@@ -52,7 +55,7 @@ class CursorSprite extends GameEntitySprite<Cursor> {
 }
 
 class Cursor extends BaseEntity {
-  public game_space_data: DynamicPoint = new DynamicPoint(
+  public game_space_data: DynamicPoint = new DynamicPointModule(
     {
       pos: { x: 0, y: 0 },
     },
