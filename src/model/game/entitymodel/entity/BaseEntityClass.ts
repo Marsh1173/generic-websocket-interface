@@ -11,7 +11,7 @@ import {
   HasDeconstructModule,
 } from "../modules/deconstruct/DeconstructModule";
 import { HasHealthModule, IHealthModule } from "../modules/health/HealthModule";
-import { HasTeamModule, ITeamModule } from "../modules/team/TeamModule";
+import { HasTeamModule, TeamModule } from "../modules/team/TeamModule";
 import { BaseEntityData } from "./EntityData";
 
 export abstract class BaseEntity
@@ -32,7 +32,7 @@ export abstract class BaseEntity
   }
 
   public readonly health_module?: IHealthModule | undefined;
-  public readonly team_module?: ITeamModule | undefined;
+  public readonly team_module?: TeamModule | undefined;
   public readonly behavior_module?: IBehaviorModule | undefined;
 
   public abstract readonly game_space_data:

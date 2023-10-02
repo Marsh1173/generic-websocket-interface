@@ -6,15 +6,11 @@ export interface TeamModuleData {
   readonly team: Team;
 }
 
-export interface ITeamModule {
-  readonly team: Team;
-}
-
 export interface HasTeamModule {
-  readonly team_module: ITeamModule;
+  readonly team_module: TeamModule;
 }
 
-export class TeamModule implements ITeamModule {
+export class TeamModule {
   public readonly team: Team;
 
   constructor(

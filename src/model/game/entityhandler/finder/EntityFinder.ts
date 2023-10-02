@@ -5,7 +5,6 @@ import { StaticPoint } from "../../../common/physics/geometry/Point";
 import { GlobalRect } from "../../../common/physics/geometry/Rect";
 import { Shape } from "../../../common/physics/geometry/Shape";
 import { Entity } from "../../entitymodel/entity/Entity";
-import { EntityWithDynamicPoint } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { EntityHandler } from "../EntityHandler";
 
 export abstract class EntityFinder {
@@ -37,14 +36,14 @@ export abstract class EntityFinder {
       p: StaticPoint,
       bb_size: number,
       filter?: (e: Entity) => boolean
-    ): EntityWithDynamicPoint[] => {
+    ): Entity[] => {
       const bb: GlobalRect = {
         top: p.y + bb_size / 2,
         bottom: p.y - bb_size / 2,
         left: p.x - bb_size / 2,
         right: p.x + bb_size / 2,
       };
-      return this.handler.dynamic_points.search_by_bounding_box(bb, filter);
+      return this.handler.entity_points.search_by_bounding_box(bb, filter);
     },
   };
 }

@@ -12,11 +12,16 @@ export interface StaticCollidableShapeWithId
 export interface StaticCollidableShape {
   readonly type: "StaticCollidableShape";
   readonly shape: Shape;
+  readonly pos: StaticPoint;
 }
 
 export class StaticCollidableShapeModule implements StaticCollidableShape {
   public readonly type = "StaticCollidableShape";
   public readonly shape: Shape;
+
+  public get pos() {
+    return this.shape.origin;
+  }
 
   constructor(
     data: StaticCollidableShapeData,

@@ -3,13 +3,13 @@ import { GTCollision } from "../../../common/physics/collision/GTCollision";
 import { StaticPoint } from "../../../common/physics/geometry/Point";
 import { GlobalRect } from "../../../common/physics/geometry/Rect";
 import { QuadTreeNode } from "../../../common/quadtree/QuadTreeNode";
-import { EntityWithDynamicPoint } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
+import { Entity } from "../../entitymodel/entity/Entity";
 
-export class DynamicPointsQuadTreeNode extends QuadTreeNode<
-  EntityWithDynamicPoint,
-  DynamicPointsQuadTreeNode
+export class PointsQuadTreeNode<EntityType extends Entity> extends QuadTreeNode<
+  EntityType,
+  PointsQuadTreeNode<EntityType>
 > {
-  public is_completely_in_bounding_box(item: EntityWithDynamicPoint): boolean {
+  public is_completely_in_bounding_box(item: EntityType): boolean {
     return this.point_falls_in_this_bounding_box(item.game_space_data.pos);
   }
 
@@ -18,8 +18,8 @@ export class DynamicPointsQuadTreeNode extends QuadTreeNode<
     left: number,
     bottom: number,
     right: number
-  ): DynamicPointsQuadTreeNode {
-    return new DynamicPointsQuadTreeNode(top, left, bottom, right, this);
+  ): PointsQuadTreeNode<EntityType> {
+    return new PointsQuadTreeNode(top, left, bottom, right, this);
   }
 
   public re_insert_point(id: Id, prev_pos: StaticPoint) {
@@ -44,9 +44,9 @@ export class DynamicPointsQuadTreeNode extends QuadTreeNode<
 
   public search_by_bounding_box(
     box: GlobalRect,
-    filter?: (e: EntityWithDynamicPoint) => boolean
-  ): EntityWithDynamicPoint[] {
-    let results: EntityWithDynamicPoint[] = []; //check this's items
+    filter?: (e: EntityType) => boolean
+  ): EntityType[] {
+    let results: EntityType[] = []; //check this's items
     this.items.forEach((item) => {
       if (
         GTCollision.IsInBoundingBox(

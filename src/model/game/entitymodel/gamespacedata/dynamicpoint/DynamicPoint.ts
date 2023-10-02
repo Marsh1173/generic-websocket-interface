@@ -93,12 +93,6 @@ export class DynamicPoint {
 
     return result;
   }
-
-  public static ExistsOnEntity(
-    entity: Entity
-  ): entity is EntityWithDynamicPoint {
-    return entity.game_space_data.type === "DynamicPoint";
-  }
 }
 
 export interface PositionPath {
@@ -113,5 +107,3 @@ export interface DynamicPointData {
 export interface HasDynamicPoint {
   readonly game_space_data: DynamicPoint;
 }
-
-export type EntityWithDynamicPoint = Entity & HasDynamicPoint;

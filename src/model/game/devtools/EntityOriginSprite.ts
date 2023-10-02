@@ -1,11 +1,14 @@
 import { DisplayObject, Graphics } from "pixi.js";
 import { GameEntitySprite } from "../display/gamesprite/GameEntitySprite";
 import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
-import { EntityWithDynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
+import { HasDynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
+import { Entity } from "../entitymodel/entity/Entity";
 
-export class EntityOriginSprite extends GameEntitySprite<EntityWithDynamicPoint> {
+export class EntityOriginSprite extends GameEntitySprite<
+  Entity & HasDynamicPoint
+> {
   public readonly display_object: DisplayObject;
-  constructor(entity: EntityWithDynamicPoint, game_system: LocalGameSystem) {
+  constructor(entity: Entity & HasDynamicPoint, game_system: LocalGameSystem) {
     super(entity, game_system);
 
     this.display_object = this.get_display_object();
