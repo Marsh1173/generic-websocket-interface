@@ -1,5 +1,4 @@
 import { GameEntitySpriteHandler } from "../../../display/gamesprite/GameEntitySpriteHandler";
-import { GameSprite } from "../../../display/gamesprite/GameSprite";
 import { HealthSprite } from "../../../entitymodel/modules/health/sprite/HealthSprite";
 import { LocalGameSystem } from "../../../gamesystem/LocalGameSystem";
 import { Sheep } from "../Sheep";

@@ -1,4 +1,3 @@
-import { DisplayObject } from "pixi.js";
 import { StaticPoint } from "../../../common/physics/geometry/Point";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 import { GameSprite } from "./GameSprite";
