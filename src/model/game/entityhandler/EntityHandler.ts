@@ -35,7 +35,12 @@ export abstract class EntityHandler implements EntityHandlerApi {
     this.collidable_shapes = new CollidableShapesQuadTree(this.map_size);
     this.entity_points = new PointsQuadTree(this.map_size);
 
-    this.physics = new PhysicsEngine(this.dynamic_points_map, this.entity_points, this.collidable_shapes);
+    this.physics = new PhysicsEngine(
+      this.dynamic_points_map,
+      this.entity_points,
+      this.map_size,
+      this.collidable_shapes
+    );
   }
 
   public insert(entity: Entity) {
