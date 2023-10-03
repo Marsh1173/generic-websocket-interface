@@ -1,14 +1,11 @@
 import { DisplayObject, Graphics } from "pixi.js";
 import { GameEntitySprite } from "../display/gamesprite/GameEntitySprite";
 import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
-import { HasDynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { Entity } from "../entitymodel/entity/Entity";
 
-export class EntityOriginSprite extends GameEntitySprite<
-  Entity & HasDynamicPoint
-> {
+export class EntityOriginSprite extends GameEntitySprite<Entity> {
   public readonly display_object: DisplayObject;
-  constructor(entity: Entity & HasDynamicPoint, game_system: LocalGameSystem) {
+  constructor(entity: Entity, game_system: LocalGameSystem) {
     super(entity, game_system);
 
     this.display_object = this.get_display_object();
@@ -22,4 +19,14 @@ export class EntityOriginSprite extends GameEntitySprite<
   }
 
   public on_destroy(): void {}
+}
+
+export class ShowEntityOrigin {
+  private static flag: boolean = false;
+  public static set(val: boolean) {
+    ShowEntityOrigin.flag = val;
+  }
+  public static get(): boolean {
+    return this.flag;
+  }
 }
