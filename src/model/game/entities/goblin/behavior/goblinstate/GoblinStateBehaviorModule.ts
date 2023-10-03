@@ -1,18 +1,11 @@
-import {
-  Point,
-  StaticPoint,
-} from "../../../../../common/physics/geometry/Point";
+import { Point, StaticPoint } from "../../../../../common/math/geometry/Point";
 import { IBehaviorModule } from "../../../../entitymodel/modules/behavior/BehaviorModule";
 import { GameSystem } from "../../../../gamesystem/GameSystem";
 import { HumanInputEnum } from "../../../../gamesytemio/humaninput/HumanInputEnum";
 import { Goblin } from "../../Goblin";
 import { GoblinDashingState } from "./states/GoblinDashingState";
 import { GoblinInactiveState } from "./states/GoblinInactiveState";
-import {
-  BaseGoblinStateData,
-  GoblinState,
-  GoblinStateData,
-} from "./GoblinState";
+import { BaseGoblinStateData, GoblinState, GoblinStateData } from "./GoblinState";
 
 export interface GoblinStateBehaviorData {
   state_data?: GoblinStateData;
@@ -36,9 +29,7 @@ export class GoblinStateBehaviorModule implements IBehaviorModule {
     protected readonly goblin: Goblin,
     data: GoblinStateBehaviorData
   ) {
-    this.inner_state = this.map_data_to_state(
-      data.state_data ?? { type: "GoblinInactiveStateData" }
-    );
+    this.inner_state = this.map_data_to_state(data.state_data ?? { type: "GoblinInactiveStateData" });
   }
 
   public update(elapsed_seconds: number): void {

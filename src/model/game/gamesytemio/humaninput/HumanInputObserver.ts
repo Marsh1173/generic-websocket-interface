@@ -1,5 +1,5 @@
 import { Observer } from "../../../common/observer/Observer";
-import { StaticPoint } from "../../../common/physics/geometry/Point";
+import { StaticPoint } from "../../../common/math/geometry/Point";
 import { HumanInputEnum } from "./HumanInputEnum";
 
 export interface HumanInputParams {

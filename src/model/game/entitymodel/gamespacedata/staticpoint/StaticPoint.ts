@@ -1,4 +1,4 @@
-import { StaticPoint } from "../../../../common/physics/geometry/Point";
+import { StaticPoint } from "../../../../common/math/geometry/Point";
 import { Entity } from "../../entity/Entity";
 
 export interface HasStaticPoint {

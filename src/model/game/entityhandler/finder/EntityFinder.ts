@@ -1,9 +1,8 @@
 import { Id } from "../../../common/Id";
-import { GTCollision } from "../../../common/physics/collision/GTCollision";
-import { SegmentCollidesWithStaticShapeReturnData } from "../../../common/physics/collision/SegmentCollidesWithStaticShape";
-import { StaticPoint } from "../../../common/physics/geometry/Point";
-import { GlobalRect } from "../../../common/physics/geometry/Rect";
-import { Shape } from "../../../common/physics/geometry/Shape";
+import { SegmentCollidesWithStaticShapeReturnData } from "../../../common/math/collision/SegmentCollidesWithStaticShape";
+import { StaticPoint } from "../../../common/math/geometry/Point";
+import { GlobalRect } from "../../../common/math/geometry/Rect";
+import { Shape } from "../../../common/math/geometry/Shape";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { EntityHandler } from "../EntityHandler";
 
@@ -32,11 +31,7 @@ export abstract class EntityFinder {
     /**
      * @param bb_size the length of the sides of the bounding box that entities must fall inside
      */
-    inside_box: (
-      p: StaticPoint,
-      bb_size: number,
-      filter?: (e: Entity) => boolean
-    ): Entity[] => {
+    inside_box: (p: StaticPoint, bb_size: number, filter?: (e: Entity) => boolean): Entity[] => {
       const bb: GlobalRect = {
         top: p.y + bb_size / 2,
         bottom: p.y - bb_size / 2,

@@ -1,7 +1,7 @@
-import { StaticPoint } from "../../../common/physics/geometry/Point";
-import { StaticSegment } from "../../../common/physics/geometry/Segment";
-import { StaticVector } from "../../../common/physics/geometry/Vector";
-import { GTMath } from "../../../common/physics/math/GTMath";
+import { StaticPoint } from "../../../common/math/geometry/Point";
+import { StaticSegment } from "../../../common/math/geometry/Segment";
+import { StaticVector } from "../../../common/math/geometry/Vector";
+import { GTMath } from "../../../common/math/basic/GTMath";
 import { DynamicPoint } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { ShapeCollision } from "./CollisionDetector";
 

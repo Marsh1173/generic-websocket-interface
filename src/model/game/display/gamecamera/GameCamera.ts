@@ -1,6 +1,6 @@
-import { StaticPoint, Point } from "../../../common/physics/geometry/Point";
-import { StaticVector } from "../../../common/physics/geometry/Vector";
-import { GTMath } from "../../../common/physics/math/GTMath";
+import { StaticPoint, Point } from "../../../common/math/geometry/Point";
+import { StaticVector } from "../../../common/math/geometry/Vector";
+import { GTMath } from "../../../common/math/basic/GTMath";
 import { DisplayConfig } from "../DisplayConfig";
 import { ResolutionDimensions, UnitsPerScreen } from "../Resolution";
 
@@ -33,12 +33,8 @@ export class GameCamera {
 
   public global_units_to_pixel_coords(p: StaticPoint): StaticPoint {
     return {
-      x:
-        ((p.x - this.camera_center.x) / UnitsPerScreen.w + 0.5) *
-        ResolutionDimensions[this.config.res].w,
-      y:
-        ((p.y - this.camera_center.y) / UnitsPerScreen.h + 0.5) *
-        ResolutionDimensions[this.config.res].h,
+      x: ((p.x - this.camera_center.x) / UnitsPerScreen.w + 0.5) * ResolutionDimensions[this.config.res].w,
+      y: ((p.y - this.camera_center.y) / UnitsPerScreen.h + 0.5) * ResolutionDimensions[this.config.res].h,
     };
   }
 }

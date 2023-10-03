@@ -1,13 +1,10 @@
 import { HasId, Id } from "../Id";
-import { GTCollision } from "../physics/collision/GTCollision";
-import { StaticPoint } from "../physics/geometry/Point";
+import { GTCollision } from "../math/collision/GTCollision";
+import { StaticPoint } from "../math/geometry/Point";
 
 const MAX_NODE_SIZE: number = 5;
 
-export abstract class QuadTreeNode<
-  ItemType extends HasId,
-  NodeType extends QuadTreeNode<ItemType, NodeType>
-> {
+export abstract class QuadTreeNode<ItemType extends HasId, NodeType extends QuadTreeNode<ItemType, NodeType>> {
   /**
    * This node contains all items completely contained in this node
    * (unless this node has subnodes, then not including items that completely fit into the subnodes)
@@ -85,20 +82,9 @@ export abstract class QuadTreeNode<
     ];
   }
 
-  protected abstract get_child_node(
-    top: number,
-    left: number,
-    bottom: number,
-    right: number
-  ): NodeType;
+  protected abstract get_child_node(top: number, left: number, bottom: number, right: number): NodeType;
 
   protected point_falls_in_this_bounding_box(p: StaticPoint): boolean {
-    return GTCollision.IsInBoundingBox(
-      p,
-      this.top,
-      this.left,
-      this.bottom,
-      this.right
-    );
+    return GTCollision.IsInBoundingBox(p, this.top, this.left, this.bottom, this.right);
   }
 }

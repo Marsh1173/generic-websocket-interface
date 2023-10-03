@@ -1,4 +1,4 @@
-import { StaticPoint } from "../../../../common/physics/geometry/Point";
+import { StaticPoint } from "../../../../common/math/geometry/Point";
 
 export interface HasStaticCollidableCircle {
   readonly game_space_data: StaticCollidableCircleData;

@@ -1,7 +1,6 @@
 import { uuid } from "../../../../../../common/Id";
-import { GTCollision } from "../../../../../../common/physics/collision/GTCollision";
-import { StaticPoint } from "../../../../../../common/physics/geometry/Point";
-import { GTMath } from "../../../../../../common/physics/math/GTMath";
+import { GTCollision } from "../../../../../../common/math/collision/GTCollision";
+import { GTMath } from "../../../../../../common/math/basic/GTMath";
 import { HumanInputEnum } from "../../../../../gamesytemio/humaninput/HumanInputEnum";
 import { BaseGoblinState, BaseGoblinStateData } from "./../GoblinState";
 
@@ -47,10 +46,7 @@ export class GoblinInactiveState extends BaseGoblinState {
   }
 
   private shoot_arrow() {
-    const rotation = GTMath.Rotation(
-      this.goblin.game_space_data.pos,
-      this.focus_pos
-    );
+    const rotation = GTMath.Rotation(this.goblin.game_space_data.pos, this.focus_pos);
     this.game_system.entities.make.arrow({
       type: "ArrowData",
       id: uuid(),
@@ -66,11 +62,7 @@ export class GoblinInactiveState extends BaseGoblinState {
       .inside_box(this.focus_pos, 4)
       .filter((e) => !!e.health_module)
       .sort((e1, e2) => {
-        return GTCollision.CompareDistance(
-          e1.game_space_data.pos,
-          e2.game_space_data.pos,
-          this.focus_pos
-        );
+        return GTCollision.CompareDistance(e1.game_space_data.pos, e2.game_space_data.pos, this.focus_pos);
       })
       .at(0);
 

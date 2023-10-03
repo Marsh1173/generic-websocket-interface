@@ -1,5 +1,5 @@
-import { StaticVector } from "../../../common/physics/geometry/Vector";
-import { GTMath } from "../../../common/physics/math/GTMath";
+import { StaticVector } from "../../../common/math/geometry/Vector";
+import { GTMath } from "../../../common/math/basic/GTMath";
 import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
 import { BaseEntityData } from "../../entitymodel/entity/EntityData";
 import {
@@ -26,10 +26,7 @@ export class Arrow extends BaseEntity implements HasDynamicPoint {
     super(data);
 
     this.rotation = data.rotation;
-    const mom: StaticVector = GTMath.VectorFromAngle(
-      this.rotation,
-      ARROW_VELOCITY
-    );
+    const mom: StaticVector = GTMath.VectorFromAngle(this.rotation, ARROW_VELOCITY);
 
     this.game_space_data = new DynamicPoint(
       {

@@ -1,4 +1,4 @@
-import { Rect } from "../../common/physics/geometry/Rect";
+import { Rect } from "../../common/math/geometry/Rect";
 import { IGameStateManager } from "../gamestatemanager/GameStateManager";
 import { Updateable } from "../../ticker/Updater";
 import { HasId } from "../../common/Id";

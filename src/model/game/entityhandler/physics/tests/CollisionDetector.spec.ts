@@ -1,8 +1,8 @@
 import { Assertions } from "../../../../../tester/assert";
 import { Tester } from "../../../../../tester/tester";
 import { uuid } from "../../../../common/Id";
-import { Rect } from "../../../../common/physics/geometry/Rect";
-import { Shape } from "../../../../common/physics/geometry/Shape";
+import { Rect } from "../../../../common/math/geometry/Rect";
+import { Shape } from "../../../../common/math/geometry/Shape";
 import { CollidableShapesQuadTree } from "../../collidableshapes/CollidableShapesQuadTree";
 import { CollisionDetector } from "../CollisionDetector";
 

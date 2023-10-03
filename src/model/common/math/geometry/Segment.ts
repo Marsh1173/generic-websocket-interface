@@ -1,4 +1,4 @@
-import { GTMath } from "../math/GTMath";
+import { GTMath } from "../basic/GTMath";
 import { StaticPoint } from "./Point";
 
 export interface Segment {

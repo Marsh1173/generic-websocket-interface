@@ -1,6 +1,6 @@
 import { Observable } from "../../../common/observer/Observer";
-import { Point, StaticPoint } from "../../../common/physics/geometry/Point";
-import { StaticVector } from "../../../common/physics/geometry/Vector";
+import { Point, StaticPoint } from "../../../common/math/geometry/Point";
+import { StaticVector } from "../../../common/math/geometry/Vector";
 import { UnitsPerScreen } from "../../display/Resolution";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 import { HumanInputConfig } from "./HumanInputConfig";
@@ -14,21 +14,14 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
   private input_buffer: [HumanInputEnum, boolean][] = [];
   private held_inputs: Set<HumanInputEnum> = new Set();
 
-  constructor(
-    protected readonly config: HumanInputConfig,
-    protected readonly game_system: LocalGameSystem
-  ) {
+  constructor(protected readonly config: HumanInputConfig, protected readonly game_system: LocalGameSystem) {
     super();
     this.start_listening();
   }
 
   public update() {
-    const global_mouse_pos: StaticPoint =
-      this.get_global_mouse_pos_from_screen_pos(this.mouse_screen_pos);
-    if (
-      this.prev_mouse_global_pos.x !== global_mouse_pos.x ||
-      this.prev_mouse_global_pos.y !== global_mouse_pos.y
-    ) {
+    const global_mouse_pos: StaticPoint = this.get_global_mouse_pos_from_screen_pos(this.mouse_screen_pos);
+    if (this.prev_mouse_global_pos.x !== global_mouse_pos.x || this.prev_mouse_global_pos.y !== global_mouse_pos.y) {
       this.broadcast_mouse_move(global_mouse_pos);
       this.prev_mouse_global_pos.x = global_mouse_pos.x;
       this.prev_mouse_global_pos.y = global_mouse_pos.y;

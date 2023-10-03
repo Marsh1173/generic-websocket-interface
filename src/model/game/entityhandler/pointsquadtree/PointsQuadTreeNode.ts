@@ -1,7 +1,7 @@
 import { Id } from "../../../common/Id";
-import { GTCollision } from "../../../common/physics/collision/GTCollision";
-import { StaticPoint } from "../../../common/physics/geometry/Point";
-import { GlobalRect } from "../../../common/physics/geometry/Rect";
+import { GTCollision } from "../../../common/math/collision/GTCollision";
+import { StaticPoint } from "../../../common/math/geometry/Point";
+import { GlobalRect } from "../../../common/math/geometry/Rect";
 import { QuadTreeNode } from "../../../common/quadtree/QuadTreeNode";
 import { Entity } from "../../entitymodel/entity/Entity";
 
@@ -13,12 +13,7 @@ export class PointsQuadTreeNode<EntityType extends Entity> extends QuadTreeNode<
     return this.point_falls_in_this_bounding_box(item.game_space_data.pos);
   }
 
-  protected get_child_node(
-    top: number,
-    left: number,
-    bottom: number,
-    right: number
-  ): PointsQuadTreeNode<EntityType> {
+  protected get_child_node(top: number, left: number, bottom: number, right: number): PointsQuadTreeNode<EntityType> {
     return new PointsQuadTreeNode(top, left, bottom, right, this);
   }
 
@@ -42,20 +37,11 @@ export class PointsQuadTreeNode<EntityType extends Entity> extends QuadTreeNode<
     }
   }
 
-  public search_by_bounding_box(
-    box: GlobalRect,
-    filter?: (e: EntityType) => boolean
-  ): EntityType[] {
+  public search_by_bounding_box(box: GlobalRect, filter?: (e: EntityType) => boolean): EntityType[] {
     let results: EntityType[] = []; //check this's items
     this.items.forEach((item) => {
       if (
-        GTCollision.IsInBoundingBox(
-          item.game_space_data.pos,
-          box.top,
-          box.left,
-          box.bottom,
-          box.right
-        ) &&
+        GTCollision.IsInBoundingBox(item.game_space_data.pos, box.top, box.left, box.bottom, box.right) &&
         (!filter || filter(item))
       ) {
         results.push(item);
@@ -65,12 +51,7 @@ export class PointsQuadTreeNode<EntityType extends Entity> extends QuadTreeNode<
     if (this.nodes) {
       for (const node of this.nodes) {
         //if box and node overlap (top and right are not inclusive)
-        if (
-          box.bottom < node.top &&
-          box.top >= node.bottom &&
-          box.left < node.right &&
-          box.right >= node.left
-        ) {
+        if (box.bottom < node.top && box.top >= node.bottom && box.left < node.right && box.right >= node.left) {
           //search in node too
           results = results.concat(node.search_by_bounding_box(box, filter));
         }

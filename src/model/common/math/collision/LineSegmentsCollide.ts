@@ -1,9 +1,9 @@
-import { NearlyEquals } from "../Nearly/NearlyEquals";
-import { NearlyGreaterThan } from "../Nearly/NearlyGreaterThan";
-import { NearlyLessThan } from "../Nearly/NearlyLessThan";
+import { NearlyEquals } from "../nearly/NearlyEquals";
+import { NearlyGreaterThan } from "../nearly/NearlyGreaterThan";
+import { NearlyLessThan } from "../nearly/NearlyLessThan";
 import { StaticPoint } from "../geometry/Point";
 import { StaticSegment } from "../geometry/Segment";
-import { GTMath } from "../math/GTMath";
+import { GTMath } from "../basic/GTMath";
 
 export type LineSegmentsCollideReturnData = {
   seg1_proportion: number;

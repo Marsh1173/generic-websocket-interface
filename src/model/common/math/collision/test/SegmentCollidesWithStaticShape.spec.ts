@@ -1,9 +1,8 @@
 import { Tester } from "../../../../../tester/tester";
 import { Assertions } from "../../../../../tester/assert";
-import { GTCollision } from "../GTCollision";
 import { StaticPoint } from "../../geometry/Point";
 import { TestGTSegmentCollidesWithStaticShape } from "../SegmentCollidesWithStaticShape";
-import { NearlyEquals } from "../../Nearly/NearlyEquals";
+import { NearlyEquals } from "../../nearly/NearlyEquals";
 
 Tester.run("SegmentCollidesWithStaticShape", [
   [

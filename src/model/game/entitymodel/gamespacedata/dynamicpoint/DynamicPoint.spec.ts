@@ -1,8 +1,8 @@
 import { Assertions } from "../../../../../tester/assert";
 import { Tester } from "../../../../../tester/tester";
 import { uuid } from "../../../../common/Id";
-import { NearlyEquals } from "../../../../common/physics/Nearly/NearlyEquals";
-import { StaticVector } from "../../../../common/physics/geometry/Vector";
+import { NearlyEquals } from "../../../../common/math/nearly/NearlyEquals";
+import { StaticVector } from "../../../../common/math/geometry/Vector";
 import { DynamicPoint, PositionPath } from "./DynamicPoint";
 
 Tester.run("DynamicPoint", [

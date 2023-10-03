@@ -1,7 +1,7 @@
 import { Id } from "../../../common/Id";
-import { GTCollision } from "../../../common/physics/collision/GTCollision";
-import { StaticSegment } from "../../../common/physics/geometry/Segment";
-import { ShapeVertexData } from "../../../common/physics/geometry/Shape";
+import { GTCollision } from "../../../common/math/collision/GTCollision";
+import { StaticSegment } from "../../../common/math/geometry/Segment";
+import { ShapeVertexData } from "../../../common/math/geometry/Shape";
 import { StaticCollidableShapeWithId } from "../../entitymodel/gamespacedata/staticcollidableshape/StaticCollidableShape";
 import { CollidableShapesQuadTree } from "../collidableshapes/CollidableShapesQuadTree";
 

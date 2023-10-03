@@ -5,13 +5,11 @@ import { GameSystem } from "./GameSystem";
 import { SystemStatsManager } from "../systemstatsmanager/SystemStatsManager";
 import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
 import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
-import {
-  LocalEntityHandler,
-  LocalEntityHandlerApi,
-} from "../entityhandler/LocalEntityHandler";
+import { LocalEntityHandler, LocalEntityHandlerApi } from "../entityhandler/LocalEntityHandler";
 import { GameDisplay } from "../display/GameDisplay";
 import { ShowTilingGround } from "../devtools/TilingGround";
 import { ShowCursor } from "../devtools/ShowCursor";
+import { ShowEntityOrigin } from "../devtools/EntityOriginSprite";
 
 export class LocalGameSystem extends GameSystem {
   public declare entities: LocalEntityHandlerApi;
@@ -21,10 +19,7 @@ export class LocalGameSystem extends GameSystem {
   public readonly game_system_io: LocalGameSystemIO;
   public readonly display: GameDisplay;
 
-  constructor(
-    data: LocalGameSystemData,
-    public readonly view_app: Application<HTMLCanvasElement>
-  ) {
+  constructor(data: LocalGameSystemData, public readonly view_app: Application<HTMLCanvasElement>) {
     super(data);
 
     this.game_system_io = new LocalGameSystemIO(data, this);
@@ -32,10 +27,7 @@ export class LocalGameSystem extends GameSystem {
     this.display = new GameDisplay(data.display_config, this.view_app);
     this.game_state_manager = new LocalGameStateManager(this);
     this.system_stats_manager = new SystemStatsManager();
-    this.user_state_manager = new LocalUserStateManager(
-      this,
-      data.user_state_data
-    );
+    this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entities.make.from_data(data.entities);
 

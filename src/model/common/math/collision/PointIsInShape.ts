@@ -1,7 +1,7 @@
 import { StaticPoint } from "../geometry/Point";
 import { Shape } from "../geometry/Shape";
 import { StaticVector } from "../geometry/Vector";
-import { GTMath } from "../math/GTMath";
+import { GTMath } from "../basic/GTMath";
 
 /**
  * Provides a quick check to see if point `p` falls inside `shape`. Returns true if point lies on an edge.
@@ -18,10 +18,7 @@ export function GTPointIsInShape(p: StaticPoint, shape: Shape): boolean {
     };
 
     const current_z_is_positive: boolean =
-      GTMath.CrossProductZScalar(
-        vertex_data.edge_vector,
-        vector_to_point_from_vertex
-      ) >= 0;
+      GTMath.CrossProductZScalar(vertex_data.edge_vector, vector_to_point_from_vertex) >= 0;
 
     if (found_z_is_positive === undefined) {
       found_z_is_positive = current_z_is_positive;

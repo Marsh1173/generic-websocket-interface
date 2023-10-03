@@ -1,10 +1,10 @@
-import { NearlyEquals } from "../Nearly/NearlyEquals";
-import { NearlyGreaterThan } from "../Nearly/NearlyGreaterThan";
+import { NearlyEquals } from "../nearly/NearlyEquals";
+import { NearlyGreaterThan } from "../nearly/NearlyGreaterThan";
 import { StaticPoint } from "../geometry/Point";
 import { StaticSegment } from "../geometry/Segment";
 import { Shape, ShapeVertexData } from "../geometry/Shape";
 import { StaticVector } from "../geometry/Vector";
-import { GTMath } from "../math/GTMath";
+import { GTMath } from "../basic/GTMath";
 import { GTCollision } from "./GTCollision";
 import { LineSegmentsCollideReturnData } from "./LineSegmentsCollide";
 

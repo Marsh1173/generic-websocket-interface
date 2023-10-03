@@ -1,4 +1,4 @@
-import { GTMath } from "../math/GTMath";
+import { GTMath } from "../basic/GTMath";
 import { StaticPoint } from "./Point";
 import { GlobalRect } from "./Rect";
 import { StaticSegment } from "./Segment";
@@ -47,8 +47,7 @@ export class Shape {
         x: vertex.x + this.origin.x,
         y: vertex.y + this.origin.y,
       };
-      const next_local_vertex =
-        shape_vertices.vertices[(index + 1) % shape_vertices.vertices.length];
+      const next_local_vertex = shape_vertices.vertices[(index + 1) % shape_vertices.vertices.length];
       const next_global_vertex = {
         x: next_local_vertex.x + this.origin.x,
         y: next_local_vertex.y + this.origin.y,
@@ -71,9 +70,7 @@ export class Shape {
   }
 
   public previous_vertex(index: number): ShapeVertexData {
-    return this.vertices_data[
-      (index + this.vertices_data.length - 1) % this.vertices_data.length
-    ];
+    return this.vertices_data[(index + this.vertices_data.length - 1) % this.vertices_data.length];
   }
 
   private _bounding_box: GlobalRect | undefined = undefined;

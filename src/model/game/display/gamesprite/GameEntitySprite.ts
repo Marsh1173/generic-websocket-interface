@@ -1,4 +1,4 @@
-import { StaticPoint } from "../../../common/physics/geometry/Point";
+import { StaticPoint } from "../../../common/math/geometry/Point";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 import { GameSprite } from "./GameSprite";
 import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
@@ -8,13 +8,8 @@ import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
  * TODO: Have a boolean flag to know if we can skew the object and give the appearance of 3d
  */
 
-export abstract class GameEntitySprite<
-  EntityType extends BaseEntity
-> extends GameSprite {
-  constructor(
-    protected readonly entity: EntityType,
-    game_system: LocalGameSystem
-  ) {
+export abstract class GameEntitySprite<EntityType extends BaseEntity> extends GameSprite {
+  constructor(protected readonly entity: EntityType, game_system: LocalGameSystem) {
     super(game_system);
   }
 
@@ -34,8 +29,7 @@ export abstract class GameEntitySprite<
       this.display_object.zIndex = this.entity.game_space_data.pos.y;
     }
 
-    const pixel_coords =
-      this.game_system.display.camera.global_units_to_pixel_coords(entity_pos);
+    const pixel_coords = this.game_system.display.camera.global_units_to_pixel_coords(entity_pos);
     this.display_object.position.set(pixel_coords.x, pixel_coords.y);
   }
 }

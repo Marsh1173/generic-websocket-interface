@@ -1,5 +1,5 @@
-import { Rect } from "../../common/physics/geometry/Rect";
-import { StaticVector } from "../../common/physics/geometry/Vector";
+import { Rect } from "../../common/math/geometry/Rect";
+import { StaticVector } from "../../common/math/geometry/Vector";
 
 export type Resolution = "standard" | "4k" | "mini";
 

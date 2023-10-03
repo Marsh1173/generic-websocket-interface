@@ -1,15 +1,9 @@
-import { StaticPoint } from "../../../../../common/physics/geometry/Point";
+import { StaticPoint } from "../../../../../common/math/geometry/Point";
 import { GameSystem } from "../../../../gamesystem/GameSystem";
 import { HumanInputEnum } from "../../../../gamesytemio/humaninput/HumanInputEnum";
 import { Goblin } from "../../Goblin";
-import {
-  GoblinDashingState,
-  GoblinDashingStateData,
-} from "./states/GoblinDashingState";
-import {
-  GoblinInactiveState,
-  GoblinInactiveStateData,
-} from "./states/GoblinInactiveState";
+import { GoblinDashingState, GoblinDashingStateData } from "./states/GoblinDashingState";
+import { GoblinInactiveState, GoblinInactiveStateData } from "./states/GoblinInactiveState";
 
 export interface BaseGoblinStateData {
   focus_pos: StaticPoint;

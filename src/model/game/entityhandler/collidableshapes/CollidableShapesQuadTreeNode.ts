@@ -1,16 +1,12 @@
-import { GTCollision } from "../../../common/physics/collision/GTCollision";
 import { QuadTreeNode } from "../../../common/quadtree/QuadTreeNode";
-import { Point } from "../../../common/physics/geometry/Point";
 import { StaticCollidableShapeWithId } from "../../entitymodel/gamespacedata/staticcollidableshape/StaticCollidableShape";
-import { GlobalRect } from "../../../common/physics/geometry/Rect";
+import { GlobalRect } from "../../../common/math/geometry/Rect";
 
 export class CollidableShapesQuadTreeNode extends QuadTreeNode<
   StaticCollidableShapeWithId,
   CollidableShapesQuadTreeNode
 > {
-  public is_completely_in_bounding_box(
-    item: StaticCollidableShapeWithId
-  ): boolean {
+  public is_completely_in_bounding_box(item: StaticCollidableShapeWithId): boolean {
     for (const v_data of item.shape.vertices_data) {
       if (!this.point_falls_in_this_bounding_box(v_data.vertex)) {
         return false;
@@ -19,18 +15,11 @@ export class CollidableShapesQuadTreeNode extends QuadTreeNode<
     return true;
   }
 
-  protected get_child_node(
-    top: number,
-    left: number,
-    bottom: number,
-    right: number
-  ): CollidableShapesQuadTreeNode {
+  protected get_child_node(top: number, left: number, bottom: number, right: number): CollidableShapesQuadTreeNode {
     return new CollidableShapesQuadTreeNode(top, left, bottom, right, this);
   }
 
-  public search_by_bounding_box(
-    box: GlobalRect
-  ): StaticCollidableShapeWithId[] {
+  public search_by_bounding_box(box: GlobalRect): StaticCollidableShapeWithId[] {
     const own_items = [...this.items].flatMap(([id, shape]) => {
       // Check if search bounding box and shape bounding box intersect
       if (
@@ -53,12 +42,7 @@ export class CollidableShapesQuadTreeNode extends QuadTreeNode<
       const child_nodes_items = this.nodes
         .map((node) => {
           // Check if bounding box intersects with any children. Top and right are not inclusive
-          if (
-            box.bottom >= node.top ||
-            box.top < node.bottom ||
-            box.left >= node.right ||
-            box.right < node.left
-          ) {
+          if (box.bottom >= node.top || box.top < node.bottom || box.left >= node.right || box.right < node.left) {
             return [];
           } else {
             return node.search_by_bounding_box(box);
