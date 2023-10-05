@@ -31,14 +31,15 @@ export abstract class EntityFinder {
     /**
      * @param bb_size the length of the sides of the bounding box that entities must fall inside
      */
-    inside_box: (p: StaticPoint, bb_size: number, filter?: (e: Entity) => boolean): Entity[] => {
+    inside_box: (p: StaticPoint, bb_size: number): Entity[] => {
+      const half_len = bb_size / 2;
       const bb: GlobalRect = {
-        top: p.y + bb_size / 2,
-        bottom: p.y - bb_size / 2,
-        left: p.x - bb_size / 2,
-        right: p.x + bb_size / 2,
+        top: p.y + half_len,
+        bottom: p.y - half_len,
+        left: p.x - half_len,
+        right: p.x + half_len,
       };
-      return this.handler.entity_points.search_by_bounding_box(bb, filter);
+      return this.handler.entity_points.search.by_bounding_box(bb);
     },
   };
 }

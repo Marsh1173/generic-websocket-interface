@@ -73,7 +73,7 @@ export abstract class EntityHandler implements EntityHandlerApi {
       });
     }
 
-    this.entity_points.remove(entity);
+    this.entity_points.remove(entity.id);
     entity.deconstruct_module.on_deconstruct();
   }
 

@@ -44,4 +44,15 @@ export namespace Assertions {
         " (expected) must be equal"
     );
   }
+
+  export function assert_throws_error(f: () => void) {
+    let threw: boolean = false;
+    try {
+      f();
+    } catch (e) {
+      threw = true;
+    }
+
+    assert(threw, "Code did not throw an expected error");
+  }
 }

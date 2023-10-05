@@ -66,7 +66,8 @@ export class PhysicsEngine {
         physics_module.pos.y = current_move_segment.p2.y;
       }
 
-      const detected_collision: ShapeCollision | undefined = this.detector.detect_collisions(current_move_segment);
+      const detected_collision: ShapeCollision | undefined =
+        this.detector.detect_collisions(current_move_segment);
 
       if (detected_collision === undefined) {
         continue;
@@ -74,10 +75,20 @@ export class PhysicsEngine {
         has_collided = detected_collision;
       }
 
-      const collision_point = this.get_collision_point(current_move_segment, detected_collision.v_progress);
+      const collision_point = this.get_collision_point(
+        current_move_segment,
+        detected_collision.v_progress
+      );
 
       //Step 3: If the entity has already collided with the same shape in the same spot, break out.
-      if (this.check_if_looping_collisions(collision_point, detected_collision, collision_map, physics_module)) {
+      if (
+        this.check_if_looping_collisions(
+          collision_point,
+          detected_collision,
+          collision_map,
+          physics_module
+        )
+      ) {
         break;
       } else {
         collision_map.set(detected_collision.shape_id, collision_point);
@@ -104,9 +115,14 @@ export class PhysicsEngine {
     collision_map: Map<Id, StaticPoint>,
     physics_module: DynamicPoint
   ): boolean {
-    const possible_prev_shape_collision = collision_map.get(detected_collision.shape_id);
+    const possible_prev_shape_collision = collision_map.get(
+      detected_collision.shape_id
+    );
 
-    if (possible_prev_shape_collision && Point.nearly_equals(collision_point, possible_prev_shape_collision)) {
+    if (
+      possible_prev_shape_collision &&
+      Point.nearly_equals(collision_point, possible_prev_shape_collision)
+    ) {
       physics_module.pos.x = collision_point.x;
       physics_module.pos.y = collision_point.y;
       return true;
@@ -114,7 +130,10 @@ export class PhysicsEngine {
     return false;
   }
 
-  private get_collision_point(move_seg: StaticSegment, v_progress: number): StaticPoint {
+  private get_collision_point(
+    move_seg: StaticSegment,
+    v_progress: number
+  ): StaticPoint {
     return {
       x: move_seg.p1.x + v_progress * (move_seg.p2.x - move_seg.p1.x),
       y: move_seg.p1.y + v_progress * (move_seg.p2.y - move_seg.p1.y),

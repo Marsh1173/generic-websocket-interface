@@ -4,6 +4,7 @@ import { GTSegmentCollidesWithStaticShape } from "./SegmentCollidesWithStaticSha
 import { GTPointIsInShape } from "./PointIsInShape";
 import { GTIsWithinDistance } from "./IsWithinDistance";
 import { GTCompareDistance } from "./CompareDistance";
+import { GTBoundingBoxCollision } from "./BoundingBoxCollision";
 
 export namespace GTCollision {
   export const IsInBoundingBox = GTIsInBoundingBox;
@@ -13,4 +14,5 @@ export namespace GTCollision {
     GTSegmentCollidesWithStaticShape;
   export const IsWithinDistance = GTIsWithinDistance;
   export const CompareDistance = GTCompareDistance;
+  export const BoundingBoxCollision = GTBoundingBoxCollision;
 }

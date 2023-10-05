@@ -13,14 +13,8 @@ export class GameCanvas {
     visual_data: new Container(),
   };
 
-  constructor(view_app: Application<HTMLCanvasElement>) {
-    // TODO find better-placed solution
-    view_app.stage.interactiveChildren = false;
-
-    for (const layer of Object.values(this.layers)) {
-      layer.sortableChildren = true;
-      view_app.stage.addChild(layer);
-    }
+  constructor(private readonly view_app: Application<HTMLCanvasElement>) {
+    this.set_canvas_settings();
   }
 
   public insert_sprite_handler(sprite_handler: GameSpriteHandler) {
@@ -66,5 +60,14 @@ export class GameCanvas {
         sprite.update(elapsed_seconds)
       );
     });
+  }
+
+  private set_canvas_settings() {
+    this.view_app.stage.interactiveChildren = false;
+
+    for (const layer of Object.values(this.layers)) {
+      layer.sortableChildren = true;
+      this.view_app.stage.addChild(layer);
+    }
   }
 }
