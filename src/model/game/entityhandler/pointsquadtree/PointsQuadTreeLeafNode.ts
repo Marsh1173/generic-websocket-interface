@@ -1,6 +1,9 @@
+import { Id } from "../../../common/Id";
 import { GTCollision } from "../../../common/math/collision/GTCollision";
+import { StaticPoint } from "../../../common/math/geometry/Point";
 import { GlobalRect } from "../../../common/math/geometry/Rect";
 import QuadTreeLeafNode from "../../../common/quadtree2/QuadTreeLeafNode";
+import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { PointsQuadTreeBranchNode } from "./PointsQuadTreeBranchNode";
 
@@ -23,11 +26,25 @@ export class PointsQuadTreeLeafNode<
     return this.point_falls_in_this_bounding_box(item.game_space_data.pos);
   }
 
+  public bounding_box_intersects(box: GlobalRect): boolean {
+    return GTCollision.BoundingBoxCollision(this.dim, box);
+  }
+
   public re_insert_point() {
     // if we get here, the point we're recalculating hasn't moved out of this leaf, so it doesn't matter
   }
 
-  public bounding_box_intersects(box: GlobalRect): boolean {
-    return GTCollision.BoundingBoxCollision(this.dim, box);
+  public remove_by_prev_pos(prev_pos: StaticPoint, id: Id) {
+    const item = this.items.get(id);
+    if (item) {
+      this.remove(item);
+    }
+  }
+
+  public debug_get_tree(): DebugQuadTreeData {
+    return {
+      dims: this.dim,
+      item_count: this.item_ids.size,
+    };
   }
 }

@@ -13,6 +13,7 @@ export interface EntityHandlerApi {
   readonly make: EntityFactory;
   readonly find: EntityFinder;
   readonly physics: PhysicsEngine;
+  readonly entity_points: PointsQuadTree<Entity>;
   perform_all_behaviors(elapsed_seconds: number): void;
 }
 

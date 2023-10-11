@@ -23,8 +23,8 @@ export abstract class QuadTreeBranchNode<
   ) {
     super(dim, index);
 
-    const mid_x: number = Math.floor(this.dim.right + this.dim.left) / 2;
-    const mid_y: number = Math.floor(this.dim.top + this.dim.bottom) / 2;
+    const mid_x: number = (this.dim.right + this.dim.left) / 2;
+    const mid_y: number = (this.dim.top + this.dim.bottom) / 2;
     this.children = [
       this.make_child_leaf({ ...this.dim, bottom: mid_y, left: mid_x }, 0),
       this.make_child_leaf({ ...this.dim, bottom: mid_y, right: mid_x }, 1),

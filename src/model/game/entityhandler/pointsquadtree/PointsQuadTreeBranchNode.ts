@@ -4,6 +4,7 @@ import { StaticPoint } from "../../../common/math/geometry/Point";
 import { GlobalRect } from "../../../common/math/geometry/Rect";
 import { QuadTreeBranchNode } from "../../../common/quadtree2/QuadTreeBranchNode";
 import { QuadTreeBranchNodeChildIndex } from "../../../common/quadtree2/QuadTreeNode";
+import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { PointsQuadTreeLeafNode } from "./PointsQuadTreeLeafNode";
 
@@ -19,8 +20,17 @@ export class PointsQuadTreeBranchNode<
       if (child.point_falls_in_this_bounding_box(prev_pos)) {
         if (!child.point_falls_in_this_bounding_box(item.game_space_data.pos)) {
           // we've found where the item should be removed
-          child.remove(item);
-          this.insert(item);
+          child.remove_by_prev_pos(prev_pos, id);
+
+          // insert item into the first valid node, looking upward from the child node
+          let parent: PointsQuadTreeBranchNode<EntityType> | undefined = this;
+          do {
+            if (
+              parent.point_falls_in_this_bounding_box(item.game_space_data.pos)
+            ) {
+              parent.insert(item);
+            }
+          } while ((parent = parent.parent));
         } else {
           // otherwise, keep checking down
           child.re_insert_point(id, prev_pos, item);
@@ -30,7 +40,14 @@ export class PointsQuadTreeBranchNode<
     }
 
     //if we ever get to this point, we know we're in the root branch and the item is out of bounds (and not in any of the children).
-    this.insert(item);
+  }
+
+  public remove_by_prev_pos(prev_pos: StaticPoint, id: Id) {
+    this.children.forEach((child) => {
+      if (child.point_falls_in_this_bounding_box(prev_pos)) {
+        child.remove_by_prev_pos(prev_pos, id);
+      }
+    });
   }
 
   public item_falls_inside(item: EntityType): boolean {
@@ -68,5 +85,12 @@ export class PointsQuadTreeBranchNode<
 
   public bounding_box_intersects(box: GlobalRect): boolean {
     return GTCollision.BoundingBoxCollision(this.dim, box);
+  }
+
+  public debug_get_tree(): DebugQuadTreeData {
+    return {
+      dims: this.dim,
+      children: this.children.map((child) => child.debug_get_tree()),
+    };
   }
 }

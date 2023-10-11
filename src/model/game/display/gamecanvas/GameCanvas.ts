@@ -1,4 +1,4 @@
-import { Application, Container } from "pixi.js";
+import { Application, Container, DisplayObject } from "pixi.js";
 import { Id } from "../../../common/Id";
 import { GameSpriteHandler } from "../gamesprite/GameSpriteHandler";
 
@@ -68,6 +68,34 @@ export class GameCanvas {
     for (const layer of Object.values(this.layers)) {
       layer.sortableChildren = true;
       this.view_app.stage.addChild(layer);
+    }
+  }
+
+  public debug_manage_layers(
+    insert_ground?: DisplayObject,
+    insert_world?: DisplayObject,
+    insert_visual?: DisplayObject,
+    remove_ground?: DisplayObject,
+    remove_world?: DisplayObject,
+    remove_visual?: DisplayObject
+  ) {
+    if (insert_ground) {
+      this.layers.ground_space.addChild(insert_ground);
+    }
+    if (insert_world) {
+      this.layers.world_space.addChild(insert_world);
+    }
+    if (insert_visual) {
+      this.layers.visual_data.addChild(insert_visual);
+    }
+    if (remove_ground) {
+      this.layers.ground_space.removeChild(remove_ground);
+    }
+    if (remove_world) {
+      this.layers.world_space.removeChild(remove_world);
+    }
+    if (remove_visual) {
+      this.layers.visual_data.removeChild(remove_visual);
     }
   }
 }

@@ -29,7 +29,7 @@ export class PhysicsEngine {
     for (const [id, physics_module] of this.dynamic_points_map.entries()) {
       physics_module.update(elapsed_seconds);
 
-      if (!Point.nearly_equals(physics_module.pos, physics_module.prev_pos)) {
+      if (!Point.exactly_equals(physics_module.pos, physics_module.prev_pos)) {
         if (physics_module.collision) {
           this.execute_physics(physics_module);
         }

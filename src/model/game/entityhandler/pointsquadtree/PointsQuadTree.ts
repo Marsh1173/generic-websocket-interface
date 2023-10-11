@@ -2,6 +2,7 @@ import { Id } from "../../../common/Id";
 import { StaticPoint } from "../../../common/math/geometry/Point";
 import { Rect } from "../../../common/math/geometry/Rect";
 import { QuadTree } from "../../../common/quadtree2/QuadTree";
+import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { PointsQuadTreeBranchNode } from "./PointsQuadTreeBranchNode";
 import { PointsQuadTreeLeafNode } from "./PointsQuadTreeLeafNode";
@@ -36,5 +37,9 @@ export class PointsQuadTree<EntityType extends Entity> extends QuadTree<
     if (item) {
       this.root.re_insert_point(id, prev_pos, item);
     }
+  }
+
+  public debug_get_tree(): DebugQuadTreeData {
+    return this.root.debug_get_tree();
   }
 }
