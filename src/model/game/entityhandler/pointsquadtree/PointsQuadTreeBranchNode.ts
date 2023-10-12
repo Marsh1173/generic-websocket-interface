@@ -1,16 +1,13 @@
 import { Id } from "../../../common/Id";
-import { GTCollision } from "../../../common/math/collision/GTCollision";
 import { StaticPoint } from "../../../common/math/geometry/Point";
 import { GlobalRect } from "../../../common/math/geometry/Rect";
-import { QuadTreeBranchNode } from "../../../common/quadtree2/QuadTreeBranchNode";
-import { QuadTreeBranchNodeChildIndex } from "../../../common/quadtree2/QuadTreeNode";
+import { QuadTreeBranchNode } from "../../../common/quadtree/QuadTreeBranchNode";
+import { QuadTreeBranchNodeChildIndex } from "../../../common/quadtree/QuadTreeNode";
 import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { PointsQuadTreeLeafNode } from "./PointsQuadTreeLeafNode";
 
-export class PointsQuadTreeBranchNode<
-  EntityType extends Entity
-> extends QuadTreeBranchNode<
+export class PointsQuadTreeBranchNode<EntityType extends Entity> extends QuadTreeBranchNode<
   EntityType,
   PointsQuadTreeLeafNode<EntityType>,
   PointsQuadTreeBranchNode<EntityType>
@@ -25,9 +22,7 @@ export class PointsQuadTreeBranchNode<
           // insert item into the first valid node, looking upward from the child node
           let parent: PointsQuadTreeBranchNode<EntityType> | undefined = this;
           do {
-            if (
-              parent.point_falls_in_this_bounding_box(item.game_space_data.pos)
-            ) {
+            if (parent.point_falls_in_this_bounding_box(item.game_space_data.pos)) {
               parent.insert(item);
             }
           } while ((parent = parent.parent));
@@ -58,33 +53,11 @@ export class PointsQuadTreeBranchNode<
     parent: PointsQuadTreeBranchNode<EntityType>,
     item_ids?: Set<string> | undefined
   ): PointsQuadTreeLeafNode<EntityType> {
-    return new PointsQuadTreeLeafNode(
-      this.dim,
-      this.index,
-      this.depth,
-      this.max_depth,
-      this.items,
-      parent,
-      item_ids
-    );
+    return new PointsQuadTreeLeafNode(this.dim, this.index, this.depth, this.max_depth, this.items, parent, item_ids);
   }
 
-  protected make_child_leaf(
-    dim: GlobalRect,
-    index: QuadTreeBranchNodeChildIndex
-  ): PointsQuadTreeLeafNode<EntityType> {
-    return new PointsQuadTreeLeafNode(
-      dim,
-      index,
-      this.depth + 1,
-      this.max_depth,
-      this.items,
-      this
-    );
-  }
-
-  public bounding_box_intersects(box: GlobalRect): boolean {
-    return GTCollision.BoundingBoxCollision(this.dim, box);
+  protected make_child_leaf(dim: GlobalRect, index: QuadTreeBranchNodeChildIndex): PointsQuadTreeLeafNode<EntityType> {
+    return new PointsQuadTreeLeafNode(dim, index, this.depth + 1, this.max_depth, this.items, this);
   }
 
   public debug_get_tree(): DebugQuadTreeData {

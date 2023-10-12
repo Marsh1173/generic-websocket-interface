@@ -3,20 +3,20 @@ import { Tester } from "../../../../../tester/tester";
 import { uuid } from "../../../../common/Id";
 import { Rect } from "../../../../common/math/geometry/Rect";
 import { Shape } from "../../../../common/math/geometry/Shape";
-import { CollidableShapesQuadTree } from "../../collidableshapes/CollidableShapesQuadTree";
+import { ShapesQuadTree } from "../../shapesquadtree/ShapesQuadTree";
 import { CollisionDetector } from "../CollisionDetector";
 
 const make_detector_and_collidables = (shapes: ConstructorParameters<typeof Shape>[]): CollisionDetector => {
-  const tree = new CollidableShapesQuadTree({ w: 30, h: 30 });
+  const tree = new ShapesQuadTree({ w: 30, h: 30 });
   for (const shape of shapes) {
     make_collidable(shape, tree);
   }
   return new CollisionDetector(tree);
 };
 
-const make_collidable = (args: ConstructorParameters<typeof Shape>, tree: CollidableShapesQuadTree) => {
+const make_collidable = (args: ConstructorParameters<typeof Shape>, tree: ShapesQuadTree) => {
   const shape = new Shape(...args);
-  tree.insert({ id: uuid(), shape, type: "StaticCollidableShape" });
+  tree.insert({ id: uuid(), shape, type: "StaticCollidableShape", pos: shape.origin });
 };
 
 Tester.run("CollisionDetector", [

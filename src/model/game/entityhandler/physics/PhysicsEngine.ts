@@ -5,7 +5,7 @@ import { StaticSegment } from "../../../common/math/geometry/Segment";
 import { StaticVector } from "../../../common/math/geometry/Vector";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { DynamicPoint } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
-import { CollidableShapesQuadTree } from "../collidableshapes/CollidableShapesQuadTree";
+import { ShapesQuadTree } from "../shapesquadtree/ShapesQuadTree";
 import { PointsQuadTree } from "../pointsquadtree/PointsQuadTree";
 import { CollisionDetector, ShapeCollision } from "./CollisionDetector";
 import { CollisionSolver } from "./CollisionSolver";
@@ -19,7 +19,7 @@ export class PhysicsEngine {
     protected readonly dynamic_points_map: Map<Id, DynamicPoint>,
     protected readonly dynamic_points: PointsQuadTree<Entity>,
     protected readonly map_dimensions: Rect,
-    collidable_shapes: CollidableShapesQuadTree
+    collidable_shapes: ShapesQuadTree
   ) {
     this.detector = new CollisionDetector(collidable_shapes);
   }

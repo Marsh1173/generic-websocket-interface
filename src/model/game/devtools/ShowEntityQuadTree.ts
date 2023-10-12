@@ -12,11 +12,7 @@ export interface DebugQuadTreeData {
 export namespace ShowEntityQuadTree {
   let graphics_sprite: undefined | Graphics = undefined;
 
-  function recursive_draw_tree(
-    data: DebugQuadTreeData,
-    sprite: Graphics,
-    camera: GameCamera
-  ) {
+  function recursive_draw_tree(data: DebugQuadTreeData, sprite: Graphics, camera: GameCamera) {
     const top_left = camera.global_units_to_pixel_coords({
       y: data.dims.top,
       x: data.dims.left,
@@ -49,23 +45,15 @@ export namespace ShowEntityQuadTree {
   export function update(local_game_system: LocalGameSystem) {
     if (!graphics_sprite) {
       graphics_sprite = new Graphics();
-      local_game_system.display.canvas.debug_manage_layers(
-        undefined,
-        undefined,
-        graphics_sprite
-      );
+      local_game_system.display.canvas.debug_manage_layers(undefined, undefined, graphics_sprite);
     }
 
     graphics_sprite.clear();
     graphics_sprite.beginFill(undefined, 0);
-    graphics_sprite.lineStyle(2, 0xff0000);
+    graphics_sprite.lineStyle(2, 0x00ffff);
 
     const tree = local_game_system.entities.entity_points.debug_get_tree();
-    recursive_draw_tree(
-      tree,
-      graphics_sprite,
-      local_game_system.display.camera
-    );
+    recursive_draw_tree(tree, graphics_sprite, local_game_system.display.camera);
 
     graphics_sprite.endFill();
   }

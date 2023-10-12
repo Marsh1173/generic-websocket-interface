@@ -3,10 +3,10 @@ import { GTCollision } from "../../../common/math/collision/GTCollision";
 import { StaticSegment } from "../../../common/math/geometry/Segment";
 import { ShapeVertexData } from "../../../common/math/geometry/Shape";
 import { StaticCollidableShapeWithId } from "../../entitymodel/gamespacedata/staticcollidableshape/StaticCollidableShape";
-import { CollidableShapesQuadTree } from "../collidableshapes/CollidableShapesQuadTree";
+import { ShapesQuadTree } from "../shapesquadtree/ShapesQuadTree";
 
 export class CollisionDetector {
-  constructor(protected readonly collidable_shapes: CollidableShapesQuadTree) {}
+  constructor(protected readonly collidable_shapes: ShapesQuadTree) {}
 
   public detect_collisions(move_segment: StaticSegment): ShapeCollision | undefined {
     // Step 1: Broad search (quick and easy search for "possibly collide" shapes)
@@ -20,7 +20,7 @@ export class CollisionDetector {
   }
 
   protected broad_search(move_segment: StaticSegment): StaticCollidableShapeWithId[] {
-    return this.collidable_shapes.get_all_by_segment(move_segment);
+    return this.collidable_shapes.search.by_segment(move_segment);
   }
 
   protected narrow_search(

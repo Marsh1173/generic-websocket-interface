@@ -3,7 +3,7 @@ import { Rect, StaticRect } from "../../common/math/geometry/Rect";
 import { Entity } from "../entitymodel/entity/Entity";
 import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { IBehaviorModule } from "../entitymodel/modules/behavior/BehaviorModule";
-import { CollidableShapesQuadTree } from "./collidableshapes/CollidableShapesQuadTree";
+import { ShapesQuadTree } from "./shapesquadtree/ShapesQuadTree";
 import { PointsQuadTree } from "./pointsquadtree/PointsQuadTree";
 import { EntityFactory } from "./factory/EntityFactory";
 import { EntityFinder } from "./finder/EntityFinder";
@@ -26,14 +26,14 @@ export abstract class EntityHandler implements EntityHandlerApi {
   public readonly behaviors_map: Map<Id, IBehaviorModule> = new Map();
   public readonly dynamic_points_map: Map<Id, DynamicPoint> = new Map();
 
-  public readonly collidable_shapes: CollidableShapesQuadTree;
+  public readonly collidable_shapes: ShapesQuadTree;
   public readonly entity_points: PointsQuadTree<Entity>;
 
   public readonly map_size: StaticRect;
 
   constructor(dimensions: Rect) {
     this.map_size = dimensions;
-    this.collidable_shapes = new CollidableShapesQuadTree(this.map_size);
+    this.collidable_shapes = new ShapesQuadTree(this.map_size);
     this.entity_points = new PointsQuadTree(this.map_size);
 
     this.physics = new PhysicsEngine(
@@ -68,10 +68,7 @@ export abstract class EntityHandler implements EntityHandlerApi {
     this.dynamic_points_map.delete(entity.id);
 
     if (entity.game_space_data.type === "StaticCollidableShape") {
-      this.collidable_shapes.remove({
-        id: entity.id,
-        ...entity.game_space_data,
-      });
+      this.collidable_shapes.remove(entity.id);
     }
 
     this.entity_points.remove(entity.id);

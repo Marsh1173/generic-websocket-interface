@@ -1,21 +1,55 @@
-import { HasId } from "../Id";
-import { Rect } from "../math/geometry/Rect";
-import { QuadTreeNode } from "./QuadTreeNode";
+import { HasId, Id } from "../Id";
+import { GlobalRect, Rect } from "../math/geometry/Rect";
+import { QuadTreeBranchNode } from "./QuadTreeBranchNode";
+import QuadTreeLeafNode from "./QuadTreeLeafNode";
 
-export abstract class QuadTree<ItemType extends HasId, NodeType extends QuadTreeNode<ItemType, NodeType>> {
-  protected readonly root: NodeType;
+export abstract class QuadTree<
+  ItemType extends HasId,
+  LeafType extends QuadTreeLeafNode<ItemType, BranchType>,
+  BranchType extends QuadTreeBranchNode<ItemType, LeafType, BranchType>,
+  SearcherType
+> {
+  /**
+   * An arbitrary value - it seems to work better than most, but not thoroughly tested.
+   */
+  public static readonly max_leaf_size: number = 8;
 
-  public constructor(dimensions: Rect) {
-    this.root = this.get_root_node(dimensions);
+  protected readonly items: Map<Id, ItemType> = new Map();
+  protected abstract readonly root: BranchType;
+  protected readonly max_depth: number;
+  protected readonly dim: GlobalRect;
+
+  public abstract readonly search: SearcherType;
+
+  constructor(size: Rect) {
+    // This ensures the deepest nodes' longest side is always between 1 and 2 units.
+    this.max_depth = Math.ceil(Math.log2(Math.max(size.w, size.h))) - 1;
+    this.dim = this.calculate_dim(size);
   }
 
   public insert(item: ItemType) {
-    this.root.recursive_insert(item);
+    if (this.items.has(item.id)) {
+      throw new Error(
+        "Tried to insert item that was already inserted with id " +
+          item.id +
+          ":\n" +
+          JSON.stringify(item)
+      );
+    }
+
+    this.items.set(item.id, item);
+    this.root.insert(item);
   }
 
-  public remove(item: ItemType) {
-    this.root.recursive_remove(item);
+  public remove(id: Id) {
+    let item = this.items.get(id);
+    if (item) {
+      this.items.delete(id);
+      this.root.remove(item);
+    }
   }
 
-  protected abstract get_root_node(dimensions: Rect): NodeType;
+  private calculate_dim(size: Rect): GlobalRect {
+    return { top: size.h, right: size.w, bottom: 0, left: 0 };
+  }
 }
