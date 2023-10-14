@@ -12,8 +12,7 @@ const trees: EntityData[] = [];
 for (let i: number = 0; i < 12; i++) {
   const x = (i % 4) * 4 + 2 + Math.random() * 1.5;
   const y = Math.floor(i / 4) * 4 + 3 + Math.random() * 1.5;
-  const variation: TreeVariation = (Math.floor(Math.random() * 3) +
-    1) as TreeVariation;
+  const variation: TreeVariation = (Math.floor(Math.random() * 3) + 1) as TreeVariation;
   trees.push({
     type: "TreeData",
     game_space_data: { origin: { x: x, y: y } },

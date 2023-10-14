@@ -1,42 +1,26 @@
 import { Component } from "react";
 import "./LocalGameStyles.less";
 import React from "react";
-import {
-  LocalGameSystem,
-  LocalGameSystemData,
-} from "../../../model/game/gamesystem/LocalGameSystem";
+import { LocalGameSystem, LocalGameSystemData } from "../../../model/game/gamesystem/LocalGameSystem";
 import { Application } from "pixi.js";
-import { ResolutionDimensions } from "../../../model/game/display/Resolution";
 import { SystemStatsComponent } from "../common/systemstats/SystemStatsComponent";
 
 export interface LocalGameComponentProps {
   local_game_data: LocalGameSystemData;
+  view_app: Application<HTMLCanvasElement>;
 }
 
-export class LocalGameComponent extends Component<
-  { props: LocalGameComponentProps },
-  {}
-> {
+export class LocalGameComponent extends Component<{ props: LocalGameComponentProps }, {}> {
   protected readonly game_system: LocalGameSystem;
   protected readonly view_app: Application<HTMLCanvasElement>;
-  protected readonly view_ref: React.RefObject<HTMLDivElement> =
-    React.createRef();
+  protected readonly view_ref: React.RefObject<HTMLDivElement> = React.createRef();
 
   constructor(props: { props: LocalGameComponentProps }) {
     super(props);
 
-    const resolution =
-      ResolutionDimensions[this.props.props.local_game_data.display_config.res];
-    this.view_app = new Application<HTMLCanvasElement>({
-      width: resolution.w,
-      height: resolution.h,
-      antialias: false,
-    });
+    this.view_app = this.props.props.view_app;
 
-    this.game_system = new LocalGameSystem(
-      this.props.props.local_game_data,
-      this.view_app
-    );
+    this.game_system = new LocalGameSystem(this.props.props.local_game_data, this.view_app);
 
     this.update_game_system = this.update_game_system.bind(this);
   }
@@ -44,9 +28,7 @@ export class LocalGameComponent extends Component<
   public render() {
     return (
       <div className="LocalGameComponent" ref={this.view_ref}>
-        <SystemStatsComponent
-          game_system={this.game_system}
-        ></SystemStatsComponent>
+        <SystemStatsComponent game_system={this.game_system}></SystemStatsComponent>
       </div>
     );
   }

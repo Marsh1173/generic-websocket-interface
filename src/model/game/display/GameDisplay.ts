@@ -1,7 +1,6 @@
 import { Application, TilingSprite } from "pixi.js";
 import { GameCanvas } from "./gamecanvas/GameCanvas";
 import { GameCamera } from "./gamecamera/GameCamera";
-import { ImageAssets } from "../../../client/assets/image/ImageAssets";
 import { DisplayConfig } from "./DisplayConfig";
 
 export class GameDisplay {

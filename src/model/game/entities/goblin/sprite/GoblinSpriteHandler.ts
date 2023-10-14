@@ -10,8 +10,6 @@ export class GoblinSpriteHandler extends GameEntitySpriteHandler<Goblin> {
 
     this.world_space_sprites.push(new GoblinSprite(entity, this.game_system));
 
-    this.visual_data_sprites.push(
-      new HealthSprite(this.entity, this.game_system)
-    );
+    this.visual_data_sprites.push(new HealthSprite(this.entity, this.game_system, { height: 110 }));
   }
 }

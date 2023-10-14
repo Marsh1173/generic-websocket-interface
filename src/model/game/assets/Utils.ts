@@ -1,9 +1,18 @@
-export type StringPrefix<
-  Type extends string,
-  StringLiteral extends string
-> = `${StringLiteral}-${Type}`;
+export type StringPrefix<Type extends string, StringLiteral extends string> = `${StringLiteral}-${Type}`;
 
-export function wrap_record<StringLiteral extends string, Type extends string>(
+export function wrap_record<StringLiteral extends string, V, Type extends string>(
+  record: Record<Type, V>,
+  name_str: string
+): Record<StringPrefix<Type, StringLiteral>, V> {
+  const name_prefix = name_str + "-";
+  return Object.fromEntries(
+    (Object.entries(record) as [Type, V][]).map(([name, value]) => {
+      return [name_prefix + name, value];
+    })
+  ) as Record<StringPrefix<Type, StringLiteral>, V>;
+}
+
+export function wrap_path_record<StringLiteral extends string, Type extends string>(
   record: Record<Type, string>,
   path_str: string,
   name_str: string | undefined = path_str

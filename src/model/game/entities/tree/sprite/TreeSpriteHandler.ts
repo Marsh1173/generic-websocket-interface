@@ -10,8 +10,6 @@ export class TreeSpriteHandler extends GameEntitySpriteHandler<Tree> {
 
     this.world_space_sprites.push(new TreeSprite(entity, this.game_system));
 
-    this.visual_data_sprites.push(
-      new HealthSprite(this.entity, this.game_system)
-    );
+    this.visual_data_sprites.push(new HealthSprite(this.entity, this.game_system, { height: 0 }));
   }
 }
