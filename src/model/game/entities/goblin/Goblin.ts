@@ -14,10 +14,7 @@ import {
 } from "../../entitymodel/modules/health/HealthModule";
 import { HealthObservable } from "../../entitymodel/modules/health/HealthObservable";
 import { GameSystem } from "../../gamesystem/GameSystem";
-import {
-  GoblinBehaviorData,
-  GoblinBehaviorModule,
-} from "./behavior/GoblinBehaviorModule";
+import { GoblinBehaviorData, GoblinBehaviorModule } from "./behavior/GoblinBehaviorModule";
 
 export interface GoblinData extends BaseEntityData {
   type: "GoblinData";
@@ -26,10 +23,7 @@ export interface GoblinData extends BaseEntityData {
   behavior_data: GoblinBehaviorData;
 }
 
-export class Goblin
-  extends BaseEntity
-  implements HasHealthModule, HasDynamicPoint, HasBehaviorModule
-{
+export class Goblin extends BaseEntity implements HasHealthModule, HasDynamicPoint, HasBehaviorModule {
   public readonly type = "Goblin";
   public readonly health_module: IHealthModule;
   public readonly game_space_data: DynamicPoint;
@@ -40,15 +34,7 @@ export class Goblin
     const health_observable = new HealthObservable();
 
     this.game_space_data = new DynamicPoint(data.game_space_data, true);
-    this.health_module = new HealthModule(
-      health_observable,
-      this,
-      data.health_module_data
-    );
-    this.behavior_module = new GoblinBehaviorModule(
-      data.behavior_data,
-      this,
-      this.game_system
-    );
+    this.health_module = new HealthModule(health_observable, this, this.game_system, data.health_module_data);
+    this.behavior_module = new GoblinBehaviorModule(data.behavior_data, this, this.game_system);
   }
 }

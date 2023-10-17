@@ -2,6 +2,7 @@ import { Goblin } from "../entities/goblin/Goblin";
 import { Entity } from "../entitymodel/entity/Entity";
 import { GameSystem } from "../gamesystem/GameSystem";
 import { UserState, UserStateData } from "./UserState";
+import { DeadUserState } from "./states/DeadUserState";
 import { LoadingUserState } from "./states/LoadingUserState";
 import { PlayerStateData } from "./states/playerstate/PlayerState";
 
@@ -35,5 +36,15 @@ export abstract class UserStateManager {
 
   protected get_loading_state(): UserState {
     return new LoadingUserState();
+  }
+
+  public set_dead_state() {
+    this.state.leave_state();
+
+    this.state = new DeadUserState();
+  }
+
+  protected get_dead_state(): UserState {
+    return new DeadUserState();
   }
 }

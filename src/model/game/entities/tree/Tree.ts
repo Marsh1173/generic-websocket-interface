@@ -38,7 +38,7 @@ export class Tree extends BaseEntity implements HasHealthModule, HasStaticCollid
     this.variation = data.variation;
 
     const health_observable = new HealthObservable();
-    this.health_module = new HealthModule(health_observable, this, data.health_module_data);
+    this.health_module = new HealthModule(health_observable, this, this.game_system, data.health_module_data);
 
     this.game_space_data = new StaticCollidableShapeModule(data.game_space_data, TreeShapeData);
 

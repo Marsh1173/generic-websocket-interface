@@ -11,45 +11,34 @@ import { TreeSpriteHandler } from "../../entities/tree/sprite/TreeSpriteHandler"
 import { GoblinSpriteHandler } from "../../entities/goblin/sprite/GoblinSpriteHandler";
 
 export class LocalEntityFactory extends EntityFactory {
-  constructor(
-    protected readonly game_system: LocalGameSystem,
-    protected readonly entity_handler: LocalEntityHandler
-  ) {
+  constructor(protected readonly game_system: LocalGameSystem, protected readonly entity_handler: LocalEntityHandler) {
     super(game_system, entity_handler);
   }
 
   public arrow(data: ArrowData): Arrow {
     const arrow = super.arrow(data);
-    this.game_system.display.canvas.insert_sprite_handler(
-      new ArrowSpriteHandler(arrow, this.game_system)
-    );
+    new ArrowSpriteHandler(arrow, this.game_system).insert();
 
     return arrow;
   }
 
   public tree(data: TreeData): Tree {
     const tree = super.tree(data);
-    this.game_system.display.canvas.insert_sprite_handler(
-      new TreeSpriteHandler(tree, this.game_system)
-    );
+    new TreeSpriteHandler(tree, this.game_system).insert();
 
     return tree;
   }
 
   public goblin(data: GoblinData): Goblin {
     const goblin = super.goblin(data);
-    this.game_system.display.canvas.insert_sprite_handler(
-      new GoblinSpriteHandler(goblin, this.game_system)
-    );
+    new GoblinSpriteHandler(goblin, this.game_system).insert();
 
     return goblin;
   }
 
   public sheep(data: SheepData): Sheep {
     const sheep = super.sheep(data);
-    this.game_system.display.canvas.insert_sprite_handler(
-      new SheepSpriteHandler(sheep, this.game_system)
-    );
+    new SheepSpriteHandler(sheep, this.game_system).insert();
 
     return sheep;
   }

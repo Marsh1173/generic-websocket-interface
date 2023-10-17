@@ -10,5 +10,12 @@ export abstract class GameEntitySpriteHandler<EntityType extends Entity> extends
     if (ShowEntityOrigin.get()) {
       this.visual_data_sprites.push(new EntityOriginSprite(this.entity, this.game_system));
     }
+
+    entity.deconstruct_module.add_observer({
+      id: this.id,
+      on_observable_deconstruct: () => {
+        this.remove();
+      },
+    });
   }
 }

@@ -23,10 +23,7 @@ export interface SheepData extends BaseEntityData {
   health_module_data: HealthModuleData;
   behavior_data?: BehaviorWanderModuleData;
 }
-export class Sheep
-  extends BaseEntity
-  implements HasHealthModule, HasDynamicPoint, HasBehaviorModule
-{
+export class Sheep extends BaseEntity implements HasHealthModule, HasDynamicPoint, HasBehaviorModule {
   public readonly type = "Sheep";
   public readonly health_module: IHealthModule;
   public readonly game_space_data: DynamicPoint;
@@ -37,11 +34,7 @@ export class Sheep
     const health_observable = new HealthObservable();
 
     this.game_space_data = new DynamicPoint(data.game_space_data, true);
-    this.health_module = new HealthModule(
-      health_observable,
-      this,
-      data.health_module_data
-    );
+    this.health_module = new HealthModule(health_observable, this, this.game_system, data.health_module_data);
 
     this.behavior_module = new SheepBehaviorModule(this, data.behavior_data);
   }

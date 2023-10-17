@@ -23,9 +23,9 @@ for (let i: number = 0; i < 12; i++) {
 }
 
 const sheep: EntityData[] = [];
-for (let i: number = 0; i < 10; i++) {
-  const x = 2 + Math.random() * 14;
-  const y = 2 + Math.random() * 10;
+for (let i: number = 0; i < 30; i++) {
+  const x = 2 + Math.random() * 20;
+  const y = 2 + Math.random() * 15;
 
   sheep.push({
     type: "SheepData",

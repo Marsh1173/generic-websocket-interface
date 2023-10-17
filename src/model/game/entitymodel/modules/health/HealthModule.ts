@@ -1,4 +1,5 @@
 import { Id } from "../../../../common/Id";
+import { GameSystem } from "../../../gamesystem/GameSystem";
 import { Entity } from "../../entity/Entity";
 import { HealthObservable } from "./HealthObservable";
 
@@ -26,6 +27,7 @@ export class HealthModule implements IHealthModule {
   constructor(
     public readonly observable: HealthObservable,
     public readonly entity: Entity & HasHealthModule,
+    protected readonly game_system: GameSystem,
     data: HealthModuleData
   ) {
     this.max_health = data.max_health;
@@ -62,6 +64,8 @@ export class HealthModule implements IHealthModule {
 
   private die(killer_id?: Id) {
     this.observable.on_die({ killer_id });
+
+    this.game_system.entities.remove(this.entity);
   }
 }
 

@@ -15,6 +15,7 @@ export interface EntityHandlerApi {
   readonly physics: PhysicsEngine;
   readonly entity_points: PointsQuadTree<Entity>;
   perform_all_behaviors(elapsed_seconds: number): void;
+  remove(entity: Entity): void;
 }
 
 export abstract class EntityHandler implements EntityHandlerApi {
