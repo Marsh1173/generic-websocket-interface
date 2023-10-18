@@ -1,10 +1,11 @@
 import { Id } from "../../../common/Id";
-import { SegmentCollidesWithStaticShapeReturnData } from "../../../common/math/collision/SegmentCollidesWithStaticShape";
 import { StaticPoint } from "../../../common/math/geometry/Point";
 import { GlobalRect } from "../../../common/math/geometry/Rect";
+import { StaticSegment } from "../../../common/math/geometry/Segment";
 import { Shape } from "../../../common/math/geometry/Shape";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { EntityHandler } from "../EntityHandler";
+import { ShapeCollision } from "../physics/CollisionDetector";
 
 export abstract class EntityFinder {
   constructor(protected readonly handler: EntityHandler) {}
@@ -17,9 +18,8 @@ export abstract class EntityFinder {
       //returns a list of shapes the point falls inside of
       throw new Error("Not implemented yet");
     },
-    by_raycast_line(): SegmentCollidesWithStaticShapeReturnData {
-      //returns first collided line segment with percentage along ray that they collide
-      throw new Error("Not implemented yet");
+    by_raycast_line: (segment: StaticSegment): ShapeCollision | undefined => {
+      return this.handler.physics.detector.detect_collisions(segment);
     },
     by_intersecting_shape(): Shape[] {
       //returns a list of shapes the shape intersects with

@@ -15,6 +15,11 @@ import {
 import { HealthObservable } from "../../entitymodel/modules/health/HealthObservable";
 import { TreeShapeData } from "./TreeShape";
 import { BaseEntity } from "../../entitymodel/entity/BaseEntityClass";
+import {
+  DropPresetItemsOnDeathModule,
+  HasDropItemsOnDeathModule,
+  IDropItemsOnDeathModule,
+} from "../../entitymodel/modules/dropitemsondeath/DropItemsOnDeathModule";
 
 export type TreeVariation = 1 | 2 | 3;
 
@@ -25,9 +30,10 @@ export interface TreeData extends BaseEntityData {
   variation: TreeVariation;
 }
 
-export class Tree extends BaseEntity implements HasHealthModule, HasStaticCollidableShape {
+export class Tree extends BaseEntity implements HasHealthModule, HasStaticCollidableShape, HasDropItemsOnDeathModule {
   public readonly type = "Tree";
   public readonly health_module: IHealthModule;
+  public readonly drop_items_on_death: IDropItemsOnDeathModule;
   public readonly game_space_data: StaticCollidableShape;
 
   public readonly variation: TreeVariation;
@@ -42,10 +48,13 @@ export class Tree extends BaseEntity implements HasHealthModule, HasStaticCollid
 
     this.game_space_data = new StaticCollidableShapeModule(data.game_space_data, TreeShapeData);
 
+    this.drop_items_on_death = new DropPresetItemsOnDeathModule(this.game_system, [
+      { item_data: { type: "Wood" }, probability: 1 },
+    ]);
+
     /**
      * Behavior
      *  on death spawn trunk, particles (leaves, falling animation)
-     *  on death spawn item
      *  slowly regen health
      */
   }

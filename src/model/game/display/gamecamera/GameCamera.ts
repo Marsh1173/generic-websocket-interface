@@ -26,8 +26,8 @@ export class GameCamera {
         x: this.focus.x + this.camera_offset_units.x,
         y: this.focus.y + this.camera_offset_units.y,
       });
-      this.camera_center.x += focus_diff.x * this.follow_delay_const;
-      this.camera_center.y += focus_diff.y * this.follow_delay_const;
+      this.camera_center.x = this.camera_center.x + focus_diff.x * this.follow_delay_const;
+      this.camera_center.y = this.camera_center.y + focus_diff.y * this.follow_delay_const;
     }
   }
 

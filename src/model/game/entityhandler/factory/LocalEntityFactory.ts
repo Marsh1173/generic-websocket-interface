@@ -9,6 +9,8 @@ import { SheepSpriteHandler } from "../../entities/sheep/sprite/SheepSpriteHandl
 import { ArrowSpriteHandler } from "../../entities/arrow/sprite/ArrowSpriteHandler";
 import { TreeSpriteHandler } from "../../entities/tree/sprite/TreeSpriteHandler";
 import { GoblinSpriteHandler } from "../../entities/goblin/sprite/GoblinSpriteHandler";
+import { ItemEntityData, ItemEntity } from "../../entities/itementity/ItemEntity";
+import { ItemEntitySpriteHandler } from "../../entities/itementity/sprite/ItemEntitySpriteHandler";
 
 export class LocalEntityFactory extends EntityFactory {
   constructor(protected readonly game_system: LocalGameSystem, protected readonly entity_handler: LocalEntityHandler) {
@@ -41,5 +43,12 @@ export class LocalEntityFactory extends EntityFactory {
     new SheepSpriteHandler(sheep, this.game_system).insert();
 
     return sheep;
+  }
+
+  public item_entity(data: ItemEntityData): ItemEntity {
+    const item_entity = super.item_entity(data);
+    new ItemEntitySpriteHandler(item_entity, this.game_system).insert();
+
+    return item_entity;
   }
 }

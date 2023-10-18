@@ -65,6 +65,7 @@ export class HealthModule implements IHealthModule {
   private die(killer_id?: Id) {
     this.observable.on_die({ killer_id });
 
+    this.entity.drop_items_on_death?.drop_items(this.entity.game_space_data.pos);
     this.game_system.entities.remove(this.entity);
   }
 }

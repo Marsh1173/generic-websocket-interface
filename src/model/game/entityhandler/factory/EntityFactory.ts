@@ -1,5 +1,6 @@
 import { ArrowData, Arrow } from "../../entities/arrow/Arrow";
 import { GoblinData, Goblin } from "../../entities/goblin/Goblin";
+import { ItemEntity, ItemEntityData } from "../../entities/itementity/ItemEntity";
 import { Sheep, SheepData } from "../../entities/sheep/Sheep";
 import { TreeData, Tree } from "../../entities/tree/Tree";
 import { Entity } from "../../entitymodel/entity/Entity";
@@ -8,10 +9,7 @@ import { GameSystem } from "../../gamesystem/GameSystem";
 import { EntityHandler } from "../EntityHandler";
 
 export class EntityFactory {
-  constructor(
-    protected readonly game_system: GameSystem,
-    protected readonly entity_handler: EntityHandler
-  ) {}
+  constructor(protected readonly game_system: GameSystem, protected readonly entity_handler: EntityHandler) {}
 
   public from_data(datas: EntityData[]) {
     datas.forEach((data) => {
@@ -29,6 +27,8 @@ export class EntityFactory {
         return this.goblin(data);
       case "SheepData":
         return this.sheep(data);
+      case "ItemEntityData":
+        return this.item_entity(data);
     }
   }
 
@@ -58,5 +58,12 @@ export class EntityFactory {
     this.entity_handler.insert(sheep);
 
     return sheep;
+  }
+
+  public item_entity(data: ItemEntityData): ItemEntity {
+    const item_entity: ItemEntity = new ItemEntity(data, this.game_system);
+    this.entity_handler.insert(item_entity);
+
+    return item_entity;
   }
 }
