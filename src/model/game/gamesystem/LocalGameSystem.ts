@@ -5,10 +5,7 @@ import { GameSystem } from "./GameSystem";
 import { SystemStatsManager } from "../systemstatsmanager/SystemStatsManager";
 import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
 import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
-import {
-  LocalEntityHandler,
-  LocalEntityHandlerApi,
-} from "../entityhandler/LocalEntityHandler";
+import { LocalEntityHandler, LocalEntityHandlerApi } from "../entityhandler/LocalEntityHandler";
 import { GameDisplay } from "../display/GameDisplay";
 import { ShowTilingGround } from "../devtools/TilingGround";
 
@@ -20,10 +17,7 @@ export class LocalGameSystem extends GameSystem {
   public readonly game_system_io: LocalGameSystemIO;
   public readonly display: GameDisplay;
 
-  constructor(
-    data: LocalGameSystemData,
-    public readonly view_app: Application<HTMLCanvasElement>
-  ) {
+  constructor(data: LocalGameSystemData, public readonly view_app: Application<HTMLCanvasElement>) {
     super(data);
 
     this.game_system_io = new LocalGameSystemIO(data, this);
@@ -31,14 +25,11 @@ export class LocalGameSystem extends GameSystem {
     this.display = new GameDisplay(data.display_config, this.view_app);
     this.game_state_manager = new LocalGameStateManager(this);
     this.system_stats_manager = new SystemStatsManager();
-    this.user_state_manager = new LocalUserStateManager(
-      this,
-      data.user_state_data
-    );
+    this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entities.make.from_data(data.entities);
 
-    ShowTilingGround(this, view_app);
+    // ShowTilingGround(this, view_app);
   }
 
   public update(elapsed_seconds: number) {
@@ -48,6 +39,8 @@ export class LocalGameSystem extends GameSystem {
 
     this.display.canvas.update_all_renderables(elapsed_seconds);
     this.system_stats_manager.update();
+
+    this.display._3d.render();
   }
 
   protected update_all_entities(elapsed_seconds: number): void {

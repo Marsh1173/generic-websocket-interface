@@ -1,26 +1,14 @@
 import React from "react";
 import { Component } from "react";
-import {
-  ConnectingView,
-  ConnectingViewProps,
-} from "../connecting/ConnectingView";
+import { ConnectingView, ConnectingViewProps } from "../connecting/ConnectingView";
 import { DisconnectionView } from "../disconnection/DisconnectionView";
-import {
-  AuthenticationView,
-  AuthenticationViewProps,
-} from "../authentication/AuthenticationView";
+import { AuthenticationView, AuthenticationViewProps } from "../authentication/AuthenticationView";
 
 import "./Standards.less";
 import "./MainStyles.less";
 import { AuthMenuProps, AuthMenuView } from "../authmenu/AuthMenuView";
-import {
-  LocalGameComponent,
-  LocalGameComponentProps,
-} from "../game/local/LocalGameView";
-import {
-  LoadingComponent,
-  LoadingComponentProps,
-} from "../game/common/loading/LoadingComponent";
+import { LocalGameComponent, LocalGameComponentProps } from "../game/local/LocalGameView";
+import { LoadingComponent, LoadingComponentProps } from "../game/common/loading/LoadingComponent";
 
 export interface MainViewProps {
   initial_state?: MainViewState;
@@ -47,7 +35,7 @@ export class MainView extends Component<MainViewProps, MainViewState> {
   public render() {
     return (
       <div className="main">
-        <div className="background-image"></div>
+        {/* <div className="background-image"></div> disabled while we develop*/}
         {this.get_view()}
       </div>
     );

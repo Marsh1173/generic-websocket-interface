@@ -34,7 +34,8 @@ export class LocalGameComponent extends Component<{ props: LocalGameComponentPro
   }
 
   public componentDidMount() {
-    this.view_ref.current!.appendChild(this.view_app.view);
+    this.view_ref.current!.prepend(this.view_app.view);
+    this.view_ref.current!.prepend(this.game_system.display._3d.get_dom_elem());
     this.last_time_stamp = Date.now();
     this.view_app.ticker.add(this.update_game_system);
   }

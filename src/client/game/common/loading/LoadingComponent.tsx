@@ -23,6 +23,7 @@ export class LoadingComponent extends Component<{ props: LoadingComponentProps }
       width: resolution.w,
       height: resolution.h,
       antialias: false,
+      backgroundAlpha: 0,
     });
   }
 
