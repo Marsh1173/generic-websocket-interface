@@ -1,12 +1,12 @@
 import { Rect } from "../../common/math/geometry/Rect";
 import { IGameStateManager } from "../gamestatemanager/GameStateManager";
-import { Updateable } from "../../ticker/Updater";
 import { HasId } from "../../common/Id";
 import { EntityData } from "../entitymodel/entity/EntityData";
 import { GameSystemIO } from "../gamesytemio/GameSystemIO";
 import { EntityHandlerApi } from "../entityhandler/EntityHandler";
+import { TickerListener } from "../../ticker/ClientTicker";
 
-export abstract class GameSystem extends HasId implements Updateable {
+export abstract class GameSystem extends HasId implements TickerListener {
   public abstract readonly entities: EntityHandlerApi;
 
   public abstract readonly game_state_manager: IGameStateManager;

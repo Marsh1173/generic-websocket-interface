@@ -1,43 +1,48 @@
-import { Id } from "../common/Id";
-import { ITicker } from "./Ticker";
-import { Updateable } from "./Updater";
+import { HasId, Id } from "../common/Id";
 
-export class ClientTicker implements ITicker {
-  constructor(protected readonly updatings: Map<Id, Updateable>) {}
+export interface TickerListener extends HasId {
+  update(elapsed_seconds: number): void;
+}
 
-  private readonly max_tick_secs: number = 1 / 2;
+export class ClientTicker {
+  private constructor() {}
 
-  public going: boolean = false;
-  public start() {
-    if (this.going) {
-      return;
+  private static listeners: Map<Id, TickerListener> = new Map();
+
+  public static add(listener: TickerListener) {
+    if (this.listeners.size === 0) {
+      this.start();
     }
+    this.listeners.set(listener.id, listener);
+  }
 
+  public static remove(id: Id) {
+    this.listeners.delete(id);
+    if (this.listeners.size === 0) {
+      this.stop();
+    }
+  }
+
+  private static going: boolean = false;
+  private static start() {
     this.going = true;
+
+    this.last_timestamp = Date.now();
     window.requestAnimationFrame((timestamp) => this.loop(timestamp));
   }
 
-  public stop() {
-    if (!this.going) return;
+  private static stop() {
     this.going = false;
   }
 
-  private last_frame: number = 0;
-  private loop(timestamp: number) {
-    if (!this.going) {
-      return;
-    }
+  private static last_timestamp: number = 0;
+  private static loop(now: number) {
+    if (!this.going) return;
 
-    const elapsedTime = Math.min(timestamp - this.last_frame, this.max_tick_secs);
-    this.last_frame = timestamp;
+    const elapsed_seconds = (now - this.last_timestamp) / 1000;
+    this.last_timestamp = now;
 
-    this.update_all(elapsedTime);
+    this.listeners.forEach((listener) => listener.update(elapsed_seconds));
     window.requestAnimationFrame((timestamp) => this.loop(timestamp));
-  }
-
-  private update_all(elapsed_time: number) {
-    for (const [id, updating] of this.updatings) {
-      updating.update(elapsed_time);
-    }
   }
 }
