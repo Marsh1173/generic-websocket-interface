@@ -5,10 +5,7 @@ import { Goblin } from "../Goblin";
 const VERTICAL_MOVE_FORCE_ID = "vertical-move-force-id";
 const HORIZONTAL_MOVE_FORCE_ID = "horizontal-move-force-id";
 
-export class GoblinMoveBehavior
-  extends StateObservable<GoblinMoveBehaviorState>
-  implements IBehaviorModule
-{
+export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState> implements IBehaviorModule {
   private linear_move_force: number = 3;
   private get diagonal_move_force(): number {
     return this.linear_move_force / Math.sqrt(2);
@@ -22,59 +19,35 @@ export class GoblinMoveBehavior
 
   public update_move_forces() {
     this.goblin.game_space_data.clear_constant_velocity(VERTICAL_MOVE_FORCE_ID);
-    this.goblin.game_space_data.clear_constant_velocity(
-      HORIZONTAL_MOVE_FORCE_ID
-    );
+    this.goblin.game_space_data.clear_constant_velocity(HORIZONTAL_MOVE_FORCE_ID);
 
     if (!this.goblin.behavior_module.state.allows_movement) {
       return;
     }
 
-    const horizontal =
-      this.state.left === this.state.right
-        ? "neither"
-        : this.state.left
-        ? "left"
-        : "right";
-    const vertical =
-      this.state.up === this.state.down
-        ? "neither"
-        : this.state.up
-        ? "up"
-        : "down";
+    const horizontal = this.state.left === this.state.right ? "neither" : this.state.left ? "left" : "right";
+    const vertical = this.state.up === this.state.down ? "neither" : this.state.up ? "up" : "down";
 
     if (horizontal !== "neither") {
-      const h_force_magnitude =
-        vertical === "neither"
-          ? this.linear_move_force
-          : this.diagonal_move_force;
+      const h_force_magnitude = vertical === "neither" ? this.linear_move_force : this.diagonal_move_force;
       let v;
       if (horizontal === "left") {
         v = { x: -h_force_magnitude, y: 0 };
       } else {
         v = { x: h_force_magnitude, y: 0 };
       }
-      this.goblin.game_space_data.apply_constant_velocity(
-        HORIZONTAL_MOVE_FORCE_ID,
-        v
-      );
+      this.goblin.game_space_data.apply_constant_velocity(HORIZONTAL_MOVE_FORCE_ID, v);
     }
 
     if (vertical !== "neither") {
-      const v_force_magnitude =
-        horizontal === "neither"
-          ? this.linear_move_force
-          : this.diagonal_move_force;
+      const v_force_magnitude = horizontal === "neither" ? this.linear_move_force : this.diagonal_move_force;
       let v;
       if (vertical === "up") {
-        v = { x: 0, y: -v_force_magnitude };
-      } else {
         v = { x: 0, y: v_force_magnitude };
+      } else {
+        v = { x: 0, y: -v_force_magnitude };
       }
-      this.goblin.game_space_data.apply_constant_velocity(
-        VERTICAL_MOVE_FORCE_ID,
-        v
-      );
+      this.goblin.game_space_data.apply_constant_velocity(VERTICAL_MOVE_FORCE_ID, v);
     }
   }
 

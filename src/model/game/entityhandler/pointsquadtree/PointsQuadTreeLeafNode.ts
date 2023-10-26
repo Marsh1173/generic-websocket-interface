@@ -1,7 +1,7 @@
 import { Id } from "../../../common/Id";
 import { StaticPoint } from "../../../common/math/geometry/Point";
 import QuadTreeLeafNode from "../../../common/quadtree/QuadTreeLeafNode";
-import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
+// import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { PointsQuadTreeBranchNode } from "./PointsQuadTreeBranchNode";
 
@@ -36,10 +36,10 @@ export class PointsQuadTreeLeafNode<EntityType extends Entity> extends QuadTreeL
     }
   }
 
-  public debug_get_tree(): DebugQuadTreeData {
-    return {
-      dims: this.dim,
-      item_count: this.item_ids.size,
-    };
-  }
+  // public debug_get_tree(): DebugQuadTreeData {
+  //   return {
+  //     dims: this.dim,
+  //     item_count: this.item_ids.size,
+  //   };
+  // }
 }

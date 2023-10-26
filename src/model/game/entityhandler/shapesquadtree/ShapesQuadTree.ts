@@ -1,6 +1,6 @@
 import { Rect } from "../../../common/math/geometry/Rect";
 import { QuadTree } from "../../../common/quadtree/QuadTree";
-import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
+// import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { StaticCollidableShapeWithId } from "../../entitymodel/gamespacedata/staticcollidableshape/StaticCollidableShape";
 import { ShapesQuadTreeBranchNode } from "./ShapesQuadTreeBranchNode";
 import { ShapesQuadTreeLeafNode } from "./ShapesQuadTreeLeafNode";
@@ -23,7 +23,7 @@ export class ShapesQuadTree extends QuadTree<
     this.search = new ShapesQuadTreeSearcher(this.items, this.root);
   }
 
-  public debug_get_tree(): DebugQuadTreeData {
-    return this.root.debug_get_tree();
-  }
+  // public debug_get_tree(): DebugQuadTreeData {
+  //   return this.root.debug_get_tree();
+  // }
 }

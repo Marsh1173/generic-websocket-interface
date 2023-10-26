@@ -5,12 +5,12 @@ import { Goblin, GoblinData } from "../../entities/goblin/Goblin";
 import { Arrow, ArrowData } from "../../entities/arrow/Arrow";
 import { LocalEntityHandler } from "../LocalEntityHandler";
 import { Sheep, SheepData } from "../../entities/sheep/Sheep";
-import { SheepSpriteHandler } from "../../entities/sheep/sprite/SheepSpriteHandler";
-import { ArrowSpriteHandler } from "../../entities/arrow/sprite/ArrowSpriteHandler";
-import { TreeSpriteHandler } from "../../entities/tree/sprite/TreeSpriteHandler";
-import { GoblinSpriteHandler } from "../../entities/goblin/sprite/GoblinSpriteHandler";
 import { ItemEntityData, ItemEntity } from "../../entities/itementity/ItemEntity";
-import { ItemEntitySpriteHandler } from "../../entities/itementity/sprite/ItemEntitySpriteHandler";
+import { ArrowSceneObjectGroup } from "../../entities/arrow/sceneobject/ArrowSceneObject";
+import { ItemEntitySceneObjectGroup } from "../../entities/itementity/sceneobject/ItemEntitySceneObject";
+import { GoblinSceneObjectGroup } from "../../entities/goblin/sceneobject/GoblinSceneObject";
+import { TreeSceneObjectGroup } from "../../entities/tree/sceneobject/TreeSceneObject";
+import { SheepSceneObjectGroup } from "../../entities/sheep/sceneobject/SheepSceneObject";
 
 export class LocalEntityFactory extends EntityFactory {
   constructor(protected readonly game_system: LocalGameSystem, protected readonly entity_handler: LocalEntityHandler) {
@@ -19,35 +19,35 @@ export class LocalEntityFactory extends EntityFactory {
 
   public arrow(data: ArrowData): Arrow {
     const arrow = super.arrow(data);
-    new ArrowSpriteHandler(arrow, this.game_system).insert();
+    new ArrowSceneObjectGroup(this.game_system.display, arrow).insert();
 
     return arrow;
   }
 
   public tree(data: TreeData): Tree {
     const tree = super.tree(data);
-    new TreeSpriteHandler(tree, this.game_system).insert();
+    new TreeSceneObjectGroup(this.game_system.display, tree).insert();
 
     return tree;
   }
 
   public goblin(data: GoblinData): Goblin {
     const goblin = super.goblin(data);
-    new GoblinSpriteHandler(goblin, this.game_system).insert();
+    new GoblinSceneObjectGroup(this.game_system.display, goblin).insert();
 
     return goblin;
   }
 
   public sheep(data: SheepData): Sheep {
     const sheep = super.sheep(data);
-    new SheepSpriteHandler(sheep, this.game_system).insert();
+    new SheepSceneObjectGroup(this.game_system.display, sheep).insert();
 
     return sheep;
   }
 
   public item_entity(data: ItemEntityData): ItemEntity {
     const item_entity = super.item_entity(data);
-    new ItemEntitySpriteHandler(item_entity, this.game_system).insert();
+    new ItemEntitySceneObjectGroup(this.game_system.display, item_entity).insert();
 
     return item_entity;
   }

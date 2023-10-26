@@ -3,7 +3,7 @@ import { StaticPoint } from "../../../common/math/geometry/Point";
 import { GlobalRect } from "../../../common/math/geometry/Rect";
 import { QuadTreeBranchNode } from "../../../common/quadtree/QuadTreeBranchNode";
 import { QuadTreeBranchNodeChildIndex } from "../../../common/quadtree/QuadTreeNode";
-import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
+// import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { PointsQuadTreeLeafNode } from "./PointsQuadTreeLeafNode";
 
@@ -60,10 +60,10 @@ export class PointsQuadTreeBranchNode<EntityType extends Entity> extends QuadTre
     return new PointsQuadTreeLeafNode(dim, index, this.depth + 1, this.max_depth, this.items, this);
   }
 
-  public debug_get_tree(): DebugQuadTreeData {
-    return {
-      dims: this.dim,
-      children: this.children.map((child) => child.debug_get_tree()),
-    };
-  }
+  // public debug_get_tree(): DebugQuadTreeData {
+  //   return {
+  //     dims: this.dim,
+  //     children: this.children.map((child) => child.debug_get_tree()),
+  //   };
+  // }
 }

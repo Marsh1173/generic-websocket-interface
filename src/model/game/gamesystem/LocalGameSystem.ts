@@ -7,7 +7,6 @@ import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
 import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
 import { LocalEntityHandler, LocalEntityHandlerApi } from "../entityhandler/LocalEntityHandler";
 import { GameDisplay } from "../display/GameDisplay";
-import { ShowTilingGround } from "../devtools/TilingGround";
 
 export class LocalGameSystem extends GameSystem {
   public declare entities: LocalEntityHandlerApi;
@@ -28,8 +27,6 @@ export class LocalGameSystem extends GameSystem {
     this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entities.make.from_data(data.entities);
-
-    // ShowTilingGround(this, view_app);
   }
 
   public update(elapsed_seconds: number) {
@@ -37,7 +34,7 @@ export class LocalGameSystem extends GameSystem {
 
     super.update(elapsed_seconds);
 
-    this.display.canvas.update_all_renderables(elapsed_seconds);
+    this.display.scene.update_all_scene_object_groups(elapsed_seconds);
     this.system_stats_manager.update();
 
     this.display._3d.render();

@@ -32,9 +32,10 @@ export class _3D {
   protected readonly renderer: WebGLRenderer;
 
   protected cube: Mesh;
-  protected gob: Mesh;
+  //   protected gob: Mesh;
 
-  constructor(config: _3DDisplayConfig) {
+  constructor(private readonly config: _3DDisplayConfig) {
+    Object3D.DEFAULT_UP.set(0, 0, 1);
     this.camera = new _3DCamera(config);
     this.scene = new _3DScene();
 
@@ -56,29 +57,32 @@ export class _3D {
     plane_material.map = plane_texture;
     const plane = new Mesh(plane_geometry, plane_material);
     plane.position.x = this.cube.position.x = 10;
-    plane.position.z = this.cube.position.z = 10;
-    plane.rotation.x = -Math.PI / 2;
+    plane.position.y = this.cube.position.y = 10;
 
-    const texture = texture_loader.load("./assets/images/entity/goblin.png");
+    const texture = texture_loader.load(GTTextures.get("entity-goblin").baseTexture.resource.src);
 
-    this.gob = new _3DSprite(texture).get_obj();
+    // this.gob = new _3DSprite(texture).get_obj();
 
     this.scene.internal.add(this.cube);
     this.scene.internal.add(plane);
-    this.scene.internal.add(this.gob);
+    // this.scene.internal.add(this.gob);
   }
 
   public render() {
     this.camera.update();
 
-    this.gob.position.x = this.camera.internal.position.x;
-    this.gob.position.y = 1;
-    this.gob.position.z = this.camera.internal.position.z - 30;
+    // this.gob.position.x = this.config.camera_center.x;
+    // this.gob.position.y = this.config.camera_center.y;
+    // this.gob.position.z = 1;
 
     this.renderer.render(this.scene.internal, this.camera.internal);
   }
 
   public get_dom_elem(): HTMLCanvasElement {
     return this.renderer.domElement;
+  }
+
+  public destroy() {
+    this.renderer.renderLists.dispose();
   }
 }

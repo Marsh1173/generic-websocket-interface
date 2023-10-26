@@ -3,6 +3,7 @@ import { StaticVector } from "../../../common/math/geometry/Vector";
 import { GTMath } from "../../../common/math/basic/GTMath";
 import { DisplayConfig } from "../DisplayConfig";
 import { ResolutionDimensions, UnitsPerScreen } from "../Resolution";
+import { Vector3 } from "three";
 
 export class GameCamera {
   private focus: StaticPoint | undefined = undefined;
@@ -31,7 +32,8 @@ export class GameCamera {
     }
   }
 
-  public global_units_to_pixel_coords(p: StaticPoint): StaticPoint {
+  public global_2d_units_to_pixel_coords(p: StaticPoint): StaticPoint {
+    // eventually remove
     return {
       x: ((p.x - this.camera_center.x) / UnitsPerScreen.w + 0.5) * ResolutionDimensions[this.config.res].w,
       y: ((p.y - this.camera_center.y) / UnitsPerScreen.h + 0.5) * ResolutionDimensions[this.config.res].h,
