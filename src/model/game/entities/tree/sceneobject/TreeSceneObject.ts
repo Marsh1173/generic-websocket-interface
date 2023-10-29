@@ -1,9 +1,10 @@
 import { Tree } from "../Tree";
-import { GTTextureAsset, GTTextures } from "../../../assets/textures/Textures";
+import { GTTextures } from "../../../assets/textures/Textures";
 import { SceneEntityObjectGroup } from "../../../display/sceneobject/SceneObjectGroup";
 import { _3DSceneEntityObject } from "../../../display/sceneobject/SceneObject";
 import { Mesh, MeshBasicMaterial, PlaneGeometry, TextureLoader } from "three";
 import { GameDisplay } from "../../../display/GameDisplay";
+import { ImageAsset } from "../../../assets/textures/images/Images";
 
 export class TreeSceneObjectGroup extends SceneEntityObjectGroup<Tree> {
   constructor(display: GameDisplay, entity: Tree) {
@@ -21,13 +22,13 @@ class TreeSceneObject extends _3DSceneEntityObject<Tree> {
   }
 
   protected get_mesh(): Mesh {
-    const texture = new TextureLoader().load(GTTextures.get(this.get_texture()).baseTexture.resource.src);
+    const texture = GTTextures.get_threejs(this.get_texture());
 
     const plane_geometry = new PlaneGeometry(2, 4);
 
     const plane_material = new MeshBasicMaterial();
     plane_material.map = texture;
-    plane_material.alphaTest = 0.5;
+    plane_material.alphaTest = 0.7;
 
     const plane = new Mesh(plane_geometry, plane_material);
     plane.rotation.x = Math.PI / 2;
@@ -36,7 +37,7 @@ class TreeSceneObject extends _3DSceneEntityObject<Tree> {
     return plane;
   }
 
-  private get_texture(): GTTextureAsset {
+  private get_texture(): ImageAsset {
     switch (this.entity.variation) {
       case 1:
         return "entity-tree-1";

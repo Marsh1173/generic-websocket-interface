@@ -7,7 +7,6 @@ import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
 import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
 import { LocalEntityHandler, LocalEntityHandlerApi } from "../entityhandler/LocalEntityHandler";
 import { GameDisplay } from "../display/GameDisplay";
-import { ShowCursor } from "../devtools/ShowCursor";
 
 export class LocalGameSystem extends GameSystem {
   public declare entities: LocalEntityHandlerApi;
@@ -28,8 +27,6 @@ export class LocalGameSystem extends GameSystem {
     this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entities.make.from_data(data.entities);
-
-    ShowCursor(this);
   }
 
   public update(elapsed_seconds: number) {

@@ -21,7 +21,7 @@ class ItemEntitySceneObject extends _3DSceneEntityObject<ItemEntity> {
   }
 
   protected get_mesh(): Mesh {
-    const texture = new TextureLoader().load(GTTextures.get("entity-plank").baseTexture.resource.src);
+    const texture = GTTextures.get_threejs("entity-plank");
 
     const plane_geometry = new PlaneGeometry(1, 1);
 

@@ -21,7 +21,7 @@ class SheepSceneObject extends _3DSceneEntityObject<Sheep> {
   }
 
   protected get_mesh(): Mesh {
-    const texture = new TextureLoader().load(GTTextures.get("entity-sheep").baseTexture.resource.src);
+    const texture = GTTextures.get_threejs("entity-sheep");
 
     const plane_geometry = new PlaneGeometry(1, 1);
 

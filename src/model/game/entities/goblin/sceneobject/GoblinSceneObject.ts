@@ -2,8 +2,9 @@ import { Goblin } from "../Goblin";
 import { GTTextures } from "../../../assets/textures/Textures";
 import { SceneEntityObjectGroup } from "../../../display/sceneobject/SceneObjectGroup";
 import { _3DSceneEntityObject } from "../../../display/sceneobject/SceneObject";
-import { Mesh, MeshBasicMaterial, PlaneGeometry, TextureLoader } from "three";
+import { DataTexture, Mesh, MeshBasicMaterial, PlaneGeometry, TextureLoader } from "three";
 import { GameDisplay } from "../../../display/GameDisplay";
+import { BufferResource } from "pixi.js";
 
 export class GoblinSceneObjectGroup extends SceneEntityObjectGroup<Goblin> {
   constructor(display: GameDisplay, entity: Goblin) {
@@ -21,7 +22,7 @@ class GoblinSceneObject extends _3DSceneEntityObject<Goblin> {
   }
 
   protected get_mesh(): Mesh {
-    const texture = new TextureLoader().load(GTTextures.get("entity-goblin").baseTexture.resource.src);
+    const texture = GTTextures.get_threejs("entity-goblin");
 
     const plane_geometry = new PlaneGeometry(1, 2);
 

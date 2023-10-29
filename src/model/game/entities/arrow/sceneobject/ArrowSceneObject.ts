@@ -21,7 +21,7 @@ class ArrowSceneObject extends _3DSceneEntityObject<Arrow> {
   }
 
   protected get_mesh(): Mesh {
-    const texture = new TextureLoader().load(GTTextures.get("entity-arrow").baseTexture.resource.src);
+    const texture = GTTextures.get_threejs("entity-arrow");
 
     const plane_geometry = new PlaneGeometry(1, 1);
     const plane_material = new MeshBasicMaterial();

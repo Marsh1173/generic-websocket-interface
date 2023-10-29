@@ -6,7 +6,6 @@ import {
   Object3D,
   PlaneGeometry,
   RepeatWrapping,
-  TextureLoader,
   WebGLRenderer,
 } from "three";
 import { StaticPoint } from "../../../common/math/geometry/Point";
@@ -15,6 +14,7 @@ import { _3DCamera } from "./camera/3DCamera";
 import { _3DScene } from "./scene/3DScene";
 import { Rect } from "../../../common/math/geometry/Rect";
 import { _3DSprite } from "./sprite/3DSprite";
+import { GTTextures } from "../../assets/textures/Textures";
 
 export interface _3DDisplayConfig {
   res: Resolution;
@@ -37,18 +37,18 @@ export class _3D {
     this.renderer = new WebGLRenderer({ alpha: true });
     this.renderer.setSize(res.w, res.h);
 
-    const texture_loader = new TextureLoader();
-
     const geometry = new BoxGeometry(1, 1);
     const material = new MeshLambertMaterial({ color: 0x00ff00 });
     this.cube = new Mesh(geometry, material);
 
-    const plane_texture = texture_loader.load("./assets/images/ground/grass.png");
+    const plane_texture = GTTextures.get_threejs("ground-grass");
     plane_texture.wrapS = plane_texture.wrapT = RepeatWrapping;
     plane_texture.repeat.set(10, 10);
+
     const plane_geometry = new PlaneGeometry(20, 20);
     const plane_material = new MeshPhongMaterial();
     plane_material.map = plane_texture;
+
     const plane = new Mesh(plane_geometry, plane_material);
     plane.position.x = this.cube.position.x = 10;
     plane.position.y = this.cube.position.y = 10;
