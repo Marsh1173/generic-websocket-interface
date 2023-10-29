@@ -1,5 +1,5 @@
 import QuadTreeLeafNode from "../../../common/quadtree/QuadTreeLeafNode";
-// import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
+import { DebugQuadTreeData } from "../../devtools/ShowEntityQuadTree";
 import { StaticCollidableShapeWithId } from "../../entitymodel/gamespacedata/staticcollidableshape/StaticCollidableShape";
 import { ShapesQuadTreeBranchNode } from "./ShapesQuadTreeBranchNode";
 
@@ -20,10 +20,10 @@ export class ShapesQuadTreeLeafNode extends QuadTreeLeafNode<StaticCollidableSha
     return this.bounding_box_intersects(item.shape.bounding_box);
   }
 
-  // public debug_get_tree(): DebugQuadTreeData {
-  //   return {
-  //     dims: this.dim,
-  //     item_count: this.item_ids.size,
-  //   };
-  // }
+  public debug_get_tree(): DebugQuadTreeData {
+    return {
+      dims: this.dim,
+      item_count: this.item_ids.size,
+    };
+  }
 }

@@ -1,53 +1,62 @@
-// import { DisplayObject, Graphics } from "pixi.js";
-// import { uuid } from "../../common/Id";
-// import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
-// import { BaseEntity } from "../entitymodel/entity/BaseEntityClass";
-// import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
-// import { SceneObjectGroup } from "../display/sceneobject/SceneObjectGroup";
-// import { SceneObject } from "../display/sceneobject/SceneObject";
-// import { GameEntitySprite } from "../display/sceneobject/GameEntitySprite";
+import { uuid } from "../../common/Id";
+import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
+import { SceneObjectGroup } from "../display/sceneobject/SceneObjectGroup";
+import { _3DSceneObject } from "../display/sceneobject/SceneObject";
+import { BoxGeometry, Mesh, MeshLambertMaterial, SphereGeometry } from "three";
 
-// export function ShowCursor(game_system: LocalGameSystem) {
-//   game_system.display.canvas.insert_sprite_handler(new CursorSpriteHandler(game_system));
-// }
+export function ShowCursor(game_system: LocalGameSystem) {
+  new CursorSceneObjectGroup(game_system).insert();
+}
 
-// class CursorSpriteHandler extends SceneObjectGroup {
-//   public readonly visual_data_sprites: SceneObject[];
+class CursorSceneObjectGroup extends SceneObjectGroup {
+  constructor(game_system: LocalGameSystem) {
+    super(game_system.display);
 
-//   constructor(game_system: LocalGameSystem) {
-//     super(uuid(), game_system);
-//     const cursor = new Cursor({ id: uuid() });
+    this.scene_objects.push(new CursorSceneObject(game_system));
+  }
+}
 
-//     this.visual_data_sprites = [new CursorSprite(cursor, this.game_system)];
-//   }
-// }
+class CursorSceneObject extends _3DSceneObject {
+  public readonly mesh: Mesh;
+  constructor(game_system: LocalGameSystem) {
+    super(game_system.display);
+    this.mesh = this.get_mesh();
 
-// class CursorSprite extends GameEntitySprite<Cursor> {
-//   public readonly display_object: DisplayObject;
-//   constructor(entity: Cursor, game_system: LocalGameSystem) {
-//     super(entity, game_system);
+    game_system.game_system_io.human_input_manager.add_observer({
+      id: uuid(),
+      on_input: () => {},
+      on_mouse_move: (params) => {
+        this.mesh.position.x = params.x;
+        this.mesh.position.y = params.y;
+      },
+    });
+  }
 
-//     this.display_object = this.get_display_object();
+  protected get_mesh(): Mesh {
+    // const texture = new TextureLoader().load(GTTextures.get("entity-arrow").baseTexture.resource.src);
 
-//     game_system.game_system_io.human_input_manager.add_observer({
-//       id: uuid(),
-//       on_input: () => {},
-//       on_mouse_move: (params) => {
-//         entity.game_space_data.pos.x = params.x;
-//         entity.game_space_data.pos.y = params.y;
-//       },
-//     });
-//   }
+    // const plane_geometry = new PlaneGeometry(1, 1);
+    // const plane_material = new MeshBasicMaterial();
+    // plane_material.map = texture;
+    // plane_material.alphaTest = 0.5;
 
-//   protected get_display_object(): DisplayObject {
-//     const circle: Graphics = new Graphics();
-//     circle.beginFill(0xffffff);
-//     circle.drawCircle(0, 0, 10);
-//     return circle;
-//   }
+    // const plane = new Mesh(plane_geometry, plane_material);
+    // plane.position.z = 1;
 
-//   public on_destroy(): void {}
-// }
+    // const geometry = new BoxGeometry(1, 1);
+    // const material = new MeshLambertMaterial({ color: 0x00ff00 });
+    const geometry = new SphereGeometry(1);
+    const material = new MeshLambertMaterial({ color: 0xff0000 });
+    const sphere = new Mesh(geometry, material);
+    sphere.position.z = 0;
+    // sphere.position.x = 0;
+    // sphere.position.y = 0;
+
+    return sphere;
+  }
+
+  public update(elapsed_seconds: number): void {}
+}
 
 // class Cursor extends BaseEntity {
 //   public game_space_data: DynamicPoint = new DynamicPoint(

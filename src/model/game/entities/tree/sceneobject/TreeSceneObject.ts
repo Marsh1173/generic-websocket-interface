@@ -27,7 +27,7 @@ class TreeSceneObject extends _3DSceneEntityObject<Tree> {
 
     const plane_material = new MeshBasicMaterial();
     plane_material.map = texture;
-    plane_material.transparent = true;
+    plane_material.alphaTest = 0.5;
 
     const plane = new Mesh(plane_geometry, plane_material);
     plane.rotation.x = Math.PI / 2;

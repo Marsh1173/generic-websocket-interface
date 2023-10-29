@@ -1,13 +1,13 @@
 // import { Graphics } from "pixi.js";
-// import { GlobalRect } from "../../common/math/geometry/Rect";
+import { GlobalRect } from "../../common/math/geometry/Rect";
 // import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
 // import { GameCamera } from "../display/gamecamera/GameCamera";
 
-// export interface DebugQuadTreeData {
-//   dims: GlobalRect;
-//   children?: DebugQuadTreeData[];
-//   item_count?: number;
-// }
+export interface DebugQuadTreeData {
+  dims: GlobalRect;
+  children?: DebugQuadTreeData[];
+  item_count?: number;
+}
 
 // export namespace ShowEntityQuadTree {
 //   let graphics_sprite: undefined | Graphics = undefined;

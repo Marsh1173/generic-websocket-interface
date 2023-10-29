@@ -26,7 +26,8 @@ class ArrowSceneObject extends _3DSceneEntityObject<Arrow> {
     const plane_geometry = new PlaneGeometry(1, 1);
     const plane_material = new MeshBasicMaterial();
     plane_material.map = texture;
-    plane_material.transparent = true;
+    plane_material.alphaTest = 0.5;
+
     const plane = new Mesh(plane_geometry, plane_material);
     plane.position.z = 1;
 

@@ -28,7 +28,7 @@ export class ClientTicker {
     this.going = true;
 
     this.last_timestamp = Date.now();
-    window.requestAnimationFrame((timestamp) => this.loop(timestamp));
+    window.requestAnimationFrame(() => this.loop());
   }
 
   private static stop() {
@@ -36,13 +36,15 @@ export class ClientTicker {
   }
 
   private static last_timestamp: number = 0;
-  private static loop(now: number) {
+  private static loop() {
     if (!this.going) return;
+
+    const now = Date.now();
 
     const elapsed_seconds = (now - this.last_timestamp) / 1000;
     this.last_timestamp = now;
 
     this.listeners.forEach((listener) => listener.update(elapsed_seconds));
-    window.requestAnimationFrame((timestamp) => this.loop(timestamp));
+    window.requestAnimationFrame(() => this.loop());
   }
 }

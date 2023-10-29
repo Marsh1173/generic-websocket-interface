@@ -26,8 +26,6 @@ export class ItemEntity extends BaseEntity implements HasStaticPoint {
     super(data);
 
     this.game_space_data = new GameSpaceStaticPoint(this, data.game_space_data);
-
-    console.log("Making item entity of type " + data.item_type.type);
   }
 
   /**

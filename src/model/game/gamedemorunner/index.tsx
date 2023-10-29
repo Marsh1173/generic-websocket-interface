@@ -43,8 +43,7 @@ const game_data: LocalGameSystemData = {
     res: "standard",
   },
   map_size: { w: 30, h: 30 },
-  entities: [],
-  // entities: [...sheep, ...trees],
+  entities: [...sheep, ...trees],
   user_state_data: {
     type: "PlayerStateData",
     goblin_data: {

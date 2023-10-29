@@ -1,9 +1,6 @@
 import {
   BoxGeometry,
-  CanvasTexture,
-  ConeGeometry,
   Mesh,
-  MeshBasicMaterial,
   MeshLambertMaterial,
   MeshPhongMaterial,
   Object3D,
@@ -18,8 +15,6 @@ import { _3DCamera } from "./camera/3DCamera";
 import { _3DScene } from "./scene/3DScene";
 import { Rect } from "../../../common/math/geometry/Rect";
 import { _3DSprite } from "./sprite/3DSprite";
-import { GTTextures } from "../../assets/textures/Textures";
-import { BaseRenderTexture, RenderTexture, Texture } from "pixi.js";
 
 export interface _3DDisplayConfig {
   res: Resolution;
@@ -32,14 +27,13 @@ export class _3D {
   protected readonly renderer: WebGLRenderer;
 
   protected cube: Mesh;
-  //   protected gob: Mesh;
 
   constructor(private readonly config: _3DDisplayConfig) {
     Object3D.DEFAULT_UP.set(0, 0, 1);
-    this.camera = new _3DCamera(config);
+    this.camera = new _3DCamera(this.config);
     this.scene = new _3DScene();
 
-    const res: Rect = ResolutionDimensions[config.res];
+    const res: Rect = ResolutionDimensions[this.config.res];
     this.renderer = new WebGLRenderer({ alpha: true });
     this.renderer.setSize(res.w, res.h);
 
@@ -59,22 +53,12 @@ export class _3D {
     plane.position.x = this.cube.position.x = 10;
     plane.position.y = this.cube.position.y = 10;
 
-    const texture = texture_loader.load(GTTextures.get("entity-goblin").baseTexture.resource.src);
-
-    // this.gob = new _3DSprite(texture).get_obj();
-
     this.scene.internal.add(this.cube);
     this.scene.internal.add(plane);
-    // this.scene.internal.add(this.gob);
   }
 
   public render() {
     this.camera.update();
-
-    // this.gob.position.x = this.config.camera_center.x;
-    // this.gob.position.y = this.config.camera_center.y;
-    // this.gob.position.z = 1;
-
     this.renderer.render(this.scene.internal, this.camera.internal);
   }
 

@@ -1,11 +1,10 @@
 import { Observable } from "../../../common/observer/Observer";
 import { Point, StaticPoint } from "../../../common/math/geometry/Point";
-import { StaticVector } from "../../../common/math/geometry/Vector";
-import { UnitsPerScreen } from "../../display/Resolution";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 import { HumanInputConfig } from "./HumanInputConfig";
 import { HumanInputEnum } from "./HumanInputEnum";
 import { HumanInputObserver } from "./HumanInputObserver";
+import { Vector3 } from "three";
 
 export class HumanInputManager extends Observable<HumanInputObserver> {
   private readonly prev_mouse_global_pos: Point = { x: 0, y: 0 };
@@ -77,20 +76,39 @@ export class HumanInputManager extends Observable<HumanInputObserver> {
     }
   }
 
+  private readonly camera_vec: Vector3 = new Vector3();
+  private readonly pos: Vector3 = new Vector3();
+
   private get_global_mouse_pos_from_screen_pos(p: StaticPoint): StaticPoint {
-    const camera_pos = this.game_system.display.camera.camera_center;
+    const camera = this.game_system.display._3d.camera.internal;
 
-    // a vector with x and y ranging from -0.5 to 0.5, where 0,0 means the mouse is at the center of the screen
-    const pos_proportion: StaticVector = {
-      x: p.x / window.innerWidth - 0.5,
-      y: p.y / window.innerHeight - 0.5,
-    };
+    this.camera_vec.set((p.x / window.innerWidth) * 2 - 1, -(p.y / window.innerHeight) * 2 + 1, 0.5);
 
-    return {
-      x: camera_pos.x + pos_proportion.x * UnitsPerScreen.w,
-      y: camera_pos.y + pos_proportion.y * UnitsPerScreen.h,
-    };
+    this.camera_vec.unproject(camera);
+
+    this.camera_vec.sub(camera.position).normalize();
+
+    const distance = -camera.position.z / this.camera_vec.z;
+
+    this.pos.copy(camera.position).add(this.camera_vec.multiplyScalar(distance));
+
+    return { x: this.pos.x, y: this.pos.y };
   }
+
+  // private get_global_mouse_pos_from_screen_pos(p: StaticPoint): StaticPoint {
+  //   const camera_pos = this.game_system.display.camera.camera_center;
+
+  //   // a vector with x and y ranging from -0.5 to 0.5, where 0,0 means the mouse is at the center of the screen
+  //   const pos_proportion: StaticVector = {
+  //     x: p.x / window.innerWidth - 0.5,
+  //     y: p.y / window.innerHeight - 0.5,
+  //   };
+
+  //   return {
+  //     x: camera_pos.x + pos_proportion.x * UnitsPerScreen.w,
+  //     y: camera_pos.y + pos_proportion.y * UnitsPerScreen.h,
+  //   };
+  // }
 
   public stop_listening() {
     window.onmousemove = null;
