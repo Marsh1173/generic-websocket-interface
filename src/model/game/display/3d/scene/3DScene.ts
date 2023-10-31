@@ -5,15 +5,16 @@ export class _3DScene {
   constructor() {
     this.internal = new Scene();
 
-    // const a_light = new AmbientLight(0x5e89ff); // soft white-blue light
-    // this.internal.add(a_light);
-    const a_light = new DirectionalLight(0x5e89ff, 1); // white-yellow light
-    a_light.target.position.set(-1, 2, -2);
-    a_light.target.updateMatrixWorld();
+    const a_light = new AmbientLight(0xffffff, 0.1);
     this.internal.add(a_light);
 
-    const d_light = new DirectionalLight(0xfff8b8, 1); // white-yellow light
-    d_light.target.position.set(2, -1, -2);
+    const s_light = new DirectionalLight(0x6536ff, 0.3); // blue-purple light
+    s_light.target.position.set(3, 0, 1);
+    s_light.target.updateMatrixWorld();
+    this.internal.add(s_light);
+
+    const d_light = new DirectionalLight(0xffca38, 2); // white-yellow-orange light
+    d_light.target.position.set(-3, 0.5, 0);
     d_light.target.updateMatrixWorld();
     this.internal.add(d_light);
   }

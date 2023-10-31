@@ -6,6 +6,7 @@ import {
   Object3D,
   PlaneGeometry,
   RepeatWrapping,
+  SphereGeometry,
   WebGLRenderer,
 } from "three";
 import { StaticPoint } from "../../../common/math/geometry/Point";
@@ -26,7 +27,7 @@ export class _3D {
   public readonly scene: _3DScene;
   protected readonly renderer: WebGLRenderer;
 
-  protected cube: Mesh;
+  protected sphere: Mesh;
 
   constructor(private readonly config: _3DDisplayConfig) {
     Object3D.DEFAULT_UP.set(0, 0, 1);
@@ -37,9 +38,12 @@ export class _3D {
     this.renderer = new WebGLRenderer({ alpha: true });
     this.renderer.setSize(res.w, res.h);
 
-    const geometry = new BoxGeometry(1, 1);
-    const material = new MeshLambertMaterial({ color: 0x00ff00 });
-    this.cube = new Mesh(geometry, material);
+    const geometry = new SphereGeometry(1);
+    const material = new MeshLambertMaterial({ color: 0xffffff });
+    this.sphere = new Mesh(geometry, material);
+    this.sphere.position.x = 3;
+    this.sphere.position.y = 3;
+    this.sphere.position.z = 2;
 
     const plane_texture = GTTextures.get_threejs("ground-grass");
     plane_texture.wrapS = plane_texture.wrapT = RepeatWrapping;
@@ -50,10 +54,10 @@ export class _3D {
     plane_material.map = plane_texture;
 
     const plane = new Mesh(plane_geometry, plane_material);
-    plane.position.x = this.cube.position.x = 10;
-    plane.position.y = this.cube.position.y = 10;
+    plane.position.x = 10;
+    plane.position.y = 10;
 
-    this.scene.internal.add(this.cube);
+    this.scene.internal.add(this.sphere);
     this.scene.internal.add(plane);
   }
 

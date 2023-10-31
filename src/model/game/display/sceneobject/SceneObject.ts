@@ -29,6 +29,7 @@ export abstract class _3DSceneObject extends SceneObject {
 export abstract class _3DSceneEntityObject<EntityType extends Entity> extends _3DSceneObject {
   constructor(display: GameDisplay, protected readonly entity: EntityType) {
     super(display);
+    //set position here?
   }
 
   public update(elapsed_seconds: number): void {

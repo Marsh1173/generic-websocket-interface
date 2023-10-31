@@ -33,12 +33,9 @@ class CursorSceneObject extends _3DSceneObject {
   }
 
   protected get_mesh(): Mesh {
-    const geometry = new SphereGeometry(1);
+    const geometry = new SphereGeometry(0.2);
     const material = new MeshLambertMaterial({ color: 0xff0000 });
     const sphere = new Mesh(geometry, material);
-
-    sphere.position.z = 0;
-    sphere.scale.set(0.2, 0.2, 0.2);
 
     return sphere;
   }
