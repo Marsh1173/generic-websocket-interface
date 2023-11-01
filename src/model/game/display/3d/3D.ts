@@ -1,11 +1,9 @@
 import {
-  BoxGeometry,
   Mesh,
   MeshLambertMaterial,
-  MeshPhongMaterial,
   Object3D,
+  PCFSoftShadowMap,
   PlaneGeometry,
-  RepeatWrapping,
   SphereGeometry,
   WebGLRenderer,
 } from "three";
@@ -15,7 +13,7 @@ import { _3DCamera } from "./camera/3DCamera";
 import { _3DScene } from "./scene/3DScene";
 import { Rect } from "../../../common/math/geometry/Rect";
 import { _3DSprite } from "./sprite/3DSprite";
-import { GTTextures } from "../../assets/textures/Textures";
+import { GTModels } from "../../assets/models/Models";
 
 export interface _3DDisplayConfig {
   res: Resolution;
@@ -35,8 +33,12 @@ export class _3D {
     this.scene = new _3DScene();
 
     const res: Rect = ResolutionDimensions[this.config.res];
-    this.renderer = new WebGLRenderer({ alpha: true });
+    this.renderer = new WebGLRenderer({ alpha: true, antialias: true });
     this.renderer.setSize(res.w, res.h);
+
+    // shadows
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = PCFSoftShadowMap;
 
     const geometry = new SphereGeometry(1);
     const material = new MeshLambertMaterial({ color: 0xffffff });
@@ -45,15 +47,16 @@ export class _3D {
     this.sphere.position.y = 3;
     this.sphere.position.z = 2;
 
-    const plane_texture = GTTextures.get_threejs("ground-grass");
-    plane_texture.wrapS = plane_texture.wrapT = RepeatWrapping;
-    plane_texture.repeat.set(10, 10);
+    const pillar_geometry = GTModels.get("pillar");
+    pillar_geometry.scale.set(0.1, 0.1, 0.1);
+    pillar_geometry.position.set(8, 8, 0);
+    pillar_geometry.children.forEach((child) => (child.castShadow = true));
+    this.scene.internal.add(pillar_geometry);
 
     const plane_geometry = new PlaneGeometry(20, 20);
-    const plane_material = new MeshPhongMaterial();
-    plane_material.map = plane_texture;
-
+    const plane_material = new MeshLambertMaterial({ color: 0x798b4d });
     const plane = new Mesh(plane_geometry, plane_material);
+    plane.receiveShadow = true;
     plane.position.x = 10;
     plane.position.y = 10;
 

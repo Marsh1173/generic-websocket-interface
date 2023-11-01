@@ -31,6 +31,7 @@ class GoblinSceneObject extends _3DSceneEntityObject<Goblin> {
     plane_material.alphaTest = 0.5;
 
     const plane = new Mesh(plane_geometry, plane_material);
+    plane.castShadow = true;
     plane.rotation.x = Math.PI / 2;
     plane.position.z = 1;
 

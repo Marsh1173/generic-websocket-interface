@@ -5,6 +5,7 @@ import { LocalGameSystemData } from "../../../../model/game/gamesystem/LocalGame
 import { GTTextures } from "../../../../model/game/assets/textures/Textures";
 import { Application } from "pixi.js";
 import { ResolutionDimensions } from "../../../../model/game/display/Resolution";
+import { GTModels } from "../../../../model/game/assets/models/Models";
 
 export interface LoadingComponentProps {
   local_game_data: LocalGameSystemData;
@@ -32,7 +33,10 @@ export class LoadingComponent extends Component<{ props: LoadingComponentProps }
   }
 
   public componentDidMount(): void {
-    GTTextures.load(this.props.props.local_game_data.display_config.res, this.view_app.renderer).then(() => {
+    Promise.all([
+      GTTextures.load(this.props.props.local_game_data.display_config.res, this.view_app.renderer),
+      GTModels.load_models(),
+    ]).then(() => {
       new ViewChanger().change_state_to_game({
         local_game_data: this.props.props.local_game_data,
         view_app: this.view_app,
