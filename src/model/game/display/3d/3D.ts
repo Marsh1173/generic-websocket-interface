@@ -1,12 +1,4 @@
-import {
-  Mesh,
-  MeshLambertMaterial,
-  Object3D,
-  PCFSoftShadowMap,
-  PlaneGeometry,
-  SphereGeometry,
-  WebGLRenderer,
-} from "three";
+import { Mesh, MeshLambertMaterial, Object3D, PlaneGeometry, SphereGeometry, WebGLRenderer } from "three";
 import { StaticPoint } from "../../../common/math/geometry/Point";
 import { Resolution, ResolutionDimensions } from "../Resolution";
 import { _3DCamera } from "./camera/3DCamera";
@@ -14,6 +6,7 @@ import { _3DScene } from "./scene/3DScene";
 import { Rect } from "../../../common/math/geometry/Rect";
 import { _3DSprite } from "./sprite/3DSprite";
 import { GTModels } from "../../assets/models/Models";
+import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 
 export interface _3DDisplayConfig {
   res: Resolution;
@@ -25,47 +18,37 @@ export class _3D {
   public readonly scene: _3DScene;
   protected readonly renderer: WebGLRenderer;
 
-  protected sphere: Mesh;
-
-  constructor(private readonly config: _3DDisplayConfig) {
+  constructor(private readonly config: _3DDisplayConfig, game_system: LocalGameSystem) {
     Object3D.DEFAULT_UP.set(0, 0, 1);
     this.camera = new _3DCamera(this.config);
-    this.scene = new _3DScene();
+    this.scene = new _3DScene(game_system);
 
     const res: Rect = ResolutionDimensions[this.config.res];
-    this.renderer = new WebGLRenderer({ alpha: true, antialias: true });
+    this.renderer = new WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
     this.renderer.setSize(res.w, res.h);
-
-    // shadows
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = PCFSoftShadowMap;
-
-    const geometry = new SphereGeometry(1);
-    const material = new MeshLambertMaterial({ color: 0xffffff });
-    this.sphere = new Mesh(geometry, material);
-    this.sphere.position.x = 3;
-    this.sphere.position.y = 3;
-    this.sphere.position.z = 2;
 
     const pillar_geometry = GTModels.get("pillar");
     pillar_geometry.scale.set(0.1, 0.1, 0.1);
     pillar_geometry.position.set(8, 8, 0);
-    pillar_geometry.children.forEach((child) => (child.castShadow = true));
     this.scene.internal.add(pillar_geometry);
+
+    const rock_geometry = GTModels.get("rock_1");
+    rock_geometry.scale.set(3, 3, 3);
+    rock_geometry.position.set(2, 2, 0);
+    this.scene.internal.add(rock_geometry);
 
     const plane_geometry = new PlaneGeometry(20, 20);
     const plane_material = new MeshLambertMaterial({ color: 0x798b4d });
     const plane = new Mesh(plane_geometry, plane_material);
-    plane.receiveShadow = true;
     plane.position.x = 10;
     plane.position.y = 10;
 
-    this.scene.internal.add(this.sphere);
     this.scene.internal.add(plane);
   }
 
-  public render() {
+  public render(elapsed_seconds: number) {
     this.camera.update();
+    this.scene.update(elapsed_seconds);
     this.renderer.render(this.scene.internal, this.camera.internal);
   }
 

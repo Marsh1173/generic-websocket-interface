@@ -2,7 +2,7 @@ import { Arrow } from "../Arrow";
 import { GTTextures } from "../../../assets/textures/Textures";
 import { SceneEntityObjectGroup } from "../../../display/sceneobject/SceneObjectGroup";
 import { _3DSceneEntityObject } from "../../../display/sceneobject/SceneObject";
-import { Mesh, MeshBasicMaterial, PlaneGeometry, TextureLoader } from "three";
+import { Mesh, MeshLambertMaterial, PlaneGeometry } from "three";
 import { GameDisplay } from "../../../display/GameDisplay";
 
 export class ArrowSceneObjectGroup extends SceneEntityObjectGroup<Arrow> {
@@ -24,7 +24,7 @@ class ArrowSceneObject extends _3DSceneEntityObject<Arrow> {
     const texture = GTTextures.get_threejs("entity-arrow");
 
     const plane_geometry = new PlaneGeometry(1, 1);
-    const plane_material = new MeshBasicMaterial();
+    const plane_material = new MeshLambertMaterial();
     plane_material.map = texture;
     plane_material.alphaTest = 0.5;
 

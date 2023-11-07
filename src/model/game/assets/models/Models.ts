@@ -1,7 +1,7 @@
-import { Group } from "three";
+import { Group, Mesh, MeshLambertMaterial } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-export type GTModelAsset = "pillar";
+export type GTModelAsset = "pillar" | "rock_1";
 
 export abstract class GTModels {
   private static loader = new GLTFLoader();
@@ -15,8 +15,20 @@ export abstract class GTModels {
       this.loader.parse;
     });
 
+    const rock_1: Group = await new Promise((resolve) => {
+      this.loader.load("./assets/models/rock_1.glb", (gltf) => {
+        gltf.scene.children.forEach((child) => {
+          (child as Mesh).material = new MeshLambertMaterial({ color: 0x888888 });
+        });
+        resolve(gltf.scene);
+      });
+
+      this.loader.parse;
+    });
+
     this.models = {
-      pillar: pillar,
+      pillar,
+      rock_1,
     };
   }
 

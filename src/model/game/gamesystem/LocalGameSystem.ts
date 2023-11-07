@@ -19,11 +19,11 @@ export class LocalGameSystem extends GameSystem {
   constructor(data: LocalGameSystemData, public readonly view_app: Application<HTMLCanvasElement>) {
     super(data);
 
+    this.system_stats_manager = new SystemStatsManager();
     this.game_system_io = new LocalGameSystemIO(data, this);
     this.entities = new LocalEntityHandler(this, data.map_size);
-    this.display = new GameDisplay(data.display_config, this.view_app);
     this.game_state_manager = new LocalGameStateManager(this);
-    this.system_stats_manager = new SystemStatsManager();
+    this.display = new GameDisplay(data.display_config, this);
     this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entities.make.from_data(data.entities);
@@ -37,7 +37,7 @@ export class LocalGameSystem extends GameSystem {
     this.display.scene.update_all_scene_object_groups(elapsed_seconds);
     this.system_stats_manager.update();
 
-    this.display._3d.render();
+    this.display._3d.render(elapsed_seconds);
   }
 
   protected update_all_entities(elapsed_seconds: number): void {

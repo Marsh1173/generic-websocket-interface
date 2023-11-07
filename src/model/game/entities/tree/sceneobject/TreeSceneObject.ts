@@ -2,7 +2,7 @@ import { Tree } from "../Tree";
 import { GTTextures } from "../../../assets/textures/Textures";
 import { SceneEntityObjectGroup } from "../../../display/sceneobject/SceneObjectGroup";
 import { _3DSceneEntityObject } from "../../../display/sceneobject/SceneObject";
-import { Mesh, MeshBasicMaterial, PlaneGeometry, TextureLoader } from "three";
+import { Mesh, MeshLambertMaterial, PlaneGeometry } from "three";
 import { GameDisplay } from "../../../display/GameDisplay";
 import { ImageAsset } from "../../../assets/textures/images/Images";
 
@@ -26,14 +26,13 @@ class TreeSceneObject extends _3DSceneEntityObject<Tree> {
 
     const plane_geometry = new PlaneGeometry(2, 4);
 
-    const plane_material = new MeshBasicMaterial();
+    const plane_material = new MeshLambertMaterial();
     plane_material.map = texture;
     plane_material.alphaTest = 0.7;
 
     const plane = new Mesh(plane_geometry, plane_material);
     plane.rotation.x = Math.PI / 2;
     plane.position.z = 1.8;
-    plane.castShadow = true;
 
     return plane;
   }
