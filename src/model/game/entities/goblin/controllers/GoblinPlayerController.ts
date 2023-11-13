@@ -1,40 +1,57 @@
 import { Id, uuid } from "../../../../common/Id";
-import { StaticPoint } from "../../../../common/math/geometry/Point";
-import { GameSystem } from "../../../gamesystem/GameSystem";
-import { HumanInputEnum } from "../../../gamesytemio/humaninput/HumanInputEnum";
-import { HumanInputObserver } from "../../../gamesytemio/humaninput/HumanInputObserver";
+import { LocalGameSystem } from "../../../gamesystem/LocalGameSystem";
+import { PlayerInput } from "../../../gamesytemio/playerinput/PlayerInputEnum";
+import { PlayerInputObserver } from "../../../gamesytemio/playerinput/PlayerInputObserver";
 import { Goblin } from "../Goblin";
 
-export class GoblinPlayerController implements HumanInputObserver {
+export class GoblinPlayerController implements PlayerInputObserver {
   public readonly id: Id = uuid();
 
-  constructor(private readonly goblin: Goblin, private readonly game_system: GameSystem) {}
+  constructor(private readonly goblin: Goblin, private readonly game_system: LocalGameSystem) {
+    this.goblin.behavior_module.state.set_target_focus(
+      this.game_system.game_system_io.player_input_manager.global_mouse_pos
+    );
+  }
 
-  public readonly on_input = (params: { input: HumanInputEnum; starting: boolean }) => {
-    switch (params.input) {
-      case HumanInputEnum.MoveUp:
-        this.goblin.behavior_module.move.update_state({ up: params.starting });
+  public readonly on_input = (params: PlayerInput) => {
+    switch (params) {
+      case PlayerInput.MoveUpStart:
+        this.goblin.behavior_module.move.update_state({ up: true });
         break;
-      case HumanInputEnum.MoveDown:
+      case PlayerInput.MoveUpEnd:
+        this.goblin.behavior_module.move.update_state({ up: false });
+        break;
+      case PlayerInput.MoveDownStart:
         this.goblin.behavior_module.move.update_state({
-          down: params.starting,
+          down: true,
         });
         break;
-      case HumanInputEnum.MoveLeft:
+      case PlayerInput.MoveDownEnd:
         this.goblin.behavior_module.move.update_state({
-          left: params.starting,
+          down: false,
         });
         break;
-      case HumanInputEnum.MoveRight:
+      case PlayerInput.MoveLeftStart:
         this.goblin.behavior_module.move.update_state({
-          right: params.starting,
+          left: true,
+        });
+        break;
+      case PlayerInput.MoveLeftEnd:
+        this.goblin.behavior_module.move.update_state({
+          left: false,
+        });
+        break;
+      case PlayerInput.MoveRightStart:
+        this.goblin.behavior_module.move.update_state({
+          right: true,
+        });
+        break;
+      case PlayerInput.MoveRightEnd:
+        this.goblin.behavior_module.move.update_state({
+          right: false,
         });
         break;
     }
-    this.goblin.behavior_module.state.on_input(params.input, params.starting);
-  };
-
-  public on_mouse_move = (params: StaticPoint) => {
-    this.goblin.behavior_module.state.on_focus_move(params);
+    this.goblin.behavior_module.state.on_input(params);
   };
 }

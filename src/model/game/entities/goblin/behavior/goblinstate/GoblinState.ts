@@ -1,13 +1,12 @@
 import { StaticPoint } from "../../../../../common/math/geometry/Point";
 import { GameSystem } from "../../../../gamesystem/GameSystem";
-import { HumanInputEnum } from "../../../../gamesytemio/humaninput/HumanInputEnum";
+import { PlayerInput } from "../../../../gamesytemio/playerinput/PlayerInputEnum";
 import { Goblin } from "../../Goblin";
 import { GoblinDashingState, GoblinDashingStateData } from "./states/GoblinDashingState";
 import { GoblinInactiveState, GoblinInactiveStateData } from "./states/GoblinInactiveState";
 
 export interface BaseGoblinStateData {
   focus_pos: StaticPoint;
-  active_inputs: Set<HumanInputEnum>;
   game_system: GameSystem;
   goblin: Goblin;
 }
@@ -20,17 +19,17 @@ export abstract class BaseGoblinState {
   public readonly allows_casting: boolean = true;
 
   protected readonly focus_pos: StaticPoint;
-  protected readonly active_inputs: Set<HumanInputEnum>;
   protected readonly game_system: GameSystem;
   protected readonly goblin: Goblin;
 
   constructor(data: BaseGoblinStateData) {
     this.focus_pos = data.focus_pos;
-    this.active_inputs = data.active_inputs;
     this.game_system = data.game_system;
     this.goblin = data.goblin;
   }
 
-  public abstract update(elapsed_seconds: number): void;
+  public update(elapsed_seconds: number) {}
   public clear_state() {}
+
+  public abstract on_input(input: PlayerInput): void;
 }

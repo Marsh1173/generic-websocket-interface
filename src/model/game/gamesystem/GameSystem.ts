@@ -17,7 +17,7 @@ export abstract class GameSystem extends HasId implements TickerListener {
   }
 
   public update(elapsed_seconds: number) {
-    this.game_system_io.update(elapsed_seconds);
+    this.game_system_io.update();
     this.game_state_manager.update(elapsed_seconds);
     this.update_all_entities(elapsed_seconds);
   }

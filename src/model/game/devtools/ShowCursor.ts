@@ -18,18 +18,9 @@ class CursorSceneObjectGroup extends SceneObjectGroup {
 
 class CursorSceneObject extends _3DSceneObject {
   public readonly mesh: Mesh;
-  constructor(game_system: LocalGameSystem) {
+  constructor(private readonly game_system: LocalGameSystem) {
     super(game_system.display);
     this.mesh = this.get_mesh();
-
-    game_system.game_system_io.human_input_manager.add_observer({
-      id: uuid(),
-      on_input: () => {},
-      on_mouse_move: (params) => {
-        this.mesh.position.x = params.x;
-        this.mesh.position.y = params.y;
-      },
-    });
   }
 
   protected get_mesh(): Mesh {
@@ -40,5 +31,9 @@ class CursorSceneObject extends _3DSceneObject {
     return sphere;
   }
 
-  public update(elapsed_seconds: number): void {}
+  public update(): void {
+    const pos = this.game_system.game_system_io.player_input_manager.global_mouse_pos;
+    this.mesh.position.x = pos.x;
+    this.mesh.position.y = pos.y;
+  }
 }

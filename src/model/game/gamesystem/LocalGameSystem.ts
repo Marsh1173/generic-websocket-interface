@@ -20,7 +20,7 @@ export class LocalGameSystem extends GameSystem {
     super(data);
 
     this.system_stats_manager = new SystemStatsManager();
-    this.game_system_io = new LocalGameSystemIO(data, this);
+    this.game_system_io = new LocalGameSystemIO(this);
     this.entities = new LocalEntityHandler(this, data.map_size);
     this.game_state_manager = new LocalGameStateManager(this);
     this.display = new GameDisplay(data.display_config, this);
@@ -30,9 +30,10 @@ export class LocalGameSystem extends GameSystem {
   }
 
   public update(elapsed_seconds: number) {
-    this.display.camera.update(elapsed_seconds);
-
     super.update(elapsed_seconds);
+
+    this.display.camera.update();
+    this.display._3d.camera.update();
 
     this.display.scene.update_all_scene_object_groups(elapsed_seconds);
     this.system_stats_manager.update();

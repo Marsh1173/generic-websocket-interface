@@ -1,7 +1,7 @@
 import { uuid } from "../../../../../../common/Id";
 import { GTCollision } from "../../../../../../common/math/collision/GTCollision";
 import { GTMath } from "../../../../../../common/math/basic/GTMath";
-import { HumanInputEnum } from "../../../../../gamesytemio/humaninput/HumanInputEnum";
+import { PlayerInput } from "../../../../../gamesytemio/playerinput/PlayerInputEnum";
 import { BaseGoblinState, BaseGoblinStateData } from "./../GoblinState";
 
 export class GoblinInactiveState extends BaseGoblinState {
@@ -11,38 +11,20 @@ export class GoblinInactiveState extends BaseGoblinState {
     super(base_data);
   }
 
-  public update(elapsed_seconds: number): void {
-    if (this.is_starting_dash()) {
-      this.goblin.behavior_module.state.set_state({
-        type: "GoblinDashingStateData",
-      });
-    } else if (this.is_shooting()) {
-      this.active_inputs.delete(HumanInputEnum.SecondaryAction);
-      this.shoot_arrow();
-    } else if (this.is_sniping()) {
-      this.active_inputs.delete(HumanInputEnum.PrimaryAction);
-      this.snipe();
+  public on_input(input: PlayerInput): void {
+    switch (input) {
+      case PlayerInput.TertiaryActionStart:
+        this.goblin.behavior_module.state.set_state({
+          type: "GoblinDashingStateData",
+        });
+        break;
+      case PlayerInput.PrimaryActionStart:
+        this.snipe();
+        break;
+      case PlayerInput.SecondaryActionStart:
+        this.shoot_arrow();
+        break;
     }
-  }
-
-  private is_starting_dash(): boolean {
-    return this.active_inputs.has(HumanInputEnum.TertiaryAction);
-  }
-
-  private previous_shoot_value: boolean = false;
-  private is_shooting(): boolean {
-    const current = this.active_inputs.has(HumanInputEnum.SecondaryAction);
-    const changed = current !== this.previous_shoot_value;
-    this.previous_shoot_value = current;
-    return current && changed;
-  }
-
-  private previous_snipe_value: boolean = false;
-  private is_sniping(): boolean {
-    const current = this.active_inputs.has(HumanInputEnum.PrimaryAction);
-    const changed = current !== this.previous_snipe_value;
-    this.previous_snipe_value = current;
-    return current && changed;
   }
 
   private shoot_arrow() {

@@ -11,7 +11,7 @@ export class LocalPlayerState extends PlayerState {
 
     this.goblin_player_controller = new GoblinPlayerController(goblin, this.game_system);
     this.game_system.display.camera.set_focus(goblin.game_space_data.pos);
-    this.game_system.game_system_io.human_input_manager.add_observer(this.goblin_player_controller);
+    this.game_system.game_system_io.player_input_manager.observable.add_observer(this.goblin_player_controller);
 
     this.goblin.deconstruct_module.add_observer({
       id: uuid(),
@@ -24,6 +24,6 @@ export class LocalPlayerState extends PlayerState {
   public leave_state(): void {
     super.leave_state();
     this.game_system.display.camera.set_focus(undefined);
-    this.game_system.game_system_io.human_input_manager.remove_observer(this.goblin_player_controller.id);
+    this.game_system.game_system_io.player_input_manager.observable.remove_observer(this.goblin_player_controller.id);
   }
 }

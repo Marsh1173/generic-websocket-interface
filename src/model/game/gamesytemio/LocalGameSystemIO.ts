@@ -1,20 +1,20 @@
 import { LocalGameSystem, LocalGameSystemData } from "../gamesystem/LocalGameSystem";
 import { GameSystemIO } from "./GameSystemIO";
-import { HumanInputManager } from "./humaninput/HumanInputManager";
+import { PlayerInputManager } from "./playerinput/PlayerInputManager";
 
 export class LocalGameSystemIO extends GameSystemIO {
-  public readonly human_input_manager: HumanInputManager;
-  constructor(data: LocalGameSystemData, protected readonly game_system: LocalGameSystem) {
+  public readonly player_input_manager: PlayerInputManager;
+  constructor(protected readonly game_system: LocalGameSystem) {
     super();
 
-    this.human_input_manager = new HumanInputManager(data.human_input_config, game_system);
+    this.player_input_manager = new PlayerInputManager(game_system);
   }
 
   public deconstruct() {
-    this.human_input_manager.stop_listening();
+    this.player_input_manager.deconstruct();
   }
 
-  public update(elapsed_seconds: number): void {
-    this.human_input_manager.update();
+  public update(): void {
+    this.player_input_manager.process_inputs();
   }
 }

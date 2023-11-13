@@ -24,7 +24,7 @@ export class _3D {
     this.scene = new _3DScene(game_system);
 
     const res: Rect = ResolutionDimensions[this.config.res];
-    this.renderer = new WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+    this.renderer = new WebGLRenderer({ alpha: false, antialias: false, powerPreference: "high-performance" });
     this.renderer.setSize(res.w, res.h);
 
     const pillar_geometry = GTModels.get("pillar");
@@ -47,7 +47,6 @@ export class _3D {
   }
 
   public render(elapsed_seconds: number) {
-    this.camera.update();
     this.scene.update(elapsed_seconds);
     this.renderer.render(this.scene.internal, this.camera.internal);
   }

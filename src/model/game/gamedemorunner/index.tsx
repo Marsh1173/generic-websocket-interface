@@ -1,4 +1,3 @@
-import { DEFAULT_HUMAN_INPUT_CONFIG } from "../gamesytemio/humaninput/HumanInputConfig";
 import { LocalGameSystemData } from "../gamesystem/LocalGameSystem";
 import "./styles.less";
 import { ViewChanger } from "../../../client/main/ViewChanger";
@@ -38,7 +37,6 @@ for (let i: number = 0; i < 40; i++) {
 }
 
 const game_data: LocalGameSystemData = {
-  human_input_config: DEFAULT_HUMAN_INPUT_CONFIG,
   display_config: {
     res: "standard",
   },
