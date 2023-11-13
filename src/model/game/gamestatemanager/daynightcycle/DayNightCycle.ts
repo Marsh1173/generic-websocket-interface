@@ -21,7 +21,7 @@ export class DayNightCycle {
   }
 
   public update(elapsed_seconds: number) {
-    this._state_running_seconds += elapsed_seconds;
+    // this._state_running_seconds += elapsed_seconds;
 
     if (this._state === "day") {
       if (this._state_running_seconds >= DayNightCycleConfig.day_seconds) {

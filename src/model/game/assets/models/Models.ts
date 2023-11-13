@@ -11,19 +11,22 @@ export abstract class GTModels {
       this.loader.load("./assets/models/pillar.glb", (gltf) => {
         resolve(gltf.scene);
       });
-
-      this.loader.parse;
     });
 
     const rock_1: Group = await new Promise((resolve) => {
-      this.loader.load("./assets/models/rock_1.glb", (gltf) => {
-        gltf.scene.children.forEach((child) => {
-          (child as Mesh).material = new MeshLambertMaterial({ color: 0x888888 });
-        });
-        resolve(gltf.scene);
-      });
-
-      this.loader.parse;
+      this.loader.load(
+        "./assets/models/rock_1.glb",
+        (gltf) => {
+          gltf.scene.children.forEach((child) => {
+            (child as Mesh).material = new MeshLambertMaterial({ color: 0x888888 });
+          });
+          resolve(gltf.scene);
+        },
+        () => {},
+        (err) => {
+          console.log("Error loading model: " + err);
+        }
+      );
     });
 
     this.models = {
