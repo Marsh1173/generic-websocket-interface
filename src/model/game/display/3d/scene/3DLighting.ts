@@ -4,7 +4,7 @@ import { DayNightCycleState } from "../../../gamestatemanager/daynightcycle/DayN
 
 const DAY_NIGHT_CYCLE_ANIMATION_RUN_SECONDS: number = 10;
 
-const DAY_HLIGHT_SKY: Color = new Color("#ffffff");
+const DAY_HLIGHT_SKY: Color = new Color("#ebfcff");
 const DAY_HLIGHT_GROUND: Color = new Color("#aff3ff");
 const DAY_DLIGHT: Color = new Color("#ffffff");
 
@@ -25,16 +25,16 @@ export class _3DLighting {
       is_day ? DAY_HLIGHT_GROUND : NIGHT_HLIGHT_GROUND,
       1
     );
-    this.h_light.position.set(0, -1, 0);
+    this.h_light.position.set(0, 0, 1);
     this.scene.add(this.h_light);
 
     this.d_light = new DirectionalLight(is_day ? DAY_DLIGHT : NIGHT_DLIGHT, 2);
-    this.d_light.position.set(-3, 5, 6);
+    this.d_light.position.set(3, -2, 6);
     this.scene.add(this.d_light);
 
     // fire light
     // const p_light = new PointLight("#ff7300", 3, 5);
-    // p_light.position.set(1, 1, 1);
+    // p_light.position.set(6, 4, 1);
     // this.scene.add(p_light);
   }
 
