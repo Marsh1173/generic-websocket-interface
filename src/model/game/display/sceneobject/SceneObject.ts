@@ -1,5 +1,5 @@
 import { DisplayObject } from "pixi.js";
-import { Mesh, Vector3 } from "three";
+import { Object3D, Vector3 } from "three";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { GameDisplay } from "../GameDisplay";
 
@@ -12,7 +12,7 @@ export abstract class SceneObject {
 }
 
 export abstract class _3DSceneObject extends SceneObject {
-  protected abstract readonly mesh: Mesh;
+  protected abstract readonly mesh: Object3D;
   constructor(display: GameDisplay) {
     super(display);
   }

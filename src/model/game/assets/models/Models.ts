@@ -1,12 +1,18 @@
 import { Group, Mesh, MeshLambertMaterial } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-export type GTModelAsset = "pillar" | "rock_1";
+export type GTModelAsset = "pillar" | "rock_1" | "tree";
 
 export abstract class GTModels {
   private static loader = new GLTFLoader();
 
   public static async load_models() {
+    const tree: Group = await new Promise((resolve) => {
+      this.loader.load("./assets/models/tree.glb", (gltf) => {
+        resolve(gltf.scene);
+      });
+    });
+
     const pillar: Group = await new Promise((resolve) => {
       this.loader.load("./assets/models/pillar.glb", (gltf) => {
         resolve(gltf.scene);
@@ -32,6 +38,7 @@ export abstract class GTModels {
     this.models = {
       pillar,
       rock_1,
+      tree,
     };
   }
 
@@ -39,7 +46,7 @@ export abstract class GTModels {
     if (!GTModels.models) {
       throw new Error("GT models have not been initialized yet.");
     }
-    return GTModels.models[key];
+    return GTModels.models[key].clone();
   }
   protected static models: Record<GTModelAsset, Group> | undefined = undefined;
 }
