@@ -7,6 +7,7 @@ import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
 import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
 import { LocalEntityHandler, LocalEntityHandlerApi } from "../entityhandler/LocalEntityHandler";
 import { GameDisplay } from "../display/GameDisplay";
+import { ChunkSceneObjectGroup } from "../map/model/chunk/ChunkSceneObject";
 
 export class LocalGameSystem extends GameSystem {
   public declare entities: LocalEntityHandlerApi;
@@ -21,12 +22,18 @@ export class LocalGameSystem extends GameSystem {
 
     this.system_stats_manager = new SystemStatsManager();
     this.game_system_io = new LocalGameSystemIO(this);
-    this.entities = new LocalEntityHandler(this, data.map_size);
+    this.entities = new LocalEntityHandler(this);
     this.game_state_manager = new LocalGameStateManager(this);
     this.display = new GameDisplay(data.display_config, this);
     this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entities.make.from_data(data.entities);
+
+    this.map.chunks.forEach((row) =>
+      row.forEach((chunk) => {
+        new ChunkSceneObjectGroup(this.display, chunk).insert();
+      })
+    );
   }
 
   public update(elapsed_seconds: number) {

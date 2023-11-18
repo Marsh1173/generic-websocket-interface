@@ -37,13 +37,12 @@ export class _3D {
     rock_geometry.position.set(2, 2, 0);
     this.scene.internal.add(rock_geometry);
 
-    const plane_geometry = new PlaneGeometry(20, 20);
-    const plane_material = new MeshLambertMaterial({ color: 0x798b4d });
-    const plane = new Mesh(plane_geometry, plane_material);
-    plane.position.x = 10;
-    plane.position.y = 10;
-
-    this.scene.internal.add(plane);
+    // const plane_geometry = new PlaneGeometry(30, 30);
+    // const plane_material = new MeshLambertMaterial({ color: 0x798b4d });
+    // const plane = new Mesh(plane_geometry, plane_material);
+    // plane.position.x = 15;
+    // plane.position.y = 15;
+    // this.scene.internal.add(plane);
   }
 
   public render(elapsed_seconds: number) {

@@ -45,12 +45,12 @@ export class ItemEntity extends BaseEntity implements HasStaticPoint {
       p2: original_destination,
     };
 
-    const collision = game_system.entities.find.static_collidable_shapes.by_raycast_line(line_segment);
+    // const collision = game_system.entities.find.static_collidable_shapes.by_raycast_line(line_segment);
 
-    if (collision) {
-      return Vector.add(origin, GTMath.ScaleVector(throw_vector, collision.v_progress));
-    } else {
-      return original_destination;
-    }
+    // if (collision) {
+    //   return Vector.add(origin, GTMath.ScaleVector(throw_vector, collision.v_progress));
+    // } else {
+    // }
+    return original_destination;
   }
 }

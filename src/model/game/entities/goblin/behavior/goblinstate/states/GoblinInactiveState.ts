@@ -40,17 +40,16 @@ export class GoblinInactiveState extends BaseGoblinState {
   }
 
   private snipe() {
-    const closest = this.game_system.entities.find.dynamic_point_entities
-      .inside_box(this.focus_pos, 4)
-      .filter((e) => !!e.health_module)
-      .sort((e1, e2) => {
-        return GTCollision.CompareDistance(e1.game_space_data.pos, e2.game_space_data.pos, this.focus_pos);
-      })
-      .at(0);
-
-    if (closest) {
-      closest.health_module!.receive_damage({ amount: 20 });
-    }
+    // const closest = this.game_system.entities.find.dynamic_point_entities
+    //   .inside_box(this.focus_pos, 4)
+    //   .filter((e) => !!e.health_module)
+    //   .sort((e1, e2) => {
+    //     return GTCollision.CompareDistance(e1.game_space_data.pos, e2.game_space_data.pos, this.focus_pos);
+    //   })
+    //   .at(0);
+    // if (closest) {
+    //   closest.health_module!.receive_damage({ amount: 20 });
+    // }
   }
 }
 

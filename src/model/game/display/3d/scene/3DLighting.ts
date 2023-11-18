@@ -33,9 +33,9 @@ export class _3DLighting {
     this.scene.add(this.d_light);
 
     // fire light
-    // const p_light = new PointLight("#ff7300", 3, 5);
-    // p_light.position.set(6, 4, 1);
-    // this.scene.add(p_light);
+    const p_light = new PointLight("#ff7300", 3, 5);
+    p_light.position.set(6, 4, 1);
+    this.scene.add(p_light);
   }
 
   protected day_night_cycle_state: DayNightCycleState;

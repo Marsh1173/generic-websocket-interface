@@ -1,4 +1,3 @@
-import { Rect } from "../../common/math/geometry/Rect";
 import { LocalGameSystem } from "../gamesystem/LocalGameSystem";
 import { EntityHandler, EntityHandlerApi } from "./EntityHandler";
 import { LocalEntityFactory } from "./factory/LocalEntityFactory";
@@ -13,8 +12,8 @@ export class LocalEntityHandler extends EntityHandler {
   public readonly make: LocalEntityFactory;
   public readonly find: LocalEntityFinder;
 
-  constructor(protected readonly game_system: LocalGameSystem, dimensions: Rect) {
-    super(dimensions);
+  constructor(protected readonly game_system: LocalGameSystem) {
+    super(game_system.map.dimesions);
 
     this.make = new LocalEntityFactory(this.game_system, this);
     this.find = new LocalEntityFinder(this);

@@ -4,6 +4,7 @@ import { ViewChanger } from "../../../client/main/ViewChanger";
 import { Id, uuid } from "../../common/Id";
 import { EntityData } from "../entitymodel/entity/EntityData";
 import { TreeVariation } from "../entities/tree/Tree";
+import { MapPresets } from "../map/presets/Presets";
 
 const goblin_id: Id = uuid();
 
@@ -40,7 +41,9 @@ const game_data: LocalGameSystemData = {
   display_config: {
     res: "standard",
   },
-  map_size: { w: 30, h: 30 },
+  map_data: {
+    chunk_data: MapPresets.Basic,
+  },
   entities: [...sheep, ...trees],
   user_state_data: {
     type: "PlayerStateData",

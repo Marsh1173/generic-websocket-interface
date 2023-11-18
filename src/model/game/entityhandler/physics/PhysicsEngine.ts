@@ -1,6 +1,6 @@
 import { Id } from "../../../common/Id";
 import { Point, StaticPoint } from "../../../common/math/geometry/Point";
-import { Rect } from "../../../common/math/geometry/Rect";
+import { Rect, StaticRect } from "../../../common/math/geometry/Rect";
 import { StaticSegment } from "../../../common/math/geometry/Segment";
 import { StaticVector } from "../../../common/math/geometry/Vector";
 import { Entity } from "../../entitymodel/entity/Entity";
@@ -12,16 +12,14 @@ import { CollisionSolver } from "./CollisionSolver";
 import { ForceInsideMap } from "./ForceInsideMap";
 
 export class PhysicsEngine {
-  public readonly detector: CollisionDetector;
+  // public readonly detector: CollisionDetector;
   protected readonly solver: CollisionSolver = new CollisionSolver();
 
   constructor(
     protected readonly dynamic_points_map: Map<Id, DynamicPoint>,
-    protected readonly dynamic_points: PointsQuadTree<Entity>,
-    protected readonly map_dimensions: Rect,
-    collidable_shapes: ShapesQuadTree
+    protected readonly map_dimensions: StaticRect
   ) {
-    this.detector = new CollisionDetector(collidable_shapes);
+    // this.detector = new CollisionDetector(collidable_shapes);
   }
 
   public execute(elapsed_seconds: number): void {
@@ -34,7 +32,7 @@ export class PhysicsEngine {
           this.execute_physics(physics_module);
         }
         ForceInsideMap(this.map_dimensions, physics_module);
-        this.dynamic_points.re_insert_point(id, physics_module.prev_pos);
+        // this.dynamic_points.re_insert_point(id, physics_module.prev_pos);
       }
     }
   }
@@ -57,40 +55,40 @@ export class PhysicsEngine {
     let current_move_segment: StaticSegment | undefined;
 
     // Step 2: Find where their movement caused them to collide with shapes;
-    while (true) {
-      current_move_segment = current_move_segments.shift();
-      if (current_move_segment === undefined) {
-        break;
-      } else {
-        physics_module.pos.x = current_move_segment.p2.x;
-        physics_module.pos.y = current_move_segment.p2.y;
-      }
+    // while (true) {
+    //   current_move_segment = current_move_segments.shift();
+    //   if (current_move_segment === undefined) {
+    //     break;
+    //   } else {
+    //     physics_module.pos.x = current_move_segment.p2.x;
+    //     physics_module.pos.y = current_move_segment.p2.y;
+    //   }
 
-      const detected_collision: ShapeCollision | undefined = this.detector.detect_collisions(current_move_segment);
+    //   const detected_collision: ShapeCollision | undefined = this.detector.detect_collisions(current_move_segment);
 
-      if (detected_collision === undefined) {
-        continue;
-      } else {
-        has_collided = detected_collision;
-      }
+    //   if (detected_collision === undefined) {
+    //     continue;
+    //   } else {
+    //     has_collided = detected_collision;
+    //   }
 
-      const collision_point = this.get_collision_point(current_move_segment, detected_collision.v_progress);
+    //   const collision_point = this.get_collision_point(current_move_segment, detected_collision.v_progress);
 
-      //Step 3: If the entity has already collided with the same shape in the same spot, break out.
-      if (this.check_if_looping_collisions(collision_point, detected_collision, collision_map, physics_module)) {
-        break;
-      } else {
-        collision_map.set(detected_collision.shape_id, collision_point);
-      }
+    //   //Step 3: If the entity has already collided with the same shape in the same spot, break out.
+    //   if (this.check_if_looping_collisions(collision_point, detected_collision, collision_map, physics_module)) {
+    //     break;
+    //   } else {
+    //     collision_map.set(detected_collision.shape_id, collision_point);
+    //   }
 
-      // Step 4: Solve collision, if necessary
-      current_move_segments = this.solver.solve_collision(
-        detected_collision,
-        current_move_segment,
-        physics_module,
-        original_movement_vector
-      );
-    }
+    //   // Step 4: Solve collision, if necessary
+    //   current_move_segments = this.solver.solve_collision(
+    //     detected_collision,
+    //     current_move_segment,
+    //     physics_module,
+    //     original_movement_vector
+    //   );
+    // }
 
     // Step 5: Notify physics module
     if (has_collided) {
