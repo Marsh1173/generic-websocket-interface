@@ -1,7 +1,3 @@
-import { Rect } from "../../../common/math/geometry/Rect";
-import { LocalShapeVertices } from "../../../common/math/geometry/Shape";
+import { StaticPoint } from "../../../common/math/geometry/Point";
 
-export const TreeShapeData: LocalShapeVertices = Rect.to_vertices({
-  w: 1.5,
-  h: 1,
-});
+export const TreeShapeData: StaticPoint[] = [{ x: 0, y: 0 }];

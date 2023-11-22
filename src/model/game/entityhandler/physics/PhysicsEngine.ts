@@ -5,15 +5,11 @@ import { StaticSegment } from "../../../common/math/geometry/Segment";
 import { StaticVector } from "../../../common/math/geometry/Vector";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { DynamicPoint } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
-import { ShapesQuadTree } from "../shapesquadtree/ShapesQuadTree";
-import { PointsQuadTree } from "../pointsquadtree/PointsQuadTree";
-import { CollisionDetector, ShapeCollision } from "./CollisionDetector";
-import { CollisionSolver } from "./CollisionSolver";
 import { ForceInsideMap } from "./ForceInsideMap";
 
 export class PhysicsEngine {
   // public readonly detector: CollisionDetector;
-  protected readonly solver: CollisionSolver = new CollisionSolver();
+  // protected readonly solver: CollisionSolver = new CollisionSolver();
 
   constructor(
     protected readonly dynamic_points_map: Map<Id, DynamicPoint>,
@@ -40,7 +36,7 @@ export class PhysicsEngine {
   private execute_physics(physics_module: DynamicPoint): void {
     // If position changed, and entity can collide...
     const collision_map: Map<Id, StaticPoint> = new Map();
-    let has_collided: ShapeCollision | undefined = undefined;
+    // let has_collided: ShapeCollision | undefined = undefined;
 
     const original_movement_segment: StaticSegment = {
       p1: physics_module.prev_pos,
@@ -91,31 +87,31 @@ export class PhysicsEngine {
     // }
 
     // Step 5: Notify physics module
-    if (has_collided) {
-      physics_module.on_collide(has_collided);
-    }
+    // if (has_collided) {
+    //   physics_module.on_collide(has_collided);
+    // }
   }
 
-  private check_if_looping_collisions(
-    collision_point: StaticPoint,
-    detected_collision: ShapeCollision,
-    collision_map: Map<Id, StaticPoint>,
-    physics_module: DynamicPoint
-  ): boolean {
-    const possible_prev_shape_collision = collision_map.get(detected_collision.shape_id);
+  // private check_if_looping_collisions(
+  //   collision_point: StaticPoint,
+  //   detected_collision: ShapeCollision,
+  //   collision_map: Map<Id, StaticPoint>,
+  //   physics_module: DynamicPoint
+  // ): boolean {
+  //   const possible_prev_shape_collision = collision_map.get(detected_collision.shape_id);
 
-    if (possible_prev_shape_collision && Point.nearly_equals(collision_point, possible_prev_shape_collision)) {
-      physics_module.pos.x = collision_point.x;
-      physics_module.pos.y = collision_point.y;
-      return true;
-    }
-    return false;
-  }
+  //   if (possible_prev_shape_collision && Point.nearly_equals(collision_point, possible_prev_shape_collision)) {
+  //     physics_module.pos.x = collision_point.x;
+  //     physics_module.pos.y = collision_point.y;
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  private get_collision_point(move_seg: StaticSegment, v_progress: number): StaticPoint {
-    return {
-      x: move_seg.p1.x + v_progress * (move_seg.p2.x - move_seg.p1.x),
-      y: move_seg.p1.y + v_progress * (move_seg.p2.y - move_seg.p1.y),
-    };
-  }
+  // private get_collision_point(move_seg: StaticSegment, v_progress: number): StaticPoint {
+  //   return {
+  //     x: move_seg.p1.x + v_progress * (move_seg.p2.x - move_seg.p1.x),
+  //     y: move_seg.p1.y + v_progress * (move_seg.p2.y - move_seg.p1.y),
+  //   };
+  // }
 }

@@ -22,14 +22,14 @@ export class LocalGameSystem extends GameSystem {
 
     this.system_stats_manager = new SystemStatsManager();
     this.game_system_io = new LocalGameSystemIO(this);
-    this.entities = new LocalEntityHandler(this);
+    this.entities = new LocalEntityHandler(this, data.map_data);
     this.game_state_manager = new LocalGameStateManager(this);
     this.display = new GameDisplay(data.display_config, this);
     this.user_state_manager = new LocalUserStateManager(this, data.user_state_data);
 
     this.entities.make.from_data(data.entities);
 
-    this.map.chunks.forEach((row) =>
+    this.entities.game_map.chunks.forEach((row) =>
       row.forEach((chunk) => {
         new ChunkSceneObjectGroup(this.display, chunk).insert();
       })

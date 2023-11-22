@@ -60,11 +60,9 @@ class ChunkSceneObjectGrass extends _3DSceneObject {
 
     const matrix = new Matrix4();
     for (let i: number = 0; i < blade_count; i++) {
-      const position = new Vector3(
-        ((i * i * 2345.1234674) % Chunk.size) + this.chunk.pos.x,
-        ((i * i * 3456.134546574) % Chunk.size) + this.chunk.pos.y,
-        0.1
-      );
+      const x = ((i * i * 2345.1234674) % Chunk.size) + this.chunk.pos.x;
+      const y = ((i * i * 3456.134546574) % Chunk.size) + this.chunk.pos.y;
+      const position = new Vector3(x - (x % 0.05), y, 0.1);
       matrix.setPosition(position);
       grass.setMatrixAt(i, matrix);
     }

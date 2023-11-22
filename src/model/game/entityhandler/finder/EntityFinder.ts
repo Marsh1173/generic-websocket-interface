@@ -5,7 +5,6 @@ import { StaticSegment } from "../../../common/math/geometry/Segment";
 import { Shape } from "../../../common/math/geometry/Shape";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { EntityHandler } from "../EntityHandler";
-import { ShapeCollision } from "../physics/CollisionDetector";
 
 export abstract class EntityFinder {
   constructor(protected readonly handler: EntityHandler) {}

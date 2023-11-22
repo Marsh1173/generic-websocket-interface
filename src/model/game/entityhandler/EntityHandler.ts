@@ -3,6 +3,7 @@ import { StaticRect } from "../../common/math/geometry/Rect";
 import { Entity } from "../entitymodel/entity/Entity";
 import { DynamicPoint } from "../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
 import { IBehaviorModule } from "../entitymodel/modules/behavior/BehaviorModule";
+import { GameMap, MapData } from "../map/model/GameMap";
 import { EntityFactory } from "./factory/EntityFactory";
 import { EntityFinder } from "./finder/EntityFinder";
 import { PhysicsEngine } from "./physics/PhysicsEngine";
@@ -11,6 +12,7 @@ export interface EntityHandlerApi {
   readonly make: EntityFactory;
   readonly find: EntityFinder;
   readonly physics: PhysicsEngine;
+  readonly game_map: GameMap;
   perform_all_behaviors(elapsed_seconds: number): void;
   remove(entity: Entity): void;
 }
@@ -20,12 +22,14 @@ export abstract class EntityHandler implements EntityHandlerApi {
   public abstract readonly find: EntityFinder;
   public readonly physics: PhysicsEngine;
 
+  public readonly game_map: GameMap;
   public readonly entity_map: Map<Id, Entity> = new Map();
   public readonly behaviors_map: Map<Id, IBehaviorModule> = new Map();
   public readonly dynamic_points_map: Map<Id, DynamicPoint> = new Map();
 
-  constructor(protected readonly map_dimensions: StaticRect) {
-    this.physics = new PhysicsEngine(this.dynamic_points_map, this.map_dimensions);
+  constructor(protected readonly map_data: MapData) {
+    this.game_map = new GameMap(map_data);
+    this.physics = new PhysicsEngine(this.dynamic_points_map, this.game_map.dimesions);
   }
 
   public insert(entity: Entity) {
@@ -37,6 +41,7 @@ export abstract class EntityHandler implements EntityHandlerApi {
     if (entity.game_space_data.type === "DynamicPoint") {
       this.dynamic_points_map.set(entity.id, entity.game_space_data);
     } else if (entity.game_space_data.type === "StaticCollidableShape") {
+      this.game_map.collision_api.insert_collidables(entity.id, entity.game_space_data.tiles);
     }
   }
 
@@ -44,6 +49,10 @@ export abstract class EntityHandler implements EntityHandlerApi {
     this.entity_map.delete(entity.id);
     this.behaviors_map.delete(entity.id);
     this.dynamic_points_map.delete(entity.id);
+
+    if (entity.game_space_data.type === "StaticCollidableShape") {
+      this.game_map.collision_api.remove_collidables(entity.id, entity.game_space_data.tiles);
+    }
 
     entity.deconstruct_module.on_deconstruct();
   }

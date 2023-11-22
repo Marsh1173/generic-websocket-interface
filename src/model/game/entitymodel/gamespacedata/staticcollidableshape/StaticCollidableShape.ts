@@ -6,20 +6,27 @@ export interface StaticCollidableShapeWithId extends StaticCollidableShape, HasI
 
 export interface StaticCollidableShape {
   readonly type: "StaticCollidableShape";
-  readonly shape: Shape;
+  readonly tiles: StaticPoint[];
   readonly pos: StaticPoint;
 }
 
 export class StaticCollidableShapeModule implements StaticCollidableShape {
   public readonly type = "StaticCollidableShape";
-  public readonly shape: Shape;
+  public readonly tiles: StaticPoint[];
+  public readonly pos: StaticPoint;
 
-  public get pos() {
-    return this.shape.origin;
+  constructor(data: StaticCollidableShapeData, local_tiles: StaticPoint[]) {
+    this.pos = data.pos;
+    this.tiles = StaticCollidableShapeModule.map_local_tiles_to_global_tiles(local_tiles, this.pos);
   }
 
-  constructor(data: StaticCollidableShapeData, shape_vertices: LocalShapeVertices) {
-    this.shape = new Shape(shape_vertices, data.origin);
+  private static map_local_tiles_to_global_tiles(local_tiles: StaticPoint[], pos: StaticPoint): StaticPoint[] {
+    return local_tiles.map((local_tile) => {
+      return {
+        x: local_tile.x + Math.floor(pos.x),
+        y: local_tile.y + Math.floor(pos.y),
+      };
+    });
   }
 }
 
@@ -28,5 +35,5 @@ export interface HasStaticCollidableShape {
 }
 
 export interface StaticCollidableShapeData {
-  origin: StaticPoint;
+  pos: StaticPoint;
 }

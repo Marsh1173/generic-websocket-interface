@@ -1,7 +1,6 @@
 import { Id } from "../../../../common/Id";
 import { Point, StaticPoint } from "../../../../common/math/geometry/Point";
 import { StaticVector, Vector } from "../../../../common/math/geometry/Vector";
-import { ShapeCollision } from "../../../entityhandler/physics/CollisionDetector";
 
 export class DynamicPoint {
   public readonly type = "DynamicPoint";
@@ -33,10 +32,10 @@ export class DynamicPoint {
     this.position_paths.delete(id);
   }
 
-  /**
-   * Optionally overridable
-   */
-  public on_collide(collision: ShapeCollision): void {}
+  // /**
+  //  * Optionally overridable
+  //  */
+  // public on_collide(collision: ShapeCollision): void {}
 
   public update(elapsed_seconds: number) {
     const pos_path_velocity = this.calc_position_path_velocity(elapsed_seconds);

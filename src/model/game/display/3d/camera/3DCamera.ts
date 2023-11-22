@@ -25,7 +25,7 @@ export class _3DCamera {
 
   public update() {
     this.internal.position.x = this.camera_center.x;
-    this.internal.position.y = this.camera_center.y - offset.y;
+    this.internal.position.y = this.camera_center.y - offset.y + 1;
   }
 
   public global_3d_units_to_screen_percentage(v: Vector3): StaticPoint {
