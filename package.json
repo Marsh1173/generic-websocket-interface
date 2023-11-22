@@ -4,6 +4,10 @@
   "main": "index.js",
   "author": "Markaronin <jmarkroylance@gmail.com>",
   "license": "MIT",
+  "sideEffects": [
+    "*.less",
+    "*.css"
+  ],
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
