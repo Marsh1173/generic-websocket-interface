@@ -5,6 +5,7 @@ import { StaticSegment } from "../../../common/math/geometry/Segment";
 import { StaticVector } from "../../../common/math/geometry/Vector";
 import { Entity } from "../../entitymodel/entity/Entity";
 import { DynamicPoint } from "../../entitymodel/gamespacedata/dynamicpoint/DynamicPoint";
+import { PointsQuadTree } from "../pointsquadtree/PointsQuadTree";
 import { ForceInsideMap } from "./ForceInsideMap";
 
 export class PhysicsEngine {
@@ -13,6 +14,7 @@ export class PhysicsEngine {
 
   constructor(
     protected readonly dynamic_points_map: Map<Id, DynamicPoint>,
+    protected readonly dynamic_points: PointsQuadTree<Entity>,
     protected readonly map_dimensions: StaticRect
   ) {
     // this.detector = new CollisionDetector(collidable_shapes);
@@ -28,7 +30,7 @@ export class PhysicsEngine {
           this.execute_physics(physics_module);
         }
         ForceInsideMap(this.map_dimensions, physics_module);
-        // this.dynamic_points.re_insert_point(id, physics_module.prev_pos);
+        this.dynamic_points.re_insert_point(id, physics_module.prev_pos);
       }
     }
   }
