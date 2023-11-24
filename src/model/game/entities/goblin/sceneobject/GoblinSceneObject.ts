@@ -22,7 +22,7 @@ class GoblinSceneObject extends _3DSceneEntityObject<Goblin> {
   }
 
   protected get_mesh(): Mesh {
-    const plane_geometry = new PlaneGeometry(1, 2);
+    const plane_geometry = new PlaneGeometry(0.7, 1.6);
 
     const plane_material = new MeshLambertMaterial();
     plane_material.map = GTTextures.get_threejs("entity-goblin");
@@ -30,7 +30,7 @@ class GoblinSceneObject extends _3DSceneEntityObject<Goblin> {
 
     const plane = new Mesh(plane_geometry, plane_material);
     plane.rotation.x = Math.PI / 2;
-    plane.position.z = 1;
+    plane.position.z = 0.7;
 
     return plane;
   }

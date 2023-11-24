@@ -1,8 +1,8 @@
 import { uuid } from "../../../../../../common/Id";
 import { GTCollision } from "../../../../../../common/math/collision/GTCollision";
 import { GTMath } from "../../../../../../common/math/basic/GTMath";
-import { PlayerInput } from "../../../../../gamesytemio/playerinput/PlayerInputEnum";
 import { BaseGoblinState, BaseGoblinStateData } from "./../GoblinState";
+import { StaticPoint } from "../../../../../../common/math/geometry/Point";
 
 export class GoblinInactiveState extends BaseGoblinState {
   public readonly type = "GoblinInactiveState";
@@ -11,24 +11,14 @@ export class GoblinInactiveState extends BaseGoblinState {
     super(base_data);
   }
 
-  public on_input(input: PlayerInput): void {
-    switch (input) {
-      case PlayerInput.TertiaryActionStart:
-        this.goblin.behavior_module.state.set_state({
-          type: "GoblinDashingStateData",
-        });
-        break;
-      case PlayerInput.PrimaryActionStart:
-        this.snipe();
-        break;
-      case PlayerInput.SecondaryActionStart:
-        this.shoot_arrow();
-        break;
-    }
+  public start_dashing() {
+    this.goblin.behavior_module.state.set_state({
+      type: "GoblinDashingStateData",
+    });
   }
 
-  private shoot_arrow() {
-    const rotation = GTMath.Rotation(this.goblin.game_space_data.pos, this.focus_pos);
+  public shoot_arrow(p: StaticPoint) {
+    const rotation = GTMath.Rotation(this.goblin.game_space_data.pos, p);
     this.game_system.entities.make.arrow({
       type: "ArrowData",
       id: uuid(),
@@ -39,12 +29,12 @@ export class GoblinInactiveState extends BaseGoblinState {
     });
   }
 
-  private snipe() {
+  public snipe(p: StaticPoint) {
     const closest = this.game_system.entities.find.dynamic_point_entities
-      .inside_box(this.focus_pos, 4)
+      .inside_box(p, 4)
       .filter((e) => !!e.health_module)
       .sort((e1, e2) => {
-        return GTCollision.CompareDistance(e1.game_space_data.pos, e2.game_space_data.pos, this.focus_pos);
+        return GTCollision.CompareDistance(e1.game_space_data.pos, e2.game_space_data.pos, p);
       })
       .at(0);
     if (closest) {

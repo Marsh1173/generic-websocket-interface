@@ -1,4 +1,3 @@
-import { PlayerInput } from "../../../../../gamesytemio/playerinput/PlayerInputEnum";
 import { BaseGoblinState, BaseGoblinStateData } from "../GoblinState";
 
 export class GoblinDashingState extends BaseGoblinState {
@@ -17,14 +16,10 @@ export class GoblinDashingState extends BaseGoblinState {
     this.goblin.behavior_module.move.remove_move_multiplier(this.dash_multiplier);
   }
 
-  public on_input(input: PlayerInput): void {
-    switch (input) {
-      case PlayerInput.TertiaryActionEnd:
-        this.goblin.behavior_module.state.set_state({
-          type: "GoblinInactiveStateData",
-        });
-        break;
-    }
+  public stop_dashing() {
+    this.goblin.behavior_module.state.set_state({
+      type: "GoblinInactiveStateData",
+    });
   }
 }
 

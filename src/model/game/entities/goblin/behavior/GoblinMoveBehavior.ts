@@ -14,7 +14,7 @@ const default_move_data: GoblinMoveBehaviorState = {
 };
 
 export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState> implements IBehaviorModule {
-  private move_force: number = 2;
+  private move_force: number = 2.5;
 
   constructor(private readonly goblin: Goblin, data?: GoblinMoveBehaviorState) {
     super(data ?? default_move_data);
@@ -22,10 +22,7 @@ export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState>
 
   public update(elapsed_seconds: number): void {}
 
-  /**
-   * @param angle in radians
-   */
-  public update_move_forces() {
+  protected update_move_forces() {
     this.goblin.game_space_data.clear_constant_velocity(MOVE_FORCE_ID);
 
     if (!this.goblin.behavior_module.state.allows_movement || this.state.angle === undefined) {
@@ -44,8 +41,10 @@ export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState>
   // Force Multipliers
   public apply_move_multiplier(m: number) {
     this.move_force *= m;
+    this.update_move_forces();
   }
   public remove_move_multiplier(m: number) {
     this.move_force /= m;
+    this.update_move_forces();
   }
 }
