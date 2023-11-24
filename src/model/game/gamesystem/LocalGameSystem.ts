@@ -39,7 +39,7 @@ export class LocalGameSystem extends GameSystem {
   public update(elapsed_seconds: number) {
     super.update(elapsed_seconds);
 
-    this.display.camera.update();
+    this.display.camera.update(elapsed_seconds);
     this.display._3d.camera.update();
 
     this.display.scene.update_all_scene_object_groups(elapsed_seconds);

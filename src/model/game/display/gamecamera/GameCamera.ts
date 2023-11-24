@@ -18,15 +18,17 @@ export class GameCamera {
     }
   }
 
-  private readonly follow_delay_const: number = 0.05;
-  public update() {
+  public update(elapsed_seconds: number) {
     if (this.focus) {
       const focus_diff = GTMath.Difference(this.camera_center, {
         x: this.focus.x + this.camera_offset_units.x,
         y: this.focus.y + this.camera_offset_units.y,
       });
-      this.camera_center.x = this.camera_center.x + focus_diff.x * this.follow_delay_const;
-      this.camera_center.y = this.camera_center.y + focus_diff.y * this.follow_delay_const;
+      if (GTMath.Magnitude(focus_diff) > 0.02) {
+        const follow_delay: number = Math.min(1, elapsed_seconds * 3);
+        this.camera_center.x = this.camera_center.x + focus_diff.x * follow_delay;
+        this.camera_center.y = this.camera_center.y + focus_diff.y * follow_delay;
+      }
     }
   }
 }
