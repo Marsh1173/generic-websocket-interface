@@ -1,5 +1,5 @@
-import { PlayerInput } from "../../../../gamesytemio/playerinput/PlayerInputEnum";
-import { Goblin } from "../../Goblin";
+import { Goblin } from "../../entities/goblin/Goblin";
+import { PlayerInput } from "../../gamesytemio/playerinput/PlayerInputEnum";
 
 export class GoblinPlayerDashController {
   constructor(private readonly goblin: Goblin) {}

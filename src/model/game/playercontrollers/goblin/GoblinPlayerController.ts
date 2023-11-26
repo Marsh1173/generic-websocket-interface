@@ -1,8 +1,8 @@
-import { Id, uuid } from "../../../../../common/Id";
-import { LocalGameSystem } from "../../../../gamesystem/LocalGameSystem";
-import { PlayerInput } from "../../../../gamesytemio/playerinput/PlayerInputEnum";
-import { PlayerInputObserver } from "../../../../gamesytemio/playerinput/PlayerInputObserver";
-import { Goblin } from "../../Goblin";
+import { Id, uuid } from "../../../common/Id";
+import { Goblin } from "../../entities/goblin/Goblin";
+import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
+import { PlayerInput } from "../../gamesytemio/playerinput/PlayerInputEnum";
+import { PlayerInputObserver } from "../../gamesytemio/playerinput/PlayerInputObserver";
 import { GoblinPlayerDashController } from "./GoblinPlayerDashController";
 import { GoblinPlayerMoveController } from "./GoblinPlayerMoveController";
 

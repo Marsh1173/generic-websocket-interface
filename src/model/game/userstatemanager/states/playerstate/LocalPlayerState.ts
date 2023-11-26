@@ -1,6 +1,6 @@
 import { uuid } from "../../../../common/Id";
+import { GoblinPlayerController } from "../../../playercontrollers/goblin/GoblinPlayerController";
 import { Goblin } from "../../../entities/goblin/Goblin";
-import { GoblinPlayerController } from "../../../entities/goblin/controllers/player/GoblinPlayerController";
 import { LocalGameSystem } from "../../../gamesystem/LocalGameSystem";
 import { PlayerState, PlayerStateData } from "./PlayerState";
 
