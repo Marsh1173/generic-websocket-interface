@@ -27,15 +27,15 @@ export class _3D {
     this.renderer = new WebGLRenderer({ alpha: false, antialias: false, powerPreference: "high-performance" });
     this.renderer.setSize(res.w, res.h);
 
-    const pillar_geometry = GTModels.get("pillar");
-    pillar_geometry.scale.set(0.1, 0.1, 0.1);
-    pillar_geometry.position.set(8, 8, 0);
-    this.scene.internal.add(pillar_geometry);
+    // const pillar_geometry = GTModels.get("pillar");
+    // pillar_geometry.scale.set(0.1, 0.1, 0.1);
+    // pillar_geometry.position.set(8, 8, 0);
+    // this.scene.internal.add(pillar_geometry);
 
-    const rock_geometry = GTModels.get("rock_1");
-    rock_geometry.scale.set(3, 3, 3);
-    rock_geometry.position.set(2, 2, 0);
-    this.scene.internal.add(rock_geometry);
+    // const rock_geometry = GTModels.get("rock_1");
+    // rock_geometry.scale.set(3, 3, 3);
+    // rock_geometry.position.set(2, 2, 0);
+    // this.scene.internal.add(rock_geometry);
 
     // const plane_geometry = new PlaneGeometry(30, 30);
     // const plane_material = new MeshLambertMaterial({ color: 0x798b4d });

@@ -6,22 +6,38 @@ import { Chunk } from "../chunk/Chunk";
 export class MapCollisionApi {
   constructor(private readonly map: GameMap) {}
 
-  public insert_collidables(id: Id, tiles: StaticPoint[]) {
-    for (const tile of tiles) {
+  public insert_collidables(id: Id, collidable_tiles: StaticPoint[]) {
+    for (const tile of collidable_tiles) {
       const chunk = this.map.chunk_by_pos(tile);
-      chunk?.collidable_map[tile.x % Chunk.size][tile.y % Chunk.size].add(id);
+      const key = this.get_tile_key(tile);
+      const id_list = chunk?.collidable_map.get(key);
+      if (id_list) {
+        id_list.push(id);
+      } else {
+        chunk?.collidable_map.set(key, [id]);
+      }
     }
   }
 
-  public remove_collidables(id: Id, tiles: StaticPoint[]) {
-    for (const tile of tiles) {
+  public remove_collidables(id: Id, collidable_tiles: StaticPoint[]) {
+    for (const tile of collidable_tiles) {
       const chunk = this.map.chunk_by_pos(tile);
-      chunk?.collidable_map[tile.x % Chunk.size][tile.y % Chunk.size].delete(id);
+      const key = this.get_tile_key(tile);
+      const id_list = chunk?.collidable_map.get(key);
+      id_list?.forEach((unknown_id, index) => {
+        if (unknown_id === id) id_list.splice(index, 1);
+      });
     }
   }
 
   public tile_is_collidable(p: StaticPoint): boolean {
+    const key = this.get_tile_key(p);
     const chunk = this.map.chunk_by_pos(p);
-    return !chunk || chunk.collidable_map[Math.floor(p.x % Chunk.size)][Math.floor(p.y % Chunk.size)].size !== 0;
+    const id_list = chunk?.collidable_map.get(key);
+    return !chunk || (!!id_list && id_list.length !== 0);
+  }
+
+  private get_tile_key(p: StaticPoint): [number, number] {
+    return [Math.floor(p.x % Chunk.size), Math.floor(p.y % Chunk.size)];
   }
 }
