@@ -1,5 +1,4 @@
 import { Rect } from "../../common/math/geometry/Rect";
-import { StaticVector } from "../../common/math/geometry/Vector";
 
 export type Resolution = "standard" | "4k" | "mini";
 
