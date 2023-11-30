@@ -11,13 +11,7 @@ export class GoblinInactiveState extends BaseGoblinState {
     super(base_data);
   }
 
-  public start_dashing() {
-    this.goblin.behavior_module.state.set_state({
-      type: "GoblinDashingStateData",
-    });
-  }
-
-  public shoot_arrow(p: StaticPoint) {
+  public attempt_shoot_arrow(p: StaticPoint) {
     const rotation = GTMath.Rotation(this.goblin.game_space_data.pos, p);
     this.game_system.entities.make.arrow({
       type: "ArrowData",
@@ -29,7 +23,7 @@ export class GoblinInactiveState extends BaseGoblinState {
     });
   }
 
-  public snipe(p: StaticPoint) {
+  public attempt_snipe(p: StaticPoint) {
     const closest = this.game_system.entities.find.dynamic_point_entities
       .inside_box(p, 4)
       .filter((e) => !!e.health_module)

@@ -36,5 +36,7 @@ export class Goblin extends BaseEntity implements HasHealthModule, HasDynamicPoi
     this.game_space_data = new DynamicPoint(data.game_space_data, true);
     this.health_module = new HealthModule(health_observable, this, this.game_system, data.health_module_data);
     this.behavior_module = new GoblinBehaviorModule(data.behavior_data, this, this.game_system);
+
+    this.behavior_module.state.inner.activate_state();
   }
 }

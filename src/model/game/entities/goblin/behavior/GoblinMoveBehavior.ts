@@ -7,10 +7,12 @@ const MOVE_FORCE_ID = "move-force-id";
 
 export interface GoblinMoveBehaviorState {
   angle: number | undefined;
+  can_move: boolean;
 }
 
 const default_move_data: GoblinMoveBehaviorState = {
   angle: undefined,
+  can_move: true,
 };
 
 export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState> implements IBehaviorModule {
@@ -25,7 +27,7 @@ export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState>
   protected update_move_forces() {
     this.goblin.game_space_data.clear_constant_velocity(MOVE_FORCE_ID);
 
-    if (!this.goblin.behavior_module.state.allows_movement || this.state.angle === undefined) {
+    if (!this.state.can_move || this.state.angle === undefined) {
       return;
     }
 
@@ -33,7 +35,7 @@ export class GoblinMoveBehavior extends StateObservable<GoblinMoveBehaviorState>
     this.goblin.game_space_data.apply_constant_velocity(MOVE_FORCE_ID, v);
   }
 
-  public update_state(update: GoblinMoveBehaviorState) {
+  public update_state(update: Partial<GoblinMoveBehaviorState>) {
     this.set_state(update);
     this.update_move_forces();
   }

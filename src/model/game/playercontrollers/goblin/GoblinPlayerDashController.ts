@@ -1,27 +1,18 @@
-import { Goblin } from "../../entities/goblin/Goblin";
+import { GoblinStateBehaviorModule } from "../../entities/goblin/behavior/goblinstate/GoblinStateBehaviorModule";
 import { PlayerInput } from "../../gamesytemio/playerinput/PlayerInputEnum";
 
 export class GoblinPlayerDashController {
-  constructor(private readonly goblin: Goblin) {}
-
-  public attempt_parse_dash_input(input: PlayerInput): boolean {
+  public attempt_parse_dash_input(input: PlayerInput, goblin_state: GoblinStateBehaviorModule): boolean {
     switch (input) {
       case PlayerInput.TertiaryActionStart:
-        if (this.goblin.behavior_module.state.inner.type === "GoblinInactiveState") {
-          this.goblin.behavior_module.state.inner.start_dashing();
-          return true;
-        } else {
-          return false;
-        }
+        goblin_state.attempt_start_dashing();
+        break;
       case PlayerInput.TertiaryActionEnd:
-        if (this.goblin.behavior_module.state.inner.type === "GoblinDashingState") {
-          this.goblin.behavior_module.state.inner.stop_dashing();
-          return true;
-        } else {
-          return false;
-        }
+        goblin_state.attempt_stop_dashing();
+        break;
       default:
         return false;
     }
+    return true;
   }
 }

@@ -1,6 +1,5 @@
 import { GameSystem } from "../../../../gamesystem/GameSystem";
 import { Goblin } from "../../Goblin";
-import { GoblinDashingState, GoblinDashingStateData } from "./states/GoblinDashingState";
 import { GoblinInactiveState, GoblinInactiveStateData } from "./states/GoblinInactiveState";
 
 export interface BaseGoblinStateData {
@@ -8,11 +7,12 @@ export interface BaseGoblinStateData {
   goblin: Goblin;
 }
 
-export type GoblinState = GoblinInactiveState | GoblinDashingState;
-export type GoblinStateData = GoblinInactiveStateData | GoblinDashingStateData;
+export type GoblinState = GoblinInactiveState;
+export type GoblinStateData = GoblinInactiveStateData;
 
 export abstract class BaseGoblinState {
-  public readonly allows_movement: boolean = true;
+  private readonly allows_movement: boolean = true;
+  private readonly allows_dashing: boolean = true;
   public readonly allows_casting: boolean = true;
 
   protected readonly game_system: GameSystem;
@@ -24,5 +24,9 @@ export abstract class BaseGoblinState {
   }
 
   public update(elapsed_seconds: number) {}
+  public activate_state() {
+    this.goblin.behavior_module.dash.update_state({ can_dash: this.allows_dashing });
+    this.goblin.behavior_module.move.update_state({ can_move: this.allows_movement });
+  }
   public clear_state() {}
 }

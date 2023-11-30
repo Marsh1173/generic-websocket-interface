@@ -1,7 +1,6 @@
 import { IBehaviorModule } from "../../../../entitymodel/modules/behavior/BehaviorModule";
 import { GameSystem } from "../../../../gamesystem/GameSystem";
 import { Goblin } from "../../Goblin";
-import { GoblinDashingState } from "./states/GoblinDashingState";
 import { GoblinInactiveState } from "./states/GoblinInactiveState";
 import { BaseGoblinStateData, GoblinState, GoblinStateData } from "./GoblinState";
 
@@ -12,9 +11,6 @@ export interface GoblinStateBehaviorData {
 export class GoblinStateBehaviorModule implements IBehaviorModule {
   public inner: GoblinState;
 
-  public get allows_movement() {
-    return this.inner.allows_movement;
-  }
   public get allows_casting() {
     return this.inner.allows_casting;
   }
@@ -25,6 +21,7 @@ export class GoblinStateBehaviorModule implements IBehaviorModule {
     data: GoblinStateBehaviorData
   ) {
     this.inner = this.map_data_to_state(data.state_data ?? { type: "GoblinInactiveStateData" });
+    // activate_state is called in the Goblin class, after the behavior module is initialized.
   }
 
   public update(elapsed_seconds: number): void {
@@ -34,6 +31,7 @@ export class GoblinStateBehaviorModule implements IBehaviorModule {
   public set_state(state_data: Exclude<GoblinStateData, BaseGoblinStateData>) {
     this.inner.clear_state();
     this.inner = this.map_data_to_state(state_data);
+    this.inner.activate_state();
   }
 
   private map_data_to_state(state_data: GoblinStateData): GoblinState {
@@ -43,10 +41,16 @@ export class GoblinStateBehaviorModule implements IBehaviorModule {
     };
 
     switch (state_data.type) {
-      case "GoblinDashingStateData":
-        return new GoblinDashingState(base_data, state_data);
       case "GoblinInactiveStateData":
         return new GoblinInactiveState(base_data, state_data);
     }
+  }
+
+  public attempt_start_dashing() {
+    this.goblin.behavior_module.dash.update_state({ is_dashing: true });
+  }
+
+  public attempt_stop_dashing() {
+    this.goblin.behavior_module.dash.update_state({ is_dashing: false });
   }
 }
