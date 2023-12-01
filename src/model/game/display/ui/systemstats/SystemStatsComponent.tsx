@@ -1,10 +1,10 @@
 import React from "react";
 import "./SystemStatsStyles.less";
 import { Component } from "react";
-import { IClientGameSystem } from "../../../../model/game/gamesystem/ClientGameSystem";
-import { SystemStatsManagerState } from "../../../../model/game/systemstatsmanager/SystemStatsManager";
-import { Id, uuid } from "../../../../model/common/Id";
-import { StateObserver } from "../../../../model/common/observer/StateObserver";
+import { IClientGameSystem } from "../../../gamesystem/ClientGameSystem";
+import { SystemStatsManagerState } from "../../../systemstatsmanager/SystemStatsManager";
+import { Id, uuid } from "../../../../common/Id";
+import { StateObserver } from "../../../../common/observer/StateObserver";
 
 interface SystemStatsComponentProps {
   game_system: IClientGameSystem;

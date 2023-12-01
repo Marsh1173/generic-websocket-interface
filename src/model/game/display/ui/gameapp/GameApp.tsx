@@ -1,32 +1,31 @@
 import { Component } from "react";
-import "./LocalGameStyles.less";
 import React from "react";
-import { LocalGameSystem, LocalGameSystemData } from "../../../model/game/gamesystem/LocalGameSystem";
 import { Application } from "pixi.js";
-import { SystemStatsComponent } from "../common/systemstats/SystemStatsComponent";
-import { ClientTicker } from "../../../model/ticker/ClientTicker";
+import "./GameAppStyles.less";
+import { SystemStatsComponent } from "../systemstats/SystemStatsComponent";
+import { ClientTicker } from "../../../../ticker/ClientTicker";
+import { LocalGameSystemData, LocalGameSystem } from "../../../gamesystem/LocalGameSystem";
 
-export interface LocalGameComponentProps {
+export interface GameAppProps {
   local_game_data: LocalGameSystemData;
   view_app: Application<HTMLCanvasElement>;
 }
 
-export class LocalGameComponent extends Component<{ props: LocalGameComponentProps }, {}> {
+export class GameApp extends Component<{ props: GameAppProps }, {}> {
   protected readonly game_system: LocalGameSystem;
   protected readonly view_app: Application<HTMLCanvasElement>;
   protected readonly view_ref: React.RefObject<HTMLDivElement> = React.createRef();
 
-  constructor(props: { props: LocalGameComponentProps }) {
+  constructor(props: { props: GameAppProps }) {
     super(props);
 
     this.view_app = this.props.props.view_app;
-
     this.game_system = new LocalGameSystem(this.props.props.local_game_data, this.view_app);
   }
 
   public render() {
     return (
-      <div className="LocalGameComponent" ref={this.view_ref}>
+      <div className="GameApp" ref={this.view_ref}>
         <SystemStatsComponent game_system={this.game_system}></SystemStatsComponent>
       </div>
     );

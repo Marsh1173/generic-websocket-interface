@@ -3,12 +3,11 @@ import { Component } from "react";
 import { ConnectingView, ConnectingViewProps } from "../connecting/ConnectingView";
 import { DisconnectionView } from "../disconnection/DisconnectionView";
 import { AuthenticationView, AuthenticationViewProps } from "../authentication/AuthenticationView";
-
+import { AuthMenuProps, AuthMenuView } from "../authmenu/AuthMenuView";
+import { LoadingApp, LoadingAppProps } from "../../model/game/display/ui/loadingapp/LoadingApp";
 import "./Standards.less";
 import "./MainStyles.less";
-import { AuthMenuProps, AuthMenuView } from "../authmenu/AuthMenuView";
-import { LocalGameComponent, LocalGameComponentProps } from "../game/local/LocalGameView";
-import { LoadingComponent, LoadingComponentProps } from "../game/common/loading/LoadingComponent";
+import { GameApp, GameAppProps } from "../../model/game/display/ui/gameapp/GameApp";
 
 export interface MainViewProps {
   initial_state?: MainViewState;
@@ -19,8 +18,8 @@ type MainViewState =
   | { type: "disconnected"; msg: string }
   | { type: "authenticating"; props: AuthenticationViewProps }
   | { type: "authmenu"; props: AuthMenuProps }
-  | { type: "loading-game"; props: LoadingComponentProps }
-  | { type: "game"; props: LocalGameComponentProps };
+  | { type: "loading-game"; props: LoadingAppProps }
+  | { type: "game"; props: GameAppProps };
 
 export class MainView extends Component<MainViewProps, MainViewState> {
   constructor(props: MainViewProps) {
@@ -52,9 +51,9 @@ export class MainView extends Component<MainViewProps, MainViewState> {
       case "authmenu":
         return <AuthMenuView props={this.state.props} />;
       case "loading-game":
-        return <LoadingComponent props={this.state.props} />;
+        return <LoadingApp props={this.state.props} />;
       case "game":
-        return <LocalGameComponent props={this.state.props} />;
+        return <GameApp props={this.state.props} />;
     }
   }
 }

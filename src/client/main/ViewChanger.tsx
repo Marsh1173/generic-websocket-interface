@@ -6,8 +6,8 @@ import { safe_get_element_by_selector } from "../utils/SafeGetElementBySelector"
 import { Singleton } from "../../model/common/Singleton";
 import { MainView, MainViewProps } from "./MainView";
 import { AuthMenuProps } from "../authmenu/AuthMenuView";
-import { LocalGameComponentProps } from "../game/local/LocalGameView";
-import { LoadingComponentProps } from "../game/common/loading/LoadingComponent";
+import { LoadingAppProps } from "../../model/game/display/ui/loadingapp/LoadingApp";
+import { GameAppProps } from "../../model/game/display/ui/gameapp/GameApp";
 
 @Singleton
 export class ViewChanger {
@@ -41,11 +41,11 @@ export class ViewChanger {
     this.main_view.current?.setState({ type: "authmenu", props });
   }
 
-  public change_state_to_loading_game(props: LoadingComponentProps) {
+  public change_state_to_loading_game(props: LoadingAppProps) {
     this.main_view.current?.setState({ type: "loading-game", props });
   }
 
-  public change_state_to_game(props: LocalGameComponentProps) {
+  public change_state_to_game(props: GameAppProps) {
     this.main_view.current?.setState({ type: "game", props });
   }
 }

@@ -1,19 +1,20 @@
+import { Application } from "pixi.js";
 import React from "react";
 import { Component } from "react";
-import { ViewChanger } from "../../../main/ViewChanger";
-import { LocalGameSystemData } from "../../../../model/game/gamesystem/LocalGameSystem";
-import { GTTextures } from "../../../../model/game/assets/textures/Textures";
-import { Application } from "pixi.js";
-import { ResolutionDimensions } from "../../../../model/game/display/Resolution";
-import { GTModels } from "../../../../model/game/assets/models/Models";
+import { LocalGameSystemData } from "../../../gamesystem/LocalGameSystem";
+import { ResolutionDimensions } from "../../Resolution";
+import { GTTextures } from "../../../assets/textures/Textures";
+import { GTModels } from "../../../assets/models/Models";
+import { ViewChanger } from "../../../../../client/main/ViewChanger";
+import "./LoadingAppStyles.less";
 
-export interface LoadingComponentProps {
+export interface LoadingAppProps {
   local_game_data: LocalGameSystemData;
 }
 
-interface LoadingComponentState {}
+interface LoadingAppState {}
 
-export class LoadingComponent extends Component<{ props: LoadingComponentProps }, LoadingComponentState> {
+export class LoadingApp extends Component<{ props: LoadingAppProps }, LoadingAppState> {
   protected readonly view_app: Application<HTMLCanvasElement>;
 
   constructor(props: any) {
@@ -29,7 +30,7 @@ export class LoadingComponent extends Component<{ props: LoadingComponentProps }
   }
 
   public render() {
-    return <div className="LoadingComponent">Loading...</div>;
+    return <div className="LoadingApp">Loading...</div>;
   }
 
   public componentDidMount(): void {
