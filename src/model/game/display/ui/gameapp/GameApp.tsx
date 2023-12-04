@@ -5,6 +5,7 @@ import "./GameAppStyles.less";
 import { SystemStatsComponent } from "../systemstats/SystemStatsComponent";
 import { ClientTicker } from "../../../../ticker/ClientTicker";
 import { LocalGameSystemData, LocalGameSystem } from "../../../gamesystem/LocalGameSystem";
+import { SideNav } from "../sidenav/SideNav";
 
 export interface GameAppProps {
   local_game_data: LocalGameSystemData;
@@ -27,6 +28,7 @@ export class GameApp extends Component<{ props: GameAppProps }, {}> {
     return (
       <div className="GameApp" ref={this.view_ref}>
         <SystemStatsComponent game_system={this.game_system}></SystemStatsComponent>
+        <SideNav></SideNav>
       </div>
     );
   }

@@ -1,0 +1,84 @@
+@import "../../../../../client/commonview/styles/Variables.less";
+
+.SideNav {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: max-content;
+
+  align-items: flex-start;
+
+  .SideNavButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    width: 100%;
+
+    @icon_size: 24px;
+
+    background: none;
+    border-width: 2px;
+    border-style: solid;
+    outline: none;
+    border-image-slice: 1;
+    border-image-width: 1;
+
+    .icon {
+      height: min-content;
+      width: @icon_size;
+
+      img {
+        height: @icon_size;
+        width: auto;
+      }
+    }
+
+    .label {
+      font-weight: 500;
+      color: white;
+      padding-left: 16px;
+    }
+
+    //hover transition
+
+    &,
+    & * {
+      transition-duration: 0s;
+      transition-property: transform, opacity, border-image-source, background-color, width;
+    }
+
+    & {
+      border-image-source: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+      .label {
+        transform: translateX(-100%);
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    &:hover {
+      &,
+      & * {
+        transition-duration: @regular-transition;
+      }
+      background-color: fade(@deep-black, 30%);
+      backdrop-filter: blur(2px);
+      border-image-source: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255));
+
+      .label {
+        transform: translateX(0%);
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  &:not(:hover) {
+    .label {
+      width: 0px;
+      height: 0px;
+    }
+  }
+}
