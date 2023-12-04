@@ -47,7 +47,7 @@
     "reset-db": "ts-node ./src/tools/reset-db.ts",
     "change-user-password": "ts-node ./src/server/utils/tools/change-user-password.ts",
     "map-previewer": "yarn && npx webpack serve --config src/tools/webpack/map-previewer.config.js",
-    "game-demo": "yarn && npx webpack serve --config src/tools/webpack/game-demo.config.js"
+    "game-demo": "yarn && npx webpack serve --config src/tools/webpack/game-demo.config.js --mode development"
   },
   "dependencies": {
     "@types/better-sqlite3": "^7.6.3",
