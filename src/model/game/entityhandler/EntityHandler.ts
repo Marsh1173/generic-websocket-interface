@@ -28,7 +28,7 @@ export abstract class EntityHandler implements EntityHandlerApi {
   public readonly dynamic_points_map: Map<Id, DynamicPoint> = new Map();
 
   public readonly game_map: GameMap;
-  readonly entity_points: PointsQuadTree<Entity>;
+  public readonly entity_points: PointsQuadTree<Entity>;
 
   constructor(protected readonly map_data: MapData) {
     this.game_map = new GameMap(map_data);

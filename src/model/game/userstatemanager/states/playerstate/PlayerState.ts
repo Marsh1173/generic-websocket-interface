@@ -1,6 +1,6 @@
 import { Goblin, GoblinData } from "../../../entities/goblin/Goblin";
 import { GameSystem } from "../../../gamesystem/GameSystem";
-import { IUserState } from "../../UserState";
+import { IUserState } from "../../managers/UserState";
 
 export class PlayerState implements IUserState {
   public readonly type = "PlayerState";

@@ -4,7 +4,7 @@ import { ClientGameSystemData } from "./ClientGameSystem";
 import { GameSystem } from "./GameSystem";
 import { SystemStatsManager } from "../systemstatsmanager/SystemStatsManager";
 import { LocalGameSystemIO } from "../gamesytemio/LocalGameSystemIO";
-import { LocalUserStateManager } from "../userstatemanager/LocalUserStateManager";
+import { LocalUserStateManager } from "../userstatemanager/managers/LocalUserStateManager";
 import { LocalEntityHandler, LocalEntityHandlerApi } from "../entityhandler/LocalEntityHandler";
 import { GameDisplay } from "../display/GameDisplay";
 import { ChunkSceneObjectGroup } from "../map/model/chunk/ChunkSceneObject";

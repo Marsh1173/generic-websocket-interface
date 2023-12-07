@@ -1,7 +1,7 @@
 import { DisplayConfig } from "../display/DisplayConfig";
 import { SystemStatsManager } from "../systemstatsmanager/SystemStatsManager";
-import { UserStateData } from "../userstatemanager/UserState";
-import { UserStateManager } from "../userstatemanager/UserStateManager";
+import { UserStateData } from "../userstatemanager/managers/UserState";
+import { UserStateManager } from "../userstatemanager/managers/UserStateManager";
 import { GameSystemData } from "./GameSystem";
 
 export interface ClientGameSystemData extends GameSystemData {

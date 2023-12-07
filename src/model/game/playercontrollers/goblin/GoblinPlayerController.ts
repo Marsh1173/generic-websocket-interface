@@ -5,6 +5,7 @@ import { GoblinStateBehaviorModule } from "../../entities/goblin/behavior/goblin
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 import { PlayerInput } from "../../gamesytemio/playerinput/PlayerInputEnum";
 import { PlayerInputObserver } from "../../gamesytemio/playerinput/PlayerInputObserver";
+import { EntityHoverController } from "./hover/EntityHoverController";
 import { GoblinPlayerDashController } from "./GoblinPlayerDashController";
 import { GoblinPlayerMoveController } from "./GoblinPlayerMoveController";
 import { GoblinPlayerBaseStateController } from "./states/GoblinPlayerBaseStateController";
@@ -16,6 +17,7 @@ export class GoblinPlayerController implements PlayerInputObserver {
 
   protected readonly move_controller: GoblinPlayerMoveController;
   protected readonly dash_controller: GoblinPlayerDashController;
+  protected readonly hover_controller: EntityHoverController;
 
   protected controller_state: GoblinPlayerBaseStateController;
 
@@ -23,6 +25,7 @@ export class GoblinPlayerController implements PlayerInputObserver {
     this.move_controller = new GoblinPlayerMoveController(this.goblin);
     this.dash_controller = new GoblinPlayerDashController();
     this.controller_state = new GoblinPlayerIdleController(this.goblin);
+    this.hover_controller = new EntityHoverController(this.game_system, this.goblin);
 
     this.global_mouse_pos = this.game_system.game_system_io.player_input_manager.global_mouse_pos;
   }
@@ -51,5 +54,9 @@ export class GoblinPlayerController implements PlayerInputObserver {
     }
 
     this.controller_state.process_input[params]();
+  };
+
+  public on_update_global_mouse_pos = (params: StaticPoint) => {
+    this.hover_controller.update_mouse_pos(params);
   };
 }

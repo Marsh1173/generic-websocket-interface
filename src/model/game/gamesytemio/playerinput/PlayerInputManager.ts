@@ -1,7 +1,6 @@
 import { Point, StaticPoint } from "../../../common/math/geometry/Point";
 import { PlayerInputObservable } from "./PlayerInputObserver";
 import { Vector3 } from "three";
-import { Vector } from "../../../common/math/geometry/Vector";
 import { PlayerInputMap } from "./PlayerInputMap";
 import { LocalGameSystem } from "../../gamesystem/LocalGameSystem";
 
@@ -16,6 +15,7 @@ export class PlayerInputManager {
 
   public process_inputs() {
     this.set_global_mouse_pos();
+    this.observable.broadcast_global_mouse_pos(this._global_mouse_pos);
 
     for (const [input, starting] of this.input_listener.clear_input_buffer()) {
       const player_input = (starting ? PlayerInputMap.key_down_to_input : PlayerInputMap.key_up_to_input)[input];

@@ -1,4 +1,4 @@
-import { IUserState } from "../UserState";
+import { IUserState } from "../managers/UserState";
 
 export class LoadingUserState implements IUserState {
   public readonly type = "LoadingUserState";

@@ -25,7 +25,7 @@ export abstract class EntityFinder {
     },
   };
 
-  public readonly dynamic_point_entities = {
+  public readonly by_origin = {
     /**
      * @param bb_size the length of the sides of the bounding box that entities must fall inside
      */

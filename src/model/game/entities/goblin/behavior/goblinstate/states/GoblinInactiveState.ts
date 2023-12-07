@@ -24,7 +24,7 @@ export class GoblinInactiveState extends BaseGoblinState {
   }
 
   public attempt_snipe(p: StaticPoint) {
-    const closest = this.game_system.entities.find.dynamic_point_entities
+    const closest = this.game_system.entities.find.by_origin
       .inside_box(p, 4)
       .filter((e) => !!e.health_module)
       .sort((e1, e2) => {

@@ -1,10 +1,9 @@
-import { Goblin } from "../entities/goblin/Goblin";
-import { Entity } from "../entitymodel/entity/Entity";
-import { GameSystem } from "../gamesystem/GameSystem";
+import { Goblin } from "../../entities/goblin/Goblin";
+import { GameSystem } from "../../gamesystem/GameSystem";
 import { UserState, UserStateData } from "./UserState";
-import { DeadUserState } from "./states/DeadUserState";
-import { LoadingUserState } from "./states/LoadingUserState";
-import { PlayerStateData } from "./states/playerstate/PlayerState";
+import { DeadUserState } from "../states/DeadUserState";
+import { LoadingUserState } from "../states/LoadingUserState";
+import { PlayerStateData } from "../states/playerstate/PlayerState";
 
 export abstract class UserStateManager {
   public state: UserState = new LoadingUserState();

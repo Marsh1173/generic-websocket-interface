@@ -13,18 +13,21 @@ import {
   IHealthModule,
 } from "../../entitymodel/modules/health/HealthModule";
 import { HealthObservable } from "../../entitymodel/modules/health/HealthObservable";
+import { HasTeamModule, TeamModule, TeamModuleData } from "../../entitymodel/modules/team/TeamModule";
 import { GameSystem } from "../../gamesystem/GameSystem";
 import { GoblinBehaviorData, GoblinBehaviorModule } from "./behavior/GoblinBehaviorModule";
 
 export interface GoblinData extends BaseEntityData {
   type: "GoblinData";
+  team_module_data: TeamModuleData;
   game_space_data: DynamicPointData;
   health_module_data: HealthModuleData;
   behavior_data: GoblinBehaviorData;
 }
 
-export class Goblin extends BaseEntity implements HasHealthModule, HasDynamicPoint, HasBehaviorModule {
+export class Goblin extends BaseEntity implements HasHealthModule, HasDynamicPoint, HasBehaviorModule, HasTeamModule {
   public readonly type = "Goblin";
+  public readonly team_module: TeamModule;
   public readonly health_module: IHealthModule;
   public readonly game_space_data: DynamicPoint;
   public readonly behavior_module: GoblinBehaviorModule;
@@ -33,6 +36,7 @@ export class Goblin extends BaseEntity implements HasHealthModule, HasDynamicPoi
     super(data);
     const health_observable = new HealthObservable();
 
+    this.team_module = new TeamModule(this, data.team_module_data);
     this.game_space_data = new DynamicPoint(data.game_space_data, true);
     this.health_module = new HealthModule(health_observable, this, this.game_system, data.health_module_data);
     this.behavior_module = new GoblinBehaviorModule(data.behavior_data, this, this.game_system);

@@ -55,6 +55,9 @@ const game_data: LocalGameSystemData = {
     type: "PlayerStateData",
     goblin_data: {
       type: "GoblinData",
+      team_module_data: {
+        team: 1,
+      },
       id: goblin_id,
       game_space_data: {
         pos: get_random_pos(),
