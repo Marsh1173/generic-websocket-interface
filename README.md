@@ -10,16 +10,10 @@
 
 ## GT
 
-- Display
+Next-ups
 
-  - make different updates for statics / dynamics
-  - make health
-
-- Physics
-  - Make more tests
-  - 2nd pass-over
-- IDEA (especially for local games): Manage offline map tiles, and feed them into the entity handler as actors get close enough
-- Map + tiles
-- UI
-  - menu
 - Rigging
+- Controller Design
+  - Selecting
+- Health
+- Grid collision
