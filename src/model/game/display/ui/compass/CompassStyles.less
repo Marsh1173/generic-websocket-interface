@@ -1,0 +1,35 @@
+@import "../../../../../client/commonview/styles/Variables.less";
+
+.Compass {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  width: max-content;
+  filter: drop-shadow(0px 0px 1px @deep-black);
+
+  .ring {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    border-color: @white;
+    border-style: solid;
+
+    &.outer {
+      @size: 104px;
+      border-width: 3;
+
+      height: @size;
+      width: @size;
+    }
+    &.inner {
+      @size: 80px;
+      border-width: 2;
+
+      height: @size;
+      width: @size;
+    }
+  }
+}

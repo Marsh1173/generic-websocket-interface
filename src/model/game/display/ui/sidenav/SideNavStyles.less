@@ -9,14 +9,15 @@
   align-items: flex-start;
 
   .SideNavButton {
+    @border-width: 2px;
+    @icon_size: 20px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 16px;
+    padding: calc(8px - @border-width) calc(16px - @border-width);
     width: 100%;
-
-    @icon_size: 24px;
 
     background: none;
     border-width: 2px;
@@ -33,12 +34,12 @@
         height: @icon_size;
         width: auto;
 
-        filter: drop-shadow(1px 1px 0px @deep-black);
+        filter: drop-shadow(0px 0px 1px @deep-black);
       }
     }
 
     .label {
-      font-weight: 500;
+      font-weight: 400;
       color: white;
       padding-left: 16px;
     }
@@ -46,7 +47,7 @@
     //hover transition
 
     border-image-source: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
-    transition-duration: @regular-transition;
+    transition-duration: @fast-transition;
     transition-property: border-image-source, background-color;
 
     .label {
@@ -54,7 +55,7 @@
       opacity: 0;
 
       transition-property: opacity, transform;
-      transition-duration: @regular-transition;
+      transition-duration: @fast-transition;
     }
 
     &:hover {
@@ -72,7 +73,7 @@
     .label {
       animation-name: disappear;
       animation-fill-mode: forwards;
-      animation-duration: @regular-transition;
+      animation-duration: @fast-transition;
     }
   }
 }
