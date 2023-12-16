@@ -2,9 +2,9 @@
 //   day_seconds: 60 * 3,
 //   night_seconds: 60 * 2,
 // };
-const DayNightCycleConfig = {
-  day_seconds: 15,
-  night_seconds: 15,
+export const DayNightCycleConfig = {
+  day_seconds: 5,
+  night_seconds: 5,
 };
 
 export type DayNightCycleState = "day" | "night";
@@ -21,7 +21,7 @@ export class DayNightCycle {
   }
 
   public update(elapsed_seconds: number) {
-    // this._state_running_seconds += elapsed_seconds;
+    this._state_running_seconds += elapsed_seconds;
 
     if (this._state === "day") {
       if (this._state_running_seconds >= DayNightCycleConfig.day_seconds) {
