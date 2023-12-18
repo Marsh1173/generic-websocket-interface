@@ -1,3 +1,5 @@
+import { ItemEnum } from "../Item";
+
 export interface ItemMeat {
-  type: "meat";
+  type: ItemEnum.Meat;
 }

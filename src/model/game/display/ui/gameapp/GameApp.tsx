@@ -7,13 +7,19 @@ import { ClientTicker } from "../../../../ticker/ClientTicker";
 import { LocalGameSystemData, LocalGameSystem } from "../../../gamesystem/LocalGameSystem";
 import { SideNav } from "../sidenav/SideNav";
 import { Compass } from "../compass/Compass";
+import { InventoryComponent } from "../inventory/InventoryComponent";
 
 export interface GameAppProps {
   local_game_data: LocalGameSystemData;
   view_app: Application<HTMLCanvasElement>;
 }
 
-export class GameApp extends Component<{ props: GameAppProps }, {}> {
+export interface GameAppState {
+  open_inventory: boolean;
+  open_menu: boolean;
+}
+
+export class GameApp extends Component<{ props: GameAppProps }, GameAppState> {
   protected readonly game_system: LocalGameSystem;
   protected readonly view_app: Application<HTMLCanvasElement>;
   protected readonly click_through_div_ref: React.RefObject<HTMLDivElement> = React.createRef();
@@ -23,6 +29,11 @@ export class GameApp extends Component<{ props: GameAppProps }, {}> {
 
     this.view_app = this.props.props.view_app;
     this.game_system = new LocalGameSystem(this.props.props.local_game_data, this.view_app);
+
+    this.state = {
+      open_inventory: false,
+      open_menu: false,
+    };
   }
 
   public render() {
@@ -33,7 +44,20 @@ export class GameApp extends Component<{ props: GameAppProps }, {}> {
           <Compass></Compass>
         </div>
         <div className="click-stop">
-          <SideNav></SideNav>
+          {this.state.open_inventory &&
+            this.game_system.user_state_manager.state.type === "PlayerState" && ( // eventually observe the user state
+              <InventoryComponent
+                inventory={this.game_system.user_state_manager.state.goblin.inventory_module}
+              ></InventoryComponent>
+            )}
+          <SideNav
+            props={{
+              ...this.state,
+              on_open_inventory: () => {
+                this.setState({ open_inventory: !this.state.open_inventory });
+              },
+            }}
+          ></SideNav>
         </div>
       </div>
     );

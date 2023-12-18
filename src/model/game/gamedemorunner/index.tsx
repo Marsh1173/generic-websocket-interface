@@ -64,6 +64,7 @@ const game_data: LocalGameSystemData = {
       },
       health_module_data: { max_health: 100 },
       behavior_data: { state: {} },
+      inventory_module_data: {},
     },
   },
 };

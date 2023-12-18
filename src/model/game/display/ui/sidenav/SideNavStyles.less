@@ -33,9 +33,14 @@
       img {
         height: @icon_size;
         width: auto;
-
-        filter: drop-shadow(0px 0px 1px @deep-black);
       }
+    }
+
+    .icon img {
+      filter: drop-shadow(0px 0px 1px @deep-black);
+    }
+    &.highlight .icon img {
+      filter: drop-shadow(0px 0px 3px @white);
     }
 
     .label {

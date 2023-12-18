@@ -4,6 +4,8 @@ import { Component } from "react";
 interface SideNavButtonProps {
   text: string;
   image: string;
+  on_click: () => void;
+  highlight: boolean;
 }
 interface SideNavButtonState {}
 
@@ -16,7 +18,7 @@ export class SideNavButton extends Component<SideNavButtonProps, SideNavButtonSt
 
   public render() {
     return (
-      <button className="SideNavButton">
+      <button className={"SideNavButton" + (this.props.highlight ? " highlight" : "")} onClick={this.props.on_click}>
         <div className="icon">
           <img src={this.props.image}></img>
         </div>

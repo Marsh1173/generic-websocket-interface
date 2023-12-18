@@ -1,0 +1,67 @@
+@import "../../../../../client/commonview/styles/Variables.less";
+
+.InventoryComponent {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: max-content;
+
+  flex-direction: row;
+  gap: 4px;
+  padding: 4px;
+
+  .inventory-slots {
+    @gap: 4px;
+    @slot-size: 40px;
+
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: @gap;
+
+    width: calc(@slot-size * 4 + @gap * 3);
+
+    .inventory-slot {
+      width: @slot-size;
+      height: @slot-size;
+    }
+  }
+
+  .gear-slots {
+    @slot-size: 54px;
+    @icon-size: 12px;
+    width: max-content;
+    gap: 4px;
+
+    justify-content: space-between;
+
+    .inventory-slot {
+      width: @slot-size;
+      height: @slot-size;
+    }
+
+    img {
+      width: @icon-size;
+      height: auto;
+    }
+  }
+
+  .inventory-slot {
+    transition-property: border;
+    transition-duration: @fastest-transition;
+    border: 2px solid fade(@white, 0%);
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &,
+  .inventory-slot {
+    background-color: fade(@deep-black, 50%);
+  }
+
+  &,
+  .inventory-slot.filled:hover {
+    border: 2px solid fade(@white, 80%);
+  }
+}

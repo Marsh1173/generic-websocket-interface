@@ -20,6 +20,7 @@ import {
   HasDropItemsOnDeathModule,
   IDropItemsOnDeathModule,
 } from "../../entitymodel/modules/dropitemsondeath/DropItemsOnDeathModule";
+import { ItemEnum } from "../../items/Item";
 
 export type TreeVariation = 1 | 2 | 3;
 
@@ -49,7 +50,7 @@ export class Tree extends BaseEntity implements HasHealthModule, HasStaticCollid
     this.game_space_data = new StaticCollidableShapeModule(data.game_space_data, TreeShapeData);
 
     this.drop_items_on_death = new DropPresetItemsOnDeathModule(this.game_system, [
-      { item_data: { type: "Wood" }, probability: 1 },
+      { item_data: { type: ItemEnum.Wood }, probability: 1 },
     ]);
 
     /**

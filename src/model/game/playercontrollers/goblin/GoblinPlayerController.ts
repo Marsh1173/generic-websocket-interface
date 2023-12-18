@@ -10,6 +10,7 @@ import { GoblinPlayerDashController } from "./GoblinPlayerDashController";
 import { GoblinPlayerMoveController } from "./GoblinPlayerMoveController";
 import { GoblinPlayerBaseStateController } from "./states/GoblinPlayerBaseStateController";
 import { GoblinPlayerIdleController } from "./states/GoblinPlayerIdleController";
+import { ItemEnum } from "../../items/Item";
 
 export class GoblinPlayerController implements PlayerInputObserver {
   public readonly id: Id = uuid();
@@ -43,12 +44,14 @@ export class GoblinPlayerController implements PlayerInputObserver {
     switch (params) {
       case PlayerInput.PrimaryActionStart:
         if (goblin_state.inner.type === "GoblinInactiveState") {
-          goblin_state.inner.attempt_snipe(this.global_mouse_pos);
+          this.goblin.inventory_module.attempt_insert({ type: ItemEnum.Meat });
+          // goblin_state.inner.attempt_snipe(this.global_mouse_pos);
         }
         break;
       case PlayerInput.SecondaryActionStart:
         if (goblin_state.inner.type === "GoblinInactiveState") {
-          goblin_state.inner.attempt_shoot_arrow(this.global_mouse_pos);
+          this.goblin.inventory_module.attempt_insert({ type: ItemEnum.Wood });
+          // goblin_state.inner.attempt_shoot_arrow(this.global_mouse_pos);
         }
         break;
     }

@@ -1,3 +1,5 @@
+import { ItemEnum } from "../Item";
+
 export interface ItemWood {
-  type: "Wood";
+  type: ItemEnum.Wood;
 }

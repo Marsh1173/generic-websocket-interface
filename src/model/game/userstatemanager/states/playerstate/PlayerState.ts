@@ -5,7 +5,7 @@ import { IUserState } from "../../managers/UserState";
 export class PlayerState implements IUserState {
   public readonly type = "PlayerState";
 
-  constructor(protected readonly goblin: Goblin, protected readonly game_system: GameSystem, data: PlayerStateData) {}
+  constructor(public readonly goblin: Goblin, protected readonly game_system: GameSystem, data: PlayerStateData) {}
 
   public leave_state(): void {}
 }

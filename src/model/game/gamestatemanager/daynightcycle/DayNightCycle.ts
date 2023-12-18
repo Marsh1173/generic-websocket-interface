@@ -3,8 +3,8 @@
 //   night_seconds: 60 * 2,
 // };
 export const DayNightCycleConfig = {
-  day_seconds: 5,
-  night_seconds: 5,
+  day_seconds: 30,
+  night_seconds: 30,
 };
 
 export type DayNightCycleState = "day" | "night";
